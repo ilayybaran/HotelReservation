@@ -12,13 +12,41 @@
     </div>
 </div>
 
-<div class="container booking-form-container">
-    <div class="card shadow-lg p-4 text-center">
-        <div class="d-grid gap-2 col-4 mx-auto">
-            <a asp-controller="Rooms" asp-action="Index" class="btn btn-success btn-lg">
-                Rezervasyon Yap
-            </a>
+<div class="container booking-form-container" data-aos="fade-up">
+    <div class="card shadow-lg p-4">
+
+        @if (TempData["SearchError"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["SearchError"]
         </div>
+    }
+        @* Bu form, verileri RoomsController'daki "Search" metoduna gönderecek *@
+        <form asp-controller="Rooms" asp-action="Search" method="get">
+            <h5 class="text-center mb-3">Oda Arayın</h5>
+            <div class="row g-3 align-items-end">
+                <div class="col-lg-4">
+                    <label class="form-label fw-bold">Giriş Tarihi</label>
+                    <input type="date" class="form-control" name="checkInDate" required>
+                </div>
+                <div class="col-lg-4">
+                    <label class="form-label fw-bold">Çıkış Tarihi</label>
+                    <input type="date" class="form-control" name="checkOutDate" required>
+                </div>
+                <div class="col-lg-2">
+                    <label class="form-label fw-bold">Kişi Sayısı</label>
+                    <select class="form-select" name="guestCount" required>
+                        <option value="1" selected>1 Kişi</option>
+                        <option value="2">2 Kişi</option>
+                        <option value="3">3 Kişi</option>
+                        <option value="4">4 Kişi</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 d-grid">
+                    <button type="submit" class="btn btn-success">Oda Bul</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<HotelReservation.Models.Room>
+
+@{
+    ViewData["Title"] = "Arama Sonuçları";
+}
+
+<div class="container">
+    <div class="text-center mb-4">
+        <h1>Arama Sonuçları</h1>
+        <p class="lead">
+            <strong>@ViewBag.CheckInDate.ToShortDateString()</strong> - <strong>@ViewBag.CheckOutDate.ToShortDateString()</strong> tarihleri arasında,
+            <strong>@ViewBag.GuestCount</strong> kişi için uygun <strong>@ViewBag.ResultsCount</strong> oda bulundu.
+        </p>
+    </div>
+
+    <div class="row">
+        @if (!Model.Any())
+        {
+            <div class="col">
+                <div class="alert alert-warning" role="alert">
+                    Belirttiğiniz kriterlere uygun oda bulunamadı. Lütfen farklı tarihler deneyin.
+                </div>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Ana Sayfaya Geri Dön</a>
+            </div>
+        }
+        else
+        {
+            @foreach (var room in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="@(string.IsNullOrWhiteSpace(room.ImageUrl) ? $"https://via.placeholder.com/800x500?text={System.Net.WebUtility.UrlEncode(room.RoomType)}" : room.ImageUrl)" class="card-img-top" alt="@room.RoomType">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@room.RoomType</h5>
+                            <p class="card-text">@room.Description</p>
+                            <ul class="list-group list-group-flush mt-auto">
+                                <li class="list-group-item">Kapasite: @room.Capacity Kişi</li>
+                                <li class="list-group-item"><strong>Fiyat: @room.PricePerNight.ToString("C") / Gece</strong></li>
+                            </ul>
+                            <div class="mt-3">
+                                <a asp-controller="Rooms" asp-action="Details" asp-route-id="@room.Id" class="btn btn-success w-100">Odayı İncele ve Rezerve Et</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

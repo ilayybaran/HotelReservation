@@ -14,6 +14,37 @@ namespace HotelReservation.Controllers
         {
             _context = context;
         }
+        public async Task<IActionResult> Search(DateTime checkInDate, DateTime checkOutDate, int guestCount)
+        {
+            if (checkInDate >= checkOutDate)
+            {
+                TempData["SearchError"] = "Çıkış tarihi, giriş tarihinden sonra olmalıdır.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            var query = _context.Rooms
+                .Where(r => r.IsAvailable && r.Capacity >= guestCount);
+
+            // Bir odanın çakışması için: (Rez. Başlangıcı < Arama Sonu) VE (Rez. Sonu > Arama Başlangıcı)
+            var bookedRoomIds = await _context.Reservations
+                .Where(res => res.CheckInDate < checkOutDate && res.CheckOutDate > checkInDate)
+                .Select(res => res.RoomId)
+                .Distinct()
+                .ToListAsync();
+
+            // Kapasitesi uyan odalardan, rezerve edilmiş olanları çıkar.
+            var availableRooms = await query
+                .Where(r => !bookedRoomIds.Contains(r.Id))
+                .ToListAsync();
+
+            // Arama kriterlerini ve sonuçları View'a göndermek 
+            ViewBag.CheckInDate = checkInDate;
+            ViewBag.CheckOutDate = checkOutDate;
+            ViewBag.GuestCount = guestCount;
+            ViewBag.ResultsCount = availableRooms.Count;
+
+            return View("SearchResults", availableRooms);
+        }
 
         // GET: /Rooms
         public async Task<IActionResult> Index()

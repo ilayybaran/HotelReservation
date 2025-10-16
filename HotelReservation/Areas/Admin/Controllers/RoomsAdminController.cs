@@ -19,15 +19,11 @@ namespace HotelReservation.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: /Admin/RoomsAdmin
-        // Bu metot, admin paneli için tüm odaları (müsait olan/olmayan) listeler.
         public async Task<IActionResult> Index()
         {
             return View(await _context.Rooms.ToListAsync());
         }
 
-        // GET: /Admin/RoomsAdmin/Details/5
-        // Adminin bir odanın detaylarını görmesi için.
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -36,15 +32,12 @@ namespace HotelReservation.Areas.Admin.Controllers
             return View(room);
         }
 
-        // GET: /Admin/RoomsAdmin/Create
-        // Yeni oda ekleme formunu gösterir.
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: /Admin/RoomsAdmin/Create
-        // Formdan gelen yeni oda bilgilerini veritabanına kaydeder.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Room room)
@@ -58,8 +51,7 @@ namespace HotelReservation.Areas.Admin.Controllers
             return View(room);
         }
 
-        // GET: /Admin/RoomsAdmin/Edit/5
-        // Mevcut bir odayı düzenleme formunu, odanın bilgileriyle dolu olarak getirir.
+       
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -68,8 +60,7 @@ namespace HotelReservation.Areas.Admin.Controllers
             return View(room);
         }
 
-        // POST: /Admin/RoomsAdmin/Edit/5
-        // Formda güncellenen bilgileri veritabanına kaydeder.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Room room)
@@ -93,7 +84,6 @@ namespace HotelReservation.Areas.Admin.Controllers
             return View(room);
         }
 
-        // GET: /Admin/RoomsAdmin/Delete/5
         // Bir odayı silmeden önce onay sayfasını gösterir.
         public async Task<IActionResult> Delete(int? id)
         {
@@ -103,8 +93,7 @@ namespace HotelReservation.Areas.Admin.Controllers
             return View(room);
         }
 
-        // POST: /Admin/RoomsAdmin/Delete/5
-        // Onaylandıktan sonra odayı veritabanından siler.
+       
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -116,3 +105,4 @@ namespace HotelReservation.Areas.Admin.Controllers
         }
     }
 }
+    
