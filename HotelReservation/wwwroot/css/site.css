@@ -1,0 +1,78 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+CSS
+
+:root {
+    --primary-font: 'Montserrat', sans-serif;
+    --heading-font: 'Playfair Display', serif;
+    --primary-color: #0d6efd; 
+    --dark-color: #212529; 
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--heading-font);
+    font-weight: 700;
+    color: var(--dark-color);
+}
+
+/* Hero Section Stilleri */
+.hero-section {
+    position: relative;
+    height: 90vh; /* Ekran yüksekliðinin %90'ý kadar */
+    background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop'); /* Geçici bir otel resmi, kendi resminizle deðiþtirin */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Resmin üzerine hafif bir karartma efekti */
+}
+
+.hero-content {
+    position: relative; /* Overlay'in üzerinde kalmasý için */
+    z-index: 2;
+}
+
+
+/* Rezervasyon Formu Stilleri */
+.booking-form-container {
+    margin-top: -80px; /* Formun hero section'ýn üzerine çýkmasý için */
+    position: relative;
+    z-index: 10;
+}
+
+
+/* Oda Kartlarý Ýçin Hover Efekti */
+.room-card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+    .room-card:hover {
+        transform: translateY(-10px); /* Kartýn hafifçe yukarý kalkmasý */
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+    }

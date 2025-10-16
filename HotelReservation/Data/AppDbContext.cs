@@ -1,0 +1,22 @@
+﻿
+using HotelReservation.Models; 
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace HotelReservation.Data
+{
+    
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
+    {
+        // Bu constructor, Program.cs dosyasından veritabanı ayarlarını alabilmemizi sağlar.
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+        }
+
+        // User için db yi identity kütüphanesi sağlıyor
+        public DbSet<Room> Rooms { get; set; }
+
+        public DbSet<Reservation> Reservations { get; set; }
+
+    }
+}

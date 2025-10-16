@@ -1,0 +1,80 @@
+﻿@* Bu view, içinde Oda bilgisi de olan bir "Reservation" nesnesi bekler *@
+@model HotelReservation.Models.Reservation
+
+@{
+    ViewData["Title"] = "Rezervasyon Oluştur";
+}
+
+<div class="container mt-4">
+    <div class="text-center mb-4">
+        <h1>Rezervasyon Oluştur</h1>
+        <p class="lead">Lütfen konaklamak istediğiniz tarih aralığını seçin.</p>
+    </div>
+
+    <div class="row g-5">
+        @* -- SOL TARAF: SEÇİLEN ODA BİLGİLERİ -- *@
+        <div class="col-md-6">
+            <h4 class="mb-3">Seçilen Oda Bilgileri</h4>
+            <div class="card shadow-sm">
+                @if (Model.Room != null)
+                {
+                    <img src="@(string.IsNullOrWhiteSpace(Model.Room.ImageUrl) ? $"https://via.placeholder.com/800x500?text={System.Net.WebUtility.UrlEncode(Model.Room.RoomType)}" : Model.Room.ImageUrl)" class="card-img-top" alt="@Model.Room.RoomType">
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.Room.RoomType</h5>
+                        <p class="card-text">@Model.Room.Description</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Kapasite:</strong> @Model.Room.Capacity Kişi</li>
+                        <li class="list-group-item"><strong>Gecelik Fiyat:</strong> <span class="fw-bold text-success">@Model.Room.PricePerNight.ToString("C")</span></li>
+                    </ul>
+                }
+                else
+                {
+                    <div class="alert alert-danger">Oda bilgileri yüklenemedi.</div>
+                }
+            </div>
+        </div>
+
+        @* -- SAĞ TARAF: REZERVASYON FORMU -- *@
+        <div class="col-md-6">
+            <h4 class="mb-3">Rezervasyon Detayları</h4>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form asp-controller="Reservations" asp-action="Create" method="post">
+                        @* Güvenlik için Anti-Forgery Token *@
+                        @Html.AntiForgeryToken()
+                        
+                        @* Model seviyesindeki hataları göstermek için *@
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        @* Bu gizli alan, form gönderildiğinde hangi oda için rezervasyon yapıldığını sunucuya bildirir. ÇOK ÖNEMLİDİR! *@
+                        <input type="hidden" asp-for="RoomId" />
+
+                        <div class="mb-3">
+                            <label asp-for="CheckInDate" class="form-label fw-bold">Giriş Tarihi</label>
+                            <input asp-for="CheckInDate" type="date" class="form-control" />
+                            <span asp-validation-for="CheckInDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CheckOutDate" class="form-label fw-bold">Çıkış Tarihi</label>
+                            <input asp-for="CheckOutDate" type="date" class="form-control" />
+                            <span asp-validation-for="CheckOutDate" class="text-danger"></span>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">Rezervasyonu Onayla</button>
+                            <a asp-controller="Rooms" asp-action="Details" asp-route-id="@Model.RoomId" class="btn btn-secondary">Oda Detaylarına Geri Dön</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

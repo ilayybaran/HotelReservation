@@ -1,0 +1,27 @@
+﻿@model HotelReservation.Models.Room
+
+@{
+    ViewData["Title"] = "Odayı Düzenle";
+}
+
+<h1>Odayı Düzenle</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="Id" />
+            
+            @* create ve edit için ortak form *@
+            @await Html.PartialAsync("_RoomFormPartial", Model)
+            
+            <div class="form-group mt-4">
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Listeye Geri Dön</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

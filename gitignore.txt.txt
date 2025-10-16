@@ -1,0 +1,40 @@
+# Visual Studio Geliştirme Dosyaları
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Derleme Çıktıları
+[Bb]in/
+[Oo]bj/
+
+# Diğer
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.ReSharper*
+*.[Ll]ocal.xml
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc

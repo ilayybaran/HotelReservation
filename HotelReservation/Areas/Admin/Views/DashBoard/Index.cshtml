@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewData["Title"] = "Admin Paneli";
+}
+
+<h1>Admin Paneline Hoş Geldiniz</h1>
+<p>Buradan site içeriğini ve operasyonlarını yönetebilirsiniz.</p>
+<hr />
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Oda Yönetimi</h5>
+                <p class="card-text">Yeni odalar ekleyin, mevcut odaları güncelleyin veya sistemden kaldırın.</p>
+                
+                <a asp-area="Admin" asp-controller="RoomsAdmin" asp-action="Index" class="btn btn-primary">
+                    Odaları Yönet
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Rezervasyon Yönetimi</h5>
+                <p class="card-text">Yapılan tüm müşteri rezervasyonlarını görüntüleyin ve takip edin.</p>
+            
+                <a asp-area="Admin" asp-controller="ReservationsAdmin" asp-action="Index" class="btn btn-primary">
+                    Rezervasyonları Görüntüle
+                </a>
+            </div>
+        </div>
+    </div>
+   
+</div>

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<HotelReservation.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Tüm Rezervasyonlar";
+}
+
+<h1>Tüm Rezervasyonlar</h1>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">Henüz yapılmış bir rezervasyon bulunmamaktadır.</div>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Oda Tipi</th>
+                <th>Kullanıcı</th>
+                <th>Giriş Tarihi</th>
+                <th>Çıkış Tarihi</th>
+                <th>Toplam Fiyat</th>
+                <th>Rezervasyon Tarihi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Room.RoomType)</td>
+                    <td>@Html.DisplayFor(modelItem => item.User.FullName)</td>
+                    <td>@item.CheckInDate.ToShortDateString()</td>
+                    <td>@item.CheckOutDate.ToShortDateString()</td>
+                    <td>@item.TotalPrice.ToString("C")</td>
+                    <td>@item.ReservationDate.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
