@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using HotelReservation.Models;
 using Microsoft.AspNetCore.Identity;
@@ -28,10 +29,11 @@ namespace HotelReservation.Areas.Identity.Pages.Account
             _roleManager = roleManager;
         }
 
-       
+        [BindProperty]
         public InputModel Input { get; set; }
 
-        public string ReturnUrl { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string? ReturnUrl { get; set; }
 
         public class InputModel
         {
@@ -54,13 +56,17 @@ namespace HotelReservation.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-        public void OnGet(string returnUrl = null)
+        public void OnGet(string? returnUrl = null)
         {
-            ReturnUrl = returnUrl;
+            ReturnUrl = returnUrl ?? Url.Content("~/");
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
+            // ModelState temizlemesi (önlem)
+            ModelState.Remove("ReturnUrl");
+            ModelState.Remove("returnUrl");
+
             returnUrl ??= Url.Content("~/");
 
             if (ModelState.IsValid)
@@ -70,7 +76,7 @@ namespace HotelReservation.Areas.Identity.Pages.Account
                     UserName = Input.Email,
                     Email = Input.Email,
                     FullName = Input.FullName,
-                    EmailConfirmed = true 
+                    EmailConfirmed = true
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -79,7 +85,6 @@ namespace HotelReservation.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("Kullanıcı oluşturuldu ve e-postası onaylandı.");
 
-                    // Rol atama 
                     if (!await _roleManager.RoleExistsAsync("Admin"))
                         await _roleManager.CreateAsync(new IdentityRole("Admin"));
                     if (!await _roleManager.RoleExistsAsync("User"))
@@ -87,10 +92,10 @@ namespace HotelReservation.Areas.Identity.Pages.Account
 
                     await _userManager.AddToRoleAsync(user, "User");
 
-                    
                     TempData["SuccessMessage"] = "Kaydınız başarıyla oluşturuldu. Lütfen giriş yapın.";
                     return RedirectToPage("./Login");
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);

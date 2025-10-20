@@ -8,11 +8,12 @@
 <hr />
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Create">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
             @* create ve edit için ortak form *@
             @await Html.PartialAsync("_RoomFormPartial", Model)
             
             <div class="form-group mt-4">
+                @Html.AntiForgeryToken()
                 <input type="submit" value="Oluştur" class="btn btn-success" />
                 <a asp-action="Index" class="btn btn-secondary">Listeye Geri Dön</a>
             </div>

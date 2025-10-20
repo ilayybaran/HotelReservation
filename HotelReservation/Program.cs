@@ -24,6 +24,17 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+var supportedCultures = new[] { "tr-TR" };
+
+// 2. Uygulamanýn varsayýlan kültür ayarlarýný yapýlandýrýyoruz.
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
+// 3. Bu ayarlarý uygulamaya ekliyoruz. BU SATIR ÖNEMLÝ!
+app.UseRequestLocalization(localizationOptions);
+
 
 if (!app.Environment.IsDevelopment())
 {

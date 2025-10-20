@@ -18,12 +18,18 @@
 </div>
 <div class="form-group mb-2">
     <label asp-for="PricePerNight" class="control-label"></label>
-    <input asp-for="PricePerNight" class="form-control" />
+   @using System.Globalization
+
+<input asp-for="PricePerNight" 
+       class="form-control" 
+       type="number" 
+       step="any" 
+       value="@Model.PricePerNight.ToString(CultureInfo.InvariantCulture)" />  
     <span asp-validation-for="PricePerNight" class="text-danger"></span>
 </div>
 <div class="form-group mb-2">
-    <label asp-for="ImageUrl" class="control-label"></label>
-    <input asp-for="ImageUrl" class="form-control" />
+    <label for="ImageFile" class="control-label">Oda Resmi</label>
+    <input name="ImageFile" type="file" class="form-control" accept="image/*" />
     <span asp-validation-for="ImageUrl" class="text-danger"></span>
 </div>
 <div class="form-group form-check mt-3">

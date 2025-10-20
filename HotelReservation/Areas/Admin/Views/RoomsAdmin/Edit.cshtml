@@ -8,13 +8,13 @@
 <hr />
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Edit">
+            <form asp-action="Edit" method="post" enctype="multipart/form-data"> @*enctype kullanıcın form aracılığıyla dosya yüklemesine yarar*@
             <input type="hidden" asp-for="Id" />
             
             @* create ve edit için ortak form *@
             @await Html.PartialAsync("_RoomFormPartial", Model)
-            
             <div class="form-group mt-4">
+                @Html.AntiForgeryToken()
                 <input type="submit" value="Kaydet" class="btn btn-primary" />
                 <a asp-action="Index" class="btn btn-secondary">Listeye Geri Dön</a>
             </div>

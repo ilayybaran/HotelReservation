@@ -29,9 +29,10 @@ namespace HotelReservation.Models
         public bool IsAvailable { get; set; } = true;
 
         [Display(Name = "Oda Fotoğrafı (URL)")]
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
 
         // Navigation property
-        public virtual ICollection<Reservation> Reservations { get; set; }
+        public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+
     }
 }

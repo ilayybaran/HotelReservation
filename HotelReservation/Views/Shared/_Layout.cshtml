@@ -22,48 +22,80 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                   <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-    
-    
-    <ul class="navbar-nav flex-grow-1">
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Rooms" asp-action="Index">Odalar</a>
-        </li>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
-        
-        @if (User.IsInRole("Admin"))
-        {
-            <li class="nav-item">
-                <a class="nav-link text-danger fw-bold" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
-                    <i class="bi bi-shield-lock"></i> Admin Paneli
-                </a>
-            </li>
-        }
-    </ul>
 
-    <ul class="navbar-nav">
-        <partial name="_LoginPartial" />
-    </ul>
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Rooms" asp-action="Index">Odalar</a>
+                            </li>
 
-</div>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-danger fw-bold" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                                        <i class="bi bi-shield-lock"></i> Admin Paneli
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+
+                        <ul class="navbar-nav">
+                            <partial name="_LoginPartial" />
+                        </ul>
+
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
+
+    @RenderSection("Hero", required: false)
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - HotelReservation - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+   <footer class="site-footer border-top mt-5">
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <h6>İletişim</h6>
+                <ul class="footer-links">
+                    <li><i class="bi bi-geo-alt-fill me-2"></i>Örnek Mah. Atatürk Cad. No:123, Antalya, Türkiye</li>
+                    <li><i class="bi bi-telephone-fill me-2"></i>+90 242 000 00 00</li>
+                    <li><i class="bi bi-envelope-fill me-2"></i>info@hotelreservation.com</li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <h6>Bizi Takip Edin</h6>
+                <p class="text-muted">En yeni teklifler ve haberler için sosyal medya hesaplarımızı takip edin.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+
         </div>
-    </footer>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col text-center">
+                <p class="copyright-text">&copy; @DateTime.Now.Year - HotelReservation. Tüm Hakları Saklıdır.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

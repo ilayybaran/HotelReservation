@@ -2,71 +2,70 @@
 @{
     ViewData["Title"] = "Ana Sayfa";
 }
-
-<div class="hero-section">
-    <div class="hero-overlay"></div>
-    <div class="hero-content text-center">
-        <h1 class="display-3 text-white fw-bold">Unutulmaz Bir Tatil Deneyimi</h1>
-        <p class="lead text-white-50">Konfor ve lüksün buluştuğu eşsiz bir konaklama sizi bekliyor.</p>
-        <a href="#featured-rooms" class="btn btn-outline-light btn-lg mt-3">Odaları Keşfet</a>
-    </div>
-</div>
-
-<div class="container booking-form-container" data-aos="fade-up">
-    <div class="card shadow-lg p-4">
-
-        @if (TempData["SearchError"] != null)
-    {
-        <div class="alert alert-danger" role="alert">
-            @TempData["SearchError"]
-        </div>
-    }
-        @* Bu form, verileri RoomsController'daki "Search" metoduna gönderecek *@
-        <form asp-controller="Rooms" asp-action="Search" method="get">
-            <h5 class="text-center mb-3">Oda Arayın</h5>
-            <div class="row g-3 align-items-end">
-                <div class="col-lg-4">
-                    <label class="form-label fw-bold">Giriş Tarihi</label>
-                    <input type="date" class="form-control" name="checkInDate" required>
-                </div>
-                <div class="col-lg-4">
-                    <label class="form-label fw-bold">Çıkış Tarihi</label>
-                    <input type="date" class="form-control" name="checkOutDate" required>
-                </div>
-                <div class="col-lg-2">
-                    <label class="form-label fw-bold">Kişi Sayısı</label>
-                    <select class="form-select" name="guestCount" required>
-                        <option value="1" selected>1 Kişi</option>
-                        <option value="2">2 Kişi</option>
-                        <option value="3">3 Kişi</option>
-                        <option value="4">4 Kişi</option>
-                    </select>
-                </div>
-                <div class="col-lg-2 d-grid">
-                    <button type="submit" class="btn btn-success">Oda Bul</button>
-                </div>
+@section Hero {
+    <div class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content text-center">
+            
+            <div data-aos="fade-in">
+                <h1 class="display-3 text-white fw-bold">Unutulmaz Bir Tatil Deneyimi</h1>
+                <p class="lead text-white-50">Konfor ve lüksün buluştuğu eşsiz bir konaklama sizi bekliyor.</p>
             </div>
-        </form>
+
+          
+            <div class="container booking-form-container-transparent mt-5" data-aos="fade-up" data-aos-delay="300">
+                @if (TempData["SearchError"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @TempData["SearchError"]
+                    </div>
+                }
+                <form asp-controller="Rooms" asp-action="Search" method="get">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-lg">
+                            <label class="form-label">Giriş Tarihi</label>
+                            <input type="date" class="form-control" name="checkInDate" required>
+                        </div>
+                        <div class="col-lg">
+                            <label class="form-label">Çıkış Tarihi</label>
+                            <input type="date" class="form-control" name="checkOutDate" required>
+                        </div>
+                        <div class="col-lg-2">
+                            <label class="form-label">Kişi Sayısı</label>
+                            <select class="form-select" name="guestCount" required>
+                                <option value="1" selected>1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 d-grid">
+                            <label class="form-label">&nbsp;</label>
+                            <button type="submit" class="btn btn-success">Oda Bul</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
+}
 
 <div class="container mt-5" id="featured-rooms">
     <div class="text-center mb-5">
         <h2>Öne Çıkan Odalarımız</h2>
         <p class="lead text-muted">Konforunuz için özenle tasarlanmış odalarımızı keşfedin.</p>
     </div>
-
     <div class="row">
         @foreach (var room in Model)
         {
-            <div class="col-lg-4 mb-4">
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="card h-100 shadow-sm room-card">
-                    <img src="@(string.IsNullOrWhiteSpace(room.ImageUrl) ? "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=800&auto=format&fit=crop" : room.ImageUrl)" ... > 
+                    <img src="@(string.IsNullOrWhiteSpace(room.ImageUrl) ? $"https://via.placeholder.com/800x500?text={System.Net.WebUtility.UrlEncode(room.RoomType)}" : room.ImageUrl)" class="card-img-top" alt="@room.RoomType">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">@room.RoomType</h5>
                         <p class="card-text text-muted">@room.Description.Substring(0, Math.Min(room.Description.Length, 100))... </p>
                         <div class="mt-auto pt-3">
-                             <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <span class="fs-5 fw-bold text-success">@room.PricePerNight.ToString("C")/Gece</span>
                                 <a asp-controller="Rooms" asp-action="Details" asp-route-id="@room.Id" class="btn btn-outline-primary">Odayı İncele</a>
                             </div>

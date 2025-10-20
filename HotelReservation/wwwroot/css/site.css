@@ -1,28 +1,29 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
+
 CSS
 
 :root {
     --primary-font: 'Montserrat', sans-serif;
     --heading-font: 'Playfair Display', serif;
-    --primary-color: #0d6efd; 
-    --dark-color: #212529; 
+    --primary-color: #0d6efd;
+    --dark-color: #212529;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -31,7 +32,6 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--dark-color);
 }
 
-/* Hero Section Stilleri */
 .hero-section {
     position: relative;
     height: 90vh; /* Ekran yüksekliðinin %90'ý kadar */
@@ -50,16 +50,15 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Resmin üzerine hafif bir karartma efekti */
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .hero-content {
-    position: relative; /* Overlay'in üzerinde kalmasý için */
+    position: relative;
     z-index: 2;
 }
 
 
-/* Rezervasyon Formu Stilleri */
 .booking-form-container {
     margin-top: -80px; /* Formun hero section'ýn üzerine çýkmasý için */
     position: relative;
@@ -67,12 +66,157 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-/* Oda Kartlarý Ýçin Hover Efekti */
 .room-card {
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
     .room-card:hover {
-        transform: translateY(-10px); /* Kartýn hafifçe yukarý kalkmasý */
+        transform: translateY(-10px);
         box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
     }
+
+.card-img-top {
+    width: 100%;
+    height: 250px; 
+    object-fit: cover; 
+    object-position: center; 
+    border-radius: 0.5rem; 
+}
+
+/* Hero Section Stilleri */
+.hero-section {
+    position: relative;
+    height: 85vh; 
+    min-height: 600px;
+    background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 2rem;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 900px;
+}
+
+.booking-form-container-transparent {
+    background-color: rgba(0,0,0,0.2); 
+    padding: 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+    .booking-form-container-transparent .form-label {
+        color: #fff;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .booking-form-container-transparent .form-control,
+    .booking-form-container-transparent .form-select {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #fff;
+    }
+
+        
+        .booking-form-container-transparent .form-control::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+
+        .booking-form-container-transparent .form-select option {
+            color: #000;
+        }
+
+    .booking-form-container .form-control,
+    .booking-form-container .form-select,
+    .booking-form-container-transparent .form-control,
+    .booking-form-container-transparent .form-select {
+     cursor: pointer;
+    }
+
+
+.site-footer {
+    position: sticky;
+    top:0;
+    background-color: #f8f9fa; 
+    padding: 60px 0;
+    font-size: 15px;
+    color: #737373;
+    
+}
+
+    .site-footer h6 {
+        color: #333;
+        font-family: 'Montserrat', sans-serif; 
+        font-weight: 700;
+       /* text-transform: uppercase; */
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+    }
+
+.footer-links {
+    padding-left: 0;
+    list-style: none;
+}
+
+    .footer-links li {
+        margin-bottom: 12px;
+    }
+
+    .footer-links a {
+        color: #737373;
+        text-decoration: none;
+        transition: color 0.3s ease-in-out;
+    }
+
+        .footer-links a:hover {
+            color: var(--bs-primary); 
+            text-decoration: underline;
+        }
+
+    .footer-links li i {
+        color: var(--bs-primary); 
+    }
+
+
+.social-icons a {
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    color: #818181;
+    text-align: center;
+    margin-right: 8px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+    .social-icons a:hover {
+        background-color: var(--bs-primary);
+        color: #fff;
+    }
+
+.copyright-text {
+    margin: 0;
+    font-size: 14px;
+}
