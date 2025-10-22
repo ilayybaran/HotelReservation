@@ -1,21 +1,21 @@
-﻿@* Bu satır, View'a tek bir "Room" nesnesi geleceğini belirtir *@
-@model HotelReservation.Models.Room
-
+﻿@model HotelReservation.Models.Room
 @{
     ViewData["Title"] = Model.RoomType;
+
+    string checkInDateString = Context.Request.Query["checkInDate"];
+    string checkOutDateString = Context.Request.Query["checkOutDate"];
+    string guestCountString = Context.Request.Query["guestCount"]; 
 }
 
 <div class="container mt-4">
-
     <div class="row">
         <div class="col-lg-7 mb-4">
             <div class="card shadow-sm">
-               <img src="@(string.IsNullOrWhiteSpace(Model.ImageUrl) ? "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=800&auto=format&fit=crop" : Model.ImageUrl)" ... > 
-              
+                <img src="@Model.ImageUrl" class="img-fluid rounded" alt="@Model.RoomType">
             </div>
         </div>
 
-       
+        
         <div class="col-lg-5">
             <div class="card shadow-sm">
                 <div class="card-body">
@@ -32,16 +32,25 @@
                             <strong>Gecelik Fiyat</strong>
                             <span class="fs-4 text-success fw-bold">@Model.PricePerNight.ToString("C")</span>
                         </li>
-                       
                     </ul>
 
                    
                     <div class="d-grid gap-2 mt-4">
-                        <a asp-controller="Reservations" asp-action="Create" asp-route-roomId="@Model.Id" class="btn btn-success btn-lg">
-                            <i class="bi bi-calendar-check"></i> Şimdi Rezervasyon Yap
+                        <a asp-controller="Reservations" asp-action="Create" 
+                           asp-route-roomId="@Model.Id" 
+                           asp-route-checkInDate="@checkInDateString" 
+                           asp-route-checkOutDate="@checkOutDateString" 
+                           class="btn btn-success btn-lg"> 
+                            <i class="bi bi-calendar-check"></i> Seçili Tarihler İçin Rezerve Et
                         </a>
-                        <a asp-controller="Rooms" asp-action="Index" class="btn btn-secondary mt-2">
-                            <i class="bi bi-arrow-left"></i> Oda Listesine Geri Dön
+                        
+                        @* Geri Dönme Linki (Arama sonuçlarına) *@
+                        <a asp-controller="Rooms" asp-action="Search" 
+                           asp-route-checkInDate="@checkInDateString" 
+                           asp-route-checkOutDate="@checkOutDateString" 
+                           asp-route-guestCount="@guestCountString" 
+                           class="btn btn-secondary mt-2">
+                           <i class="bi bi-arrow-left"></i> Arama Sonuçlarına Geri Dön
                         </a>
                     </div>
                 </div>
@@ -49,5 +58,3 @@
         </div>
     </div>
 </div>
-
-@* Bootstrap ikonlarını kullanmak isterseniz _Layout.cshtml dosyanıza Bootstrap Icons CSS linkini eklemeyi unutmayın. *@

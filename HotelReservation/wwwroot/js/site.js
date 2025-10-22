@@ -1,4 +1,21 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿$(document).ready(function () {
+    const $slider = $('.brand-slider');
+    if ($slider.length) {
+        console.log("✅ Brand slider başlatılıyor...");
+        $slider.slick({
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            arrows: false,
+            dots: false,
+            pauseOnHover: false,
+            responsive: [
+                { breakpoint: 992, settings: { slidesToShow: 3 } },
+                { breakpoint: 576, settings: { slidesToShow: 2 } }
+            ]
+        });
+    } else {
+        console.log("⚠️ .brand-slider bulunamadı!");
+    }
+});

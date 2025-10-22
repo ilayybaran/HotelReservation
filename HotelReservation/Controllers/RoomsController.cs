@@ -36,8 +36,7 @@ namespace HotelReservation.Controllers
             var availableRooms = await query
                 .Where(r => !bookedRoomIds.Contains(r.Id))
                 .ToListAsync();
-
-            // Arama kriterlerini ve sonuçları View'a göndermek 
+ 
             ViewBag.CheckInDate = checkInDate;
             ViewBag.CheckOutDate = checkOutDate;
             ViewBag.GuestCount = guestCount;

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<HotelReservation.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Rezervasyonlarım";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            Henüz hiç rezervasyon yapmamışsınız. <a asp-controller="Rooms" asp-action="Index" class="alert-link">Hemen bir oda seçin!</a>
+        </div>
+    }
+    else
+    {
+        <div class="list-group shadow-sm">
+            @foreach (var reservation in Model)
+            {
+                <div class="list-group-item list-group-item-action flex-column align-items-start mb-3 border rounded">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">@reservation.Room.RoomType</h5>
+                        <small>Rez. Tarihi: @reservation.ReservationDate.ToShortDateString()</small>
+                    </div>
+                    <p class="mb-1">
+                        <strong>Giriş:</strong> @reservation.CheckInDate.ToShortDateString() -
+                        <strong>Çıkış:</strong> @reservation.CheckOutDate.ToShortDateString()
+                        (@((reservation.CheckOutDate - reservation.CheckInDate).Days) Gece)
+                    </p>
+                    <small><strong>Toplam Tutar:</strong> @reservation.TotalPrice.ToString("C")</small>
+                </div>
+            }
+        </div>
+    }
+</div>

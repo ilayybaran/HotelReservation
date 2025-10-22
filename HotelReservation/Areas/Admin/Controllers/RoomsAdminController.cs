@@ -19,7 +19,6 @@ namespace HotelReservation.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        // GET: /Admin/RoomsAdmin
         public async Task<IActionResult> Index()
         {
             var rooms = await _context.Rooms.ToListAsync();
@@ -37,7 +36,6 @@ namespace HotelReservation.Areas.Admin.Controllers
             return View(room);
         }
 
-        // GET: /Admin/RoomsAdmin/Create
         public IActionResult Create()
         {
             return View(new Room());
@@ -53,7 +51,7 @@ namespace HotelReservation.Areas.Admin.Controllers
 
             if (!ModelState.IsValid)
                 return View(room);
-
+         
             if (ImageFile != null)
             {
                 string wwwRootPath = _webHostEnvironment.WebRootPath;

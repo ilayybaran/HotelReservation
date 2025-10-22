@@ -1,58 +1,91 @@
-﻿@* Bu view, içinde Oda bilgisi de olan bir "Reservation" nesnesi bekler *@
-@model HotelReservation.Models.Reservation
+﻿@model HotelReservation.Models.Reservation
 
 @{
-    ViewData["Title"] = "Rezervasyon Oluştur";
+    ViewData["Title"] = "Rezervasyonu Onayla";
+    var nights = (Model.CheckOutDate > Model.CheckInDate)
+        ? (Model.CheckOutDate - Model.CheckInDate).Days
+        : 0;
 }
 
-<div class="container mt-4">
-    <div class="text-center mb-4">
-        <h1>Rezervasyon Oluştur</h1>
-        <p class="lead">Lütfen konaklamak istediğiniz tarih aralığını seçin.</p>
-    </div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-success text-white py-3 rounded-top-4">
+                    <h4 class="mb-0 text-center fw-bold">Rezervasyon Detayları</h4>
+                </div>
 
-    <div class="row g-5">
-       
-        <div class="col-md-6">
-            <h4 class="mb-3">Seçilen Oda Bilgileri</h4>
-            <div class="card shadow-sm">
-                @if (Model.Room != null)
-                {
-                    <img src="@(string.IsNullOrWhiteSpace(Model.Room.ImageUrl) ? $"https://via.placeholder.com/800x500?text={System.Net.WebUtility.UrlEncode(Model.Room.RoomType)}" : Model.Room.ImageUrl)" class="card-img-top" alt="@Model.Room.RoomType">
-                    <div class="card-body">
-                        <h5 class="card-title">@Model.Room.RoomType</h5>
-                        <p class="card-text">@Model.Room.Description</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Kapasite:</strong> @Model.Room.Capacity Kişi</li>
-                        <li class="list-group-item"><strong>Gecelik Fiyat:</strong> <span class="fw-bold text-success">@Model.Room.PricePerNight.ToString("C")</span></li>
-                    </ul>
-                }
-                else
-                {
-                    <div class="alert alert-danger">Oda bilgileri yüklenemedi.</div>
-                }
-            </div>
-        </div>
-S
-        <div class="col-md-6">
-            <h4 class="mb-3">Rezervasyon Detayları</h4>
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <form asp-controller="Reservations" asp-action="Create" method="post">
-                        @* Güvenlik için Anti-Forgery Token *@
+                <div class="card-body p-4">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    @if (Model.Room != null)
+                    {
+                        <div class="row align-items-center mb-4">
+                            <div class="col-md-5">
+                                <img src="@Model.Room.ImageUrl"
+                                     alt="@Model.Room.RoomType"
+                                     class="img-fluid rounded-3 shadow-sm"
+                                     style="object-fit: cover; height: 230px; width: 100%;">
+                            </div>
+
+                            <div class="col-md-7">
+                                <h4 class="fw-bold">@Model.Room.RoomType</h4>
+                                <p class="text-muted small">@Model.Room.Description</p>
+
+                                <ul class="list-unstyled small">
+                                    <li><strong>Kapasite:</strong> @Model.Room.Capacity Kişi</li>
+                                    <li><strong>Gecelik Fiyat:</strong> @Model.Room.PricePerNight.ToString("C")</li>
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning text-center">Oda bilgileri yüklenemedi.</div>
+                    }
+
+                    <hr />
+
+                    <h5 class="mb-3 fw-bold text-success">Konaklama Bilgileri</h5>
+
+                    <form asp-action="Create" method="post">
                         @Html.AntiForgeryToken()
-                        
-                        @* Model seviyesindeki hataları göstermek için *@
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                        @* Bu gizli alan, form gönderildiğinde hangi oda için rezervasyon yapıldığını sunucuya bildirir *@
                         <input type="hidden" asp-for="RoomId" />
 
-                     
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success btn-lg">Rezervasyonu Onayla</button>
-                            <a asp-controller="Rooms" asp-action="Details" asp-route-id="@Model.RoomId" class="btn btn-secondary">Oda Detaylarına Geri Dön</a>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="CheckInDate" class="form-label fw-semibold">Giriş Tarihi</label>
+                                <input asp-for="CheckInDate" type="date" class="form-control" readonly />
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="CheckOutDate" class="form-label fw-semibold">Çıkış Tarihi</label>
+                                <input asp-for="CheckOutDate" type="date" class="form-control" readonly />
+                            </div>
+                        </div>
+
+                        <div class="p-3 rounded-3" style="background-color: #f9f9f9;">
+                            <h6 class="fw-bold mb-2">Özet</h6>
+                            @if (nights > 0)
+                            {
+                                <p class="mb-1"><strong>Konaklama Süresi:</strong> @nights Gece</p>
+                                <p class="mb-0">
+                                    <strong>Toplam Tutar:</strong>
+                                    <span class="text-success fw-bold fs-5">@Model.TotalPrice.ToString("C")</span>
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="text-danger mb-0">Geçersiz tarih aralığı.</p>
+                            }
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success btn-lg fw-semibold" @(nights <= 0 ? "disabled" : "")>
+                                Rezervasyonu Tamamla
+                            </button>
+                            <a asp-controller="Rooms" asp-action="Details" asp-route-id="@Model.RoomId" class="btn btn-outline-secondary">
+                                Oda Detaylarına Geri Dön
+                            </a>
                         </div>
                     </form>
                 </div>
