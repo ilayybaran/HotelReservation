@@ -24,11 +24,11 @@
                     <div class="row g-2 align-items-center">
                         <div class="col-lg">
                             <label class="form-label">Giriş Tarihi</label>
-                            <input type="date" class="form-control" name="checkInDate" required>
+                            <input type="text"  class="form-control flatpickr-input " name="checkInDate" placeholder="Giriş Tarihi Seçin" required>
                         </div>
                         <div class="col-lg">
                             <label class="form-label">Çıkış Tarihi</label>
-                            <input type="date" class="form-control" name="checkOutDate" required>
+                            <input type="text" class="form-control flatpickr-input " name="checkOutDate"placeholder="Çıkış Tarihi Seçin" required>
                         </div>
                         <div class="col-lg-2">
                             <label class="form-label">Kişi Sayısı</label>
@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-lg-2 d-grid">
                             <label class="form-label">&nbsp;</label>
-                            <button type="submit" class="btn btn-success">Oda Bul</button>
+                            <button type="submit" class="btn btn-warning">Oda Bul</button>
                         </div>
                     </div>
                 </form>
@@ -66,8 +66,8 @@
                         <p class="card-text text-muted">@room.Description.Substring(0, Math.Min(room.Description.Length, 100))... </p>
                         <div class="mt-auto pt-3">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="fs-5 fw-bold text-success">@room.PricePerNight.ToString("C")/Gece</span>
-                                <a asp-controller="Rooms" asp-action="Details" asp-route-id="@room.Id" class="btn btn-outline-primary">Odayı İncele</a>
+                                <span class="fs-5 fw-bold">@room.PricePerNight.ToString("C")/Gece</span>
+                                <a asp-controller="Rooms" asp-action="Details" asp-route-id="@room.Id" class="btn btn-secondary">Odayı İncele</a>
                             </div>
                         </div>
                     </div>

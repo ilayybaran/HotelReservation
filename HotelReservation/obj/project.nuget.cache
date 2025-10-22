@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Q8y4daILsBw/agYD4lWNdbhtbf/KYu3oIuYePJtW5wVamquvHKO+85roPcDhp/mo25UN+W9QyZQ0RoArVkE9VA==",
+  "dgSpecHash": "aivQjtPjHikKGvEsZg+J8uEsuZCB8nTlBdqs7yyq7xPOTTBd3baQln7Htew7Z2z4mw4WgESVx2OsLElhgxPivw==",
   "success": true,
   "projectFilePath": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\HotelReservation\\HotelReservation\\HotelReservation.csproj",
   "expectedPackageFiles": [
@@ -108,6 +108,7 @@
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.openapi\\1.6.14\\microsoft.openapi.1.6.14.nupkg.sha512",
+    "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.typescript.msbuild\\5.9.3\\microsoft.typescript.msbuild.5.9.3.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.visualstudio.debugger.contracts\\17.2.0\\microsoft.visualstudio.debugger.contracts.17.2.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration\\6.0.18\\microsoft.visualstudio.web.codegeneration.6.0.18.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.core\\6.0.18\\microsoft.visualstudio.web.codegeneration.core.6.0.18.nupkg.sha512",

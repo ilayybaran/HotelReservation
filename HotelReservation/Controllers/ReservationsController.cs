@@ -88,7 +88,7 @@ namespace HotelReservation.Controllers
                 return RedirectToAction("Index", "Rooms");
             }
 
-            // Aynı tarihlerde oda dolu mu kontrol et
+            // Aynı tarihlerde oda dolu mu
             bool isRoomAvailable = !await _context.Reservations.AnyAsync(r =>
                 r.RoomId == reservation.RoomId &&
                 r.CheckInDate < reservation.CheckOutDate &&
@@ -112,7 +112,7 @@ namespace HotelReservation.Controllers
             return RedirectToAction(nameof(ResList));
         }
 
-        // Kullanıcının rezervasyon listesi
+        
         public async Task<IActionResult> ResList()
         {
             var currentUser = await _userManager.GetUserAsync(User);

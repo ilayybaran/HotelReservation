@@ -33,33 +33,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-.hero-section {
-    position: relative;
-    height: 90vh; 
-    background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop'); /* Geçici bir otel resmi, kendi resminizle deðiþtirin */
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-}
-
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-}
-
-
 .booking-form-container {
     margin-top: -80px; /* Formun hero section'ýn üzerine çýkmasý için */
     position: relative;
@@ -236,31 +209,113 @@ h1, h2, h3, h4, h5, h6 {
     border-top: 1px solid #eee; 
 }
 
-.brand-slider {
+
+. /* ============================
+   CONTINUOUS BRAND SLIDER STYLES (DÜZELTÝLMÝÞ)
+   ============================= */
+.continuous-brand-slider {
     width: 100%;
-    margin: 0 auto;
+    overflow: hidden; /* Taþmalarý gizle */
+    background: none;
+    padding: 1rem 0; /* Üst ve alt boþluk (isteðe baðlý) */
+    margin: 0;
 }
 
-    .brand-slider img {
-        width: 150px; 
-        height: 100px;
-        object-fit: contain;
-        margin: 0 auto;
-        opacity: 1; 
-        background: transparent; 
-        transition: all 0.3s ease;
+/* Slick Carousel'in oluþturduðu iç sarmalayýcý */
+.continuous-brand-slider .slick-list {
+    margin: 0 -15px; /* Öðeler arasýndaki boþluðu yönetmek için */
+}
+
+/* Her bir slider öðesi (resmi içeren div) */
+.continuous-brand-slider .slick-slide {
+    padding: 0 15px; /* Logolar arasýndaki yatay boþluk */
+    margin: 0;
+    display: flex !important; /* Dikey ortalama için flex'i zorla */
+    align-items: center; /* Öðeyi dikeyde ortala */
+    justify-content: center; /* Öðeyi yatayda ortala */
+    height: 80px; /* === ÞERÝDÝN YÜKSEKLÝÐÝNÝ BURADAN AYARLAYIN === */
+    box-sizing: border-box; /* Padding'in yüksekliði etkilememesi için */
+}
+
+/* Resmin linkini içeren a etiketi (varsa) */
+.continuous-brand-slider .brand-link {
+    display: flex; /* Ýçindeki resmi ortalamak için */
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Resmin sýðmasý için tüm yüksekliði kapla */
+    width: 100%; /* Geniþliði kapla */
+    background: none;
+}
+
+/* Slider içindeki resimler */
+.continuous-brand-slider img {
+    display: block; /* Altýndaki boþluðu kaldýr */
+    max-height: 100%; /* Þeridin yüksekliðini aþmasýn */
+    max-width: 100%; /* Yatayda taþmasýn */
+    width: auto; /* Oranýný koruyarak geniþliði ayarla */
+    height: auto; /* Oranýný koruyarak yüksekliði ayarla */
+    object-fit: contain; /* === RESMÝN SIÐMASINI SAÐLAYAN ANAHTAR === */
+    /* 'contain' -> Resmi kýrpmadan/bozmadan alana sýðdýrýr */
+    /* 'cover' -> Alaný doldurur ama kýrpabilir */
+    margin: auto; /* Dikey ve yatay ortalama için ek güvence */
+    opacity: 0.7; /* Ýsteðe baðlý: Hafif soluk göster */
+    transition: opacity 0.3s ease;
+}
+
+    .continuous-brand-slider img:hover {
+        opacity: 1; /* Üzerine gelince netleþsin */
     }
 
-        .brand-slider img:hover {
-            transform: scale(1.1);
-        }
-
-.slick-slide {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
+/* Oklarý ve noktalarý gizle */
+.continuous-brand-slider .slick-prev,
+.continuous-brand-slider .slick-next,
+.continuous-brand-slider .slick-dots {
+    display: none !important;
 }
 
-.slick-dots, .slick-prev, .slick-next {
-    display: none !important;
+.navbar .navbar-brand,
+.navbar .nav-link,
+.navbar .dropdown-toggle,
+.navbar .form-select,
+.navbar-nav .nav-item partial[name="_LoginPartial"] + ul .nav-item .nav-link {
+    padding-top: 0.8rem; /* Üst boþluðu artýr */
+    padding-bottom: 0.8rem; /* Alt boþluðu artýr */
+}
+
+.navbar-nav .nav-item .nav-link {
+    display: inline-flex;
+    align-items: center;
+    padding-top: 0.5rem; 
+    padding-bottom: 0.5rem;
+}
+
+.navbar-nav .nav-item a.nav-link[title^="Hesabým"] {
+    text-decoration: none; 
+}
+
+
+.navbar-nav .nav-item form button.nav-link {
+    background-color: transparent; 
+    border: none; 
+    cursor: pointer; 
+    padding-left: 0.5rem; 
+    padding-right: 0.5rem; 
+    color: inherit; 
+}
+
+.navbar-nav .nav-item .nav-link i.bi {
+    font-size: 2.0rem; /* Ýkon boyutu */
+    vertical-align: middle;
+    line-height: 1; 
+}
+
+
+.navbar-nav .nav-item .nav-link:hover {
+    opacity: 0.75;
+}
+
+
+.navbar-nav .nav-item .nav-link:focus {
+    outline: none;
+    box-shadow: none;
 }
