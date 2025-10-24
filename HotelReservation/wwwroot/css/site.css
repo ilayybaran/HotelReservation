@@ -210,7 +210,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-
 .continuous-brand-slider {
     width: 100%;
     overflow: hidden; /* Taþmalarý kesinlikle gizle */
@@ -248,7 +247,6 @@ h1, h2, h3, h4, h5, h6 {
         /* outline: 1px solid red; - Hizalama testi için */
     }
 
-    /* Slider içindeki resimler (Logolar) */
     .continuous-brand-slider img {
         display: block; /* Alt boþluðu kaldýr */
         max-height: 90%; /* Þerit yüksekliðinin %90'ýný geçmesin (dikey boþluk býrakýr) */
@@ -288,8 +286,8 @@ h1, h2, h3, h4, h5, h6 {
 .navbar .dropdown-toggle,
 .navbar .form-select,
 .navbar-nav .nav-item partial[name="_LoginPartial"] + ul .nav-item .nav-link {
-    padding-top: 0.8rem; 
-    padding-bottom: 0.8rem; 
+    padding-top: 0.9rem; 
+    padding-bottom: 0.9rem; 
 }
 
 .navbar-nav .nav-item .nav-link {
@@ -314,7 +312,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar-nav .nav-item .nav-link i.bi {
-    font-size: 2.0rem; /* Ýkon boyutu */
+    font-size: 3.0rem; /* Ýkon boyutu */
     vertical-align: middle;
     line-height: 1; 
 }
@@ -329,3 +327,123 @@ h1, h2, h3, h4, h5, h6 {
     outline: none;
     box-shadow: none;
 }
+
+
+
+.navbar-brand {
+    padding-top: 0;
+    padding-bottom: 0;
+    display: flex;
+    align-items: center; 
+}
+
+.navbar {
+    position: relative;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+}
+
+
+.navbar-brand.order-lg-1 {
+    position: absolute;
+    left: 50%; 
+    transform: translateX(-50%); 
+    top: 5px;
+    padding: 0; 
+    z-index: 100; /* Diðer elemanlarýn üstünde kalmasý için */
+}
+
+/* 3. Logo Resmi (<img>): Boyutlandýrma ve yuvarlak yapma */
+.navbar-logo {
+    height: 60px; 
+    width: 60px; 
+    border-radius: 50%;
+    object-fit: cover; 
+}
+
+/* Soldaki menü ikonunun dikey hizalamasýný düzelt */
+.navbar .dropdown a#navbarDropdownMenuLink.nav-link {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+/* 1. Hero OLMAYAN sayfalarda navbar'ý üste yapýþýk yap */
+
+
+.navbar-hero {
+    position: absolute; /* Sayfanýn üstüne, hero görselinin üzerine yerleþir */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100; /* Diðer içeriklerin üstünde kalmasý için */
+    background-color: transparent !important; /* Beyaz arka planý kaldýrýr */
+    border-bottom: none !important; /* Alt çizgiyi kaldýrýr */
+    box-shadow: none !important; /* Gölgeyi kaldýrýr */
+    margin-bottom: 0 !important; /* 'mb-3' sýnýfýný ezer */
+    transition: background-color 0.3s ease-in-out;
+}
+
+
+.navbar-scrolled {
+    position: fixed !important;
+    background-color: #fff !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+
+.navbar-hero .dropdown > .btn,
+.navbar-hero .nav-link,
+.navbar-hero .dropdown-toggle,
+.navbar-hero .bi {
+    color: #fff !important;
+    opacity: 0.9;
+}
+
+    .navbar-hero .nav-link:hover,
+    .navbar-hero .dropdown > .btn:hover,
+    .navbar-hero .dropdown-toggle:hover,
+    .navbar-hero .bi:hover {
+        opacity: 1;
+    }
+
+
+.navbar-hero .dropdown-toggle {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.navbar .container-fluid .dropdown:first-of-type .bi-list {
+    font-size: 2.8rem; 
+    vertical-align: middle;
+}
+
+.navbar .container-fluid .dropdown:first-of-type .btn {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+
+.navbar-brand.order-lg-1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 8px; 
+    padding: 0;
+    z-index: 100;
+}
+
+.navbar .container-fluid > .dropdown.me-3 {
+    margin-left: auto;
+}
+
+.navbar .container-fluid > .dropdown.order-lg-1 {
+    order: 0 !important; /* Hatalý sýralamayý iptal et */
+    margin-top: 0 !important; /* Mobil görünümdeki bozulmayý düzelt */
+}
+
+
+.navbar .container-fluid > .dropdown.me-3,
+.navbar .container-fluid > .dropdown.me-lg-2 {
+    display: flex;
+    align-items: center;
+}
+

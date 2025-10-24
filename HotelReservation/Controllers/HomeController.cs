@@ -64,7 +64,7 @@ namespace HotelReservation.Controllers
                 Response.Cookies.Append(
                     "UserCurrency", // Cookie adı
                     currencyCode,   // Seçilen para birimi kodu (örn: "USD")
-                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true, SameSite = SameSiteMode.Lax }
+                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true, SameSite = SameSiteMode.Lax, Path="/" }
                 );
             }
 

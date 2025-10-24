@@ -28,9 +28,8 @@ builder.Services.AddMvc()
     .AddDataAnnotationsLocalization();
 
 
-// Program.cs
-builder.Services.AddMemoryCache(); // Döviz kurlarýný cache'lemek için
-builder.Services.AddScoped<ICurrencyService, CurrencyService>(); // Servisimizi ekliyoruz
+builder.Services.AddMemoryCache(); 
+builder.Services.AddScoped<ICurrencyService, CurrencyService>(); 
 var supportedCultures = new[] { "tr-TR", "en-US", "de-DE" };
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>

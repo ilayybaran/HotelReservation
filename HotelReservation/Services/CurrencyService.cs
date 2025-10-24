@@ -30,10 +30,6 @@ namespace HotelReservation.Services
 
             if (rates.TryGetValue(targetCurrency, out decimal rate))
             {
-                // TRY'den hedefe çevirme (1 TRY = X Target)
-                // Dikkat: Kurlar genellikle ters verilir (1 USD = Y TRY).
-                // API'den alırken bu mantığı tersine çevirmeniz gerekebilir.
-                // Bizim simülasyonumuzda 1 TRY'nin X USD/EUR değeri olduğunu varsayıyoruz.
                 return amount * rate;
             }
 
@@ -44,23 +40,23 @@ namespace HotelReservation.Services
 
         private async Task<Dictionary<string, decimal>> GetExchangeRatesAsync()
         {
-            // Önce cache'e bak
+            
             if (_memoryCache.TryGetValue(CacheKey, out Dictionary<string, decimal> rates))
             {
                 return rates;
             }
 
-            // Cache'de yoksa, SİMÜLE EDİLMİŞ kurları al (GERÇEKTE BURADA API ÇAĞRISI OLUR)
+          
             await Task.Delay(10); // Sahte bir gecikme
             rates = new Dictionary<string, decimal>
         {
-            // 1 TRY = X Döviz (Bu değerleri güncel tutmalısınız)
+           
             { "USD", 0.030m },
             { "EUR", 0.028m }
-            // Diğer kurlar...
+            
         };
 
-            // Cache'e kaydet (1 saat geçerli)
+           
             var cacheEntryOptions = new MemoryCacheEntryOptions()
                 .SetAbsoluteExpiration(TimeSpan.FromHours(1));
             _memoryCache.Set(CacheKey, rates, cacheEntryOptions);
@@ -74,7 +70,7 @@ namespace HotelReservation.Services
             return currencyCode switch
             {
                 "USD" => new CultureInfo("en-US"),
-                "EUR" => new CultureInfo("de-DE"), // Veya fr-FR vb.
+                "EUR" => new CultureInfo("de-DE"), 
                 "TRY" => new CultureInfo("tr-TR"),
                 _ => CultureInfo.CurrentCulture, // Bulunamazsa varsayılan
             };

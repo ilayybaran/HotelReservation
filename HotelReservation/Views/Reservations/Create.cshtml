@@ -1,5 +1,5 @@
 ﻿@model HotelReservation.Models.Reservation
-
+@inject HotelReservation.Services.ICurrencyService CurrencyService
 @{
     ViewData["Title"] = "Rezervasyonu Onayla";
     var nights = (Model.CheckOutDate > Model.CheckInDate)
@@ -18,6 +18,19 @@
                 <div class="card-body p-4">
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
+                       @{
+                            // 1. O anki para birimini cookie'den oku (varsayılan TRY)
+                            var targetCurrency = Context.Request.Cookies["UserCurrency"] ?? "TRY";
+
+                            // 2. Fiyatı CurrencyService kullanarak dönüştür
+                            var convertedPrice = await CurrencyService.ConvertFromTRYAsync(Model.Room.PricePerNight, targetCurrency);
+
+                            var convertedTotalPrice = await CurrencyService.ConvertFromTRYAsync(Model.TotalPrice, targetCurrency);
+
+                            // 3. Fiyatı, hedef para birimine uygun kültürle (formatla)
+                            var targetCulture = CurrencyService.GetCultureInfoForCurrency(targetCurrency);
+                        }
+
                     @if (Model.Room != null)
                     {
                         <div class="row align-items-center mb-4">
@@ -34,7 +47,8 @@
 
                                 <ul class="list-unstyled small">
                                     <li><strong>Kapasite:</strong> @Model.Room.Capacity Kişi</li>
-                                    <li><strong>Gecelik Fiyat:</strong> @Model.Room.PricePerNight.ToString("C")</li>
+                                 
+                                    <li><span class="fs-5 fw-bold text-success">@convertedPrice.ToString("C", targetCulture)</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -70,7 +84,8 @@
                                 <p class="mb-1"><strong>Konaklama Süresi:</strong> @nights Gece</p>
                                 <p class="mb-0">
                                     <strong>Toplam Tutar:</strong>
-                                    <span class="text-success fw-bold fs-5">@Model.TotalPrice.ToString("C")</span>
+                                    <span class="text-success fw-bold fs-5">@convertedTotalPrice.ToString("C", targetCulture)</span>
+                                    
                                 </p>
                             }
                             else

@@ -1,6 +1,7 @@
 ﻿@* Bu satır, View'a bir "Room" listesi geleceğini belirtir *@
 @model IEnumerable<HotelReservation.Models.Room>
 @using Microsoft.AspNetCore.Mvc.Localization
+@inject HotelReservation.Services.ICurrencyService CurrencyService
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = Localizer["PageTitle"];
@@ -35,9 +36,19 @@
                             <p class="card-text">@room.Description</p>
                             <ul class="list-group list-group-flush mt-auto">
                                 <li class="list-group-item">@Localizer["CapacityFormatString", room.Capacity]</li>
-                                <li class="list-group-item">
-                                    <strong>@Localizer                               </strong>
-                                </li>
+                                 @{
+                            // 1. O anki para birimini cookie'den oku (varsayılan TRY)
+                            var targetCurrency = Context.Request.Cookies["UserCurrency"] ?? "TRY";
+
+                            // 2. Fiyatı CurrencyService kullanarak dönüştür
+                            var convertedPrice = await CurrencyService.ConvertFromTRYAsync(room.PricePerNight, targetCurrency);
+
+                            // 3. Fiyatı, hedef para birimine uygun kültürle (formatla)
+                            var targetCulture = CurrencyService.GetCultureInfoForCurrency(targetCurrency);
+                        }
+                                 <li class="list-group list-group-flush mt-auto">
+                               <span class="fs-5 fw-bold text-success">@convertedPrice.ToString("C", targetCulture)</span>
+                            </li>
                             </ul>
                             <div class="mt-3">
                                 <a asp-controller="Rooms" asp-action="Details" asp-route-id="@room.Id" class="btn btn-secondary w-100">@Localizer["DetailButton"]</a>

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "5+klmpggR4vq3zAYrjP6l2yMVBBebJo+aMFBSbKV4sw=",
+  "Hash": "z+BNPScBXxJyVihV0szYmekc/9+0dgGYUifCxVEhKl8=",
   "Source": "HotelReservation",
   "BasePath": "_content/HotelReservation",
   "Mode": "Default",
@@ -1205,6 +1205,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\brands\\trivago.png"
+    },
+    {
+      "Identity": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\HotelReservation\\HotelReservation\\wwwroot\\images\\hotelLogo.png",
+      "SourceId": "HotelReservation",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\HotelReservation\\HotelReservation\\wwwroot\\",
+      "BasePath": "_content/HotelReservation",
+      "RelativePath": "images/hotelLogo.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\hotelLogo.png"
     },
     {
       "Identity": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\HotelReservation\\HotelReservation\\wwwroot\\images\\rooms\\2c9a447f-7fd3-4144-a9eb-bb340fffcdc1.jpg",

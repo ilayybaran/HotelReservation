@@ -34,17 +34,17 @@
         var cultureItems = LocOptions.Value.SupportedUICultures
         .Select(c => new SelectListItem { Value = c.Name, Text = c.NativeName.Split(' ')[0].ToUpperInvariant() })
         .ToList();
-         var currentCultureName = cultureItems.FirstOrDefault(c => c.Value == requestCulture.RequestCulture.UICulture.Name)?.Text ?? requestCulture.RequestCulture.UICulture.Name;
-         
+        var currentCultureName = cultureItems.FirstOrDefault(c => c.Value == requestCulture.RequestCulture.UICulture.Name)?.Text ?? requestCulture.RequestCulture.UICulture.Name;
 
-         var supportedCurrencies = new List<SelectListItem> {
-        new SelectListItem { Value = "TRY", Text = "TRY" },
-        new SelectListItem { Value = "USD", Text = "USD" },
-        new SelectListItem { Value = "EUR", Text = "EUR" }
+
+        var supportedCurrencies = new List<SelectListItem> {
+    new SelectListItem { Value = "TRY", Text = "TRY" },
+    new SelectListItem { Value = "USD", Text = "USD" },
+    new SelectListItem { Value = "EUR", Text = "EUR" }
     };
-    var currentCurrency = Context.Request.Cookies["UserCurrency"] ?? "TRY"; // Default to TRY if cookie not found
-    var currentCurrencyItem = supportedCurrencies.FirstOrDefault(c => c.Value == currentCurrency);
-    var currentCurrencyText = currentCurrencyItem?.Text ?? currentCurrency;
+        var currentCurrency = Context.Request.Cookies["UserCurrency"] ?? "TRY"; // Default to TRY if cookie not found
+        var currentCurrencyItem = supportedCurrencies.FirstOrDefault(c => c.Value == currentCurrency);
+        var currentCurrencyText = currentCurrencyItem?.Text ?? currentCurrency;
     }
 
 
@@ -54,8 +54,8 @@
             <div class="container-fluid">
 
                 <div class="dropdown">
-                    <button class="btn btn-outline-secondary d-flex align-items-center" type="button" id="menuDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-list fs-6"></i> <!-- Menü ikonu -->
+                    <button class="btn btn-outline-none d-flex align-items-center" type="button" id="menuDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-list fs-5"></i> <!-- Menü ikonu -->
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="menuDropdown">
                         <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["HomePage"]</a></li>
@@ -80,7 +80,7 @@
                 </div>
 
                 <div class="dropdown me-3">
-                    <button class="btn btn-outline-secondary btn-sm px-2 py-1 dropdown-toggle"
+                    <button class="btn btn-outline-none btn-sm px-2 py-1 dropdown-toggle"
                             type="button" id="languageDropdown"
                             data-bs-toggle="dropdown" aria-expanded="false"
                             style="font-size: 0.85rem; margin-left: 10px ">
@@ -105,37 +105,42 @@
                     </ul>
                 </div>
 
-                <div class="dropdown me-lg-2 mt-2 mt-lg-0 order-lg-1">
-                      <button class="btn btn-outline-secondary btn-sm px-2 py-1 dropdown-toggle d-flex align-items-center" 
-                              type="button" id="currencyDropdown" 
-                              data-bs-toggle="dropdown" aria-expanded="false"
-                              style="font-size: 0.85rem;"> 
-                          <i class="bi bi-currency-exchange me-1"></i> @currentCurrencyText
-                      </button>
-                     
-                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="currencyDropdown" style="min-width: 60px; text-align:center;">
-                          @foreach (var currency in supportedCurrencies)
-                          {
-                              <li>
-                                  <form asp-controller="Home" asp-action="SetCurrency"
-                                        asp-route-returnUrl="@currentPathAndQuery" method="post"
-                                        class="d-inline">
-                                      <input type="hidden" name="currencyCode" value="@currency.Value" />
-                                     
-                                      <button type="submit" class="dropdown-item @(currency.Value == currentCurrency ? "active" : "")"
-                                              style="font-size: 0.8rem;">
-                                          @currency.Text
-                                      </button>
-                                  </form>
-                              </li>
-                          }
-                      </ul>
-                  </div>
 
-                <a class="navbar-brand mx-auto fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
-                    HotelReservation
+
+                <div class="dropdown me-lg-2 mt-2 mt-lg-0 order-lg-1">
+                    <button class="btn btn-outline-none btn-sm px-2 py-1 dropdown-toggle d-flex align-items-center"
+                            type="button" id="currencyDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            style="font-size: 0.85rem;">
+                        <i class="bi bi-currency-exchange me-1"></i> @currentCurrencyText
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="currencyDropdown" style="min-width: 60px; text-align:center;">
+                        @foreach (var currency in supportedCurrencies)
+                        {
+                            <li>
+                                <form asp-controller="Home" asp-action="SetCurrency"
+                                  asp-route-returnUrl="@currentPathAndQuery" method="post"
+                                  class="d-inline">
+                                    <input type="hidden" name="currencyCode" value="@currency.Value" />
+
+                                    <button type="submit" class="dropdown-item @(currency.Value == currentCurrency ? "active" : "")"
+                                        style="font-size: 0.8rem;">
+                                        @currency.Text
+                                    </button>
+                                </form>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <a class="navbar-brand order-lg-1 mx-lg-auto" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/hotelLogo.png" alt="HotelReservation Logosu" class="navbar-logo">
                 </a>
-                <partial name="_LoginPartial" />
+
+                <div class="d-flex align-items-center gap-3">
+                    <partial name="_LoginPartial" />
+                </div>
             </div>
 
         </nav>

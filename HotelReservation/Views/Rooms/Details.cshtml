@@ -1,4 +1,5 @@
 ﻿@model HotelReservation.Models.Room
+@inject HotelReservation.Services.ICurrencyService CurrencyService
 @{
     ViewData["Title"] = Model.RoomType;
 
@@ -28,11 +29,21 @@
                             <strong>Kapasite</strong>
                             <span>@Model.Capacity Kişi</span>
                         </li>
+                        @{
+                            // 1. O anki para birimini cookie'den oku (varsayılan TRY)
+                            var targetCurrency = Context.Request.Cookies["UserCurrency"] ?? "TRY";
+
+                            // 2. Fiyatı CurrencyService kullanarak dönüştür
+                            var convertedPrice = await CurrencyService.ConvertFromTRYAsync(Model.PricePerNight, targetCurrency);
+
+                            // 3. Fiyatı, hedef para birimine uygun kültürle (formatla)
+                            var targetCulture = CurrencyService.GetCultureInfoForCurrency(targetCurrency);
+                        }
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <strong>Gecelik Fiyat</strong>
-                            <span class="fs-4 fw-bold">@Model.PricePerNight.ToString("C")</span>
+                            <span class="fs-5 fw-bold text-success">@convertedPrice.ToString("C", targetCulture)</span>
                         </li>
-                        
+
 
                         <h5 class="mt-4">Öne Çıkan Oda Olanakları</h5>
                         <div class="row mt-3 mb-4">
@@ -57,7 +68,7 @@
                                 </ul>
                             </div>
                         </div>
-                   
+
                         <hr>
 
                     </ul>

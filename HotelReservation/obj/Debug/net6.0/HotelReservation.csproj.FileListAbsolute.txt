@@ -297,3 +297,6 @@ C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net
 C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.pdb
 C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.genruntimeconfig.cache
 C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\ref\HotelReservation.dll
+C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Reservations.Create.de-DE.resources
+C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Reservations.Create.en-US.resources
+C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Reservations.Create.tr-TR.resources
