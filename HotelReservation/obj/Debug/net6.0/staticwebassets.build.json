@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "n4u6JAuOXNk972rpeDNEG8gLAqxbbvYi3I/lm6R3UtU=",
+  "Hash": "5+klmpggR4vq3zAYrjP6l2yMVBBebJo+aMFBSbKV4sw=",
   "Source": "HotelReservation",
   "BasePath": "_content/HotelReservation",
   "Mode": "Default",
@@ -1188,23 +1188,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\brands\\cocacola.png"
-    },
-    {
-      "Identity": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\HotelReservation\\HotelReservation\\wwwroot\\images\\brands\\forfun.png",
-      "SourceId": "HotelReservation",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\HotelReservation\\HotelReservation\\wwwroot\\",
-      "BasePath": "_content/HotelReservation",
-      "RelativePath": "images/brands/forfun.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\brands\\forfun.png"
     },
     {
       "Identity": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\HotelReservation\\HotelReservation\\wwwroot\\images\\brands\\trivago.png",

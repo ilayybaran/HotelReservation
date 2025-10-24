@@ -19,9 +19,35 @@
 
 </head>
 <body>
+    @using Microsoft.AspNetCore.Mvc.Localization
+    @inject IViewLocalizer Localizer
     @using Microsoft.AspNetCore.Identity
     @using HotelReservation.Models
     @inject SignInManager<ApplicationUser> SignInManager
+    @using Microsoft.AspNetCore.Builder
+    @using Microsoft.AspNetCore.Localization
+    @using Microsoft.Extensions.Options
+    @inject IOptions<RequestLocalizationOptions> LocOptions
+    @{
+        var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+        var currentPathAndQuery = Context.Request.Path + Context.Request.QueryString;
+        var cultureItems = LocOptions.Value.SupportedUICultures
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.NativeName.Split(' ')[0].ToUpperInvariant() })
+        .ToList();
+         var currentCultureName = cultureItems.FirstOrDefault(c => c.Value == requestCulture.RequestCulture.UICulture.Name)?.Text ?? requestCulture.RequestCulture.UICulture.Name;
+         
+
+         var supportedCurrencies = new List<SelectListItem> {
+        new SelectListItem { Value = "TRY", Text = "TRY" },
+        new SelectListItem { Value = "USD", Text = "USD" },
+        new SelectListItem { Value = "EUR", Text = "EUR" }
+    };
+    var currentCurrency = Context.Request.Cookies["UserCurrency"] ?? "TRY"; // Default to TRY if cookie not found
+    var currentCurrencyItem = supportedCurrencies.FirstOrDefault(c => c.Value == currentCurrency);
+    var currentCurrencyText = currentCurrencyItem?.Text ?? currentCurrency;
+    }
+
+
 
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -32,13 +58,13 @@
                         <i class="bi bi-list fs-6"></i> <!-- Menü ikonu -->
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="menuDropdown">
-                        <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a></li>
-                        <li><a class="dropdown-item" asp-area="" asp-controller="Rooms" asp-action="Index">Odalar</a></li>
+                        <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["HomePage"]</a></li>
+                        <li><a class="dropdown-item" asp-area="" asp-controller="Rooms" asp-action="Index">@Localizer["Rooms"]</a></li>
 
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" asp-area="" asp-controller="Reservations" asp-action="ResList">Rezervasyonlarım</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Reservations" asp-action="ResList">@Localizer["MyReservations"]</a></li>
                         }
 
                         @if (User.IsInRole("Admin"))
@@ -46,12 +72,65 @@
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item text-danger fw-bold" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
-                                    <i class="bi bi-shield-lock"></i> Admin Paneli
+                                    <i class="bi bi-shield-lock"></i>@Localizer["AdminPanel"]
                                 </a>
                             </li>
                         }
                     </ul>
                 </div>
+
+                <div class="dropdown me-3">
+                    <button class="btn btn-outline-secondary btn-sm px-2 py-1 dropdown-toggle"
+                            type="button" id="languageDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            style="font-size: 0.85rem; margin-left: 10px ">
+                        🌐 @requestCulture.RequestCulture.UICulture.TwoLetterISOLanguageName.ToUpper()
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown" style="min-width: 60px; text-align:center;">
+                        @foreach (var culture in cultureItems)
+                        {
+                            <li>
+                                <form asp-controller="Home" asp-action="SetLanguage"
+                                  asp-route-returnUrl="@Context.Request.Path" method="post"
+                                  class="d-inline">
+                                    <input type="hidden" name="culture" value="@culture.Value" />
+                                    <button type="submit" class="dropdown-item @(culture.Value == requestCulture.RequestCulture.UICulture.Name ? "active" : "")"
+                                        style="font-size: 0.8rem;">
+                                        @culture.Value.Split('-')[0].ToUpper()
+
+                                    </button>
+                                </form>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="dropdown me-lg-2 mt-2 mt-lg-0 order-lg-1">
+                      <button class="btn btn-outline-secondary btn-sm px-2 py-1 dropdown-toggle d-flex align-items-center" 
+                              type="button" id="currencyDropdown" 
+                              data-bs-toggle="dropdown" aria-expanded="false"
+                              style="font-size: 0.85rem;"> 
+                          <i class="bi bi-currency-exchange me-1"></i> @currentCurrencyText
+                      </button>
+                     
+                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="currencyDropdown" style="min-width: 60px; text-align:center;">
+                          @foreach (var currency in supportedCurrencies)
+                          {
+                              <li>
+                                  <form asp-controller="Home" asp-action="SetCurrency"
+                                        asp-route-returnUrl="@currentPathAndQuery" method="post"
+                                        class="d-inline">
+                                      <input type="hidden" name="currencyCode" value="@currency.Value" />
+                                     
+                                      <button type="submit" class="dropdown-item @(currency.Value == currentCurrency ? "active" : "")"
+                                              style="font-size: 0.8rem;">
+                                          @currency.Text
+                                      </button>
+                                  </form>
+                              </li>
+                          }
+                      </ul>
+                  </div>
 
                 <a class="navbar-brand mx-auto fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
                     HotelReservation
@@ -61,8 +140,6 @@
 
         </nav>
     </header>
-
-    @* <div class="main-content-pusher"></div> *@
 
     @RenderSection("Hero", required: false)
 
@@ -77,7 +154,7 @@
             <div class="row">
 
                 <div class="col-md-6">
-                    <h6>İletişim</h6>
+                    <h6>@Localizer["Contact"]</h6>
                     <ul class="footer-links">
                         <li><i class="bi bi-geo-alt-fill me-2"></i>Örnek Mah. Atatürk Cad. No:123, Antalya, Türkiye</li>
                         <li><i class="bi bi-telephone-fill me-2"></i>+90 242 000 00 00</li>
@@ -86,8 +163,8 @@
                 </div>
 
                 <div class="col-md-6">
-                    <h6>Bizi Takip Edin</h6>
-                    <p class="text-muted">En yeni teklifler ve haberler için sosyal medya hesaplarımızı takip edin.</p>
+                    <h6>@Localizer["FollowUs"]</h6>
+                    <p class="text-muted">@Localizer["FollowUsText"]</p>
                     <div class="social-icons">
                         <a href="#"><i class="bi bi-facebook"></i></a>
                         <a href="#"><i class="bi bi-instagram"></i></a>
@@ -100,7 +177,7 @@
             <hr class="my-4">
             <div class="row">
                 <div class="col text-center">
-                    <p class="copyright-text">&copy; @DateTime.Now.Year - HotelReservation. Tüm Hakları Saklıdır.</p>
+                    <p class="copyright-text">@Localizer["CopyrightNotice", DateTime.Now.Year]</p>
                 </div>
             </div>
         </div>

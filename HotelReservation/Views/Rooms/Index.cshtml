@@ -1,14 +1,15 @@
 ﻿@* Bu satır, View'a bir "Room" listesi geleceğini belirtir *@
 @model IEnumerable<HotelReservation.Models.Room>
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Odalar";
+    ViewData["Title"] = Localizer["PageTitle"];
 }
 
 <div class="container">
     <div class="text-center mb-4">
-        <h1>Odalar</h1>
-        <p class="lead">Size en uygun odayı seçerek rezervasyon işlemine başlayabilirsiniz.</p>
+        <h1>@Localizer["RoomTag"]</h1>
+        <p class="lead">@Localizer["WelcomeSub"]</p>
     </div>
 
     <div class="row">
@@ -28,17 +29,18 @@
             {
                 <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card h-100 shadow-sm">
-                       <img src="@room.ImageUrl" class="card-img-top" alt="@room.RoomType"> 
+                        <img src="@room.ImageUrl" class="card-img-top" alt="@room.RoomType">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">@room.RoomType</h5>
                             <p class="card-text">@room.Description</p>
                             <ul class="list-group list-group-flush mt-auto">
-                                <li class="list-group-item">Kapasite: @room.Capacity Kişi</li>
-                                <li class="list-group-item"><strong>Fiyat: @room.PricePerNight.ToString("C") / Gece</strong></li>
+                                <li class="list-group-item">@Localizer["CapacityFormatString", room.Capacity]</li>
+                                <li class="list-group-item">
+                                    <strong>@Localizer                               </strong>
+                                </li>
                             </ul>
                             <div class="mt-3">
-                                 @*<a asp-controller="Reservations" asp-action="Create" asp-route-roomId="@room.Id" class="btn btn-success w-100">Rezervasyon Yap</a>*@
-                                 <a asp-controller="Rooms" asp-action="Details" asp-route-id="@room.Id" class="btn btn-secondary w-100">Odayı İncele</a>
+                                <a asp-controller="Rooms" asp-action="Details" asp-route-id="@room.Id" class="btn btn-secondary w-100">@Localizer["DetailButton"]</a>
                             </div>
                         </div>
                     </div>

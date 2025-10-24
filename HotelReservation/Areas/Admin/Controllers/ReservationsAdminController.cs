@@ -27,9 +27,9 @@ namespace HotelReservation.Areas.Admin.Controllers
         {
             // Veritabanındaki tüm rezervasyonları alıyoruz.
             var allReservations = await _context.Reservations
-                .Include(r => r.Room) 
-                .Include(r => r.User) 
-                .OrderByDescending(r => r.ReservationDate) 
+                .Include(r => r.Room)
+                .Include(r => r.User)
+                .OrderByDescending(r => r.ReservationDate)
                 .ToListAsync();
 
             return View(allReservations);

@@ -210,60 +210,70 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-. /* ============================
-   CONTINUOUS BRAND SLIDER STYLES (DÜZELTÝLMÝÞ)
-   ============================= */
+
 .continuous-brand-slider {
     width: 100%;
-    overflow: hidden; /* Taþmalarý gizle */
+    overflow: hidden; /* Taþmalarý kesinlikle gizle */
     background: none;
-    padding: 1rem 0; /* Üst ve alt boþluk (isteðe baðlý) */
+    padding: 0; 
     margin: 0;
+   
 }
 
-/* Slick Carousel'in oluþturduðu iç sarmalayýcý */
-.continuous-brand-slider .slick-list {
-    margin: 0 -15px; /* Öðeler arasýndaki boþluðu yönetmek için */
-}
+   
+    .continuous-brand-slider .slick-list {
+        margin: 0; 
+        padding: 0.5rem 0; 
+    }
 
-/* Her bir slider öðesi (resmi içeren div) */
-.continuous-brand-slider .slick-slide {
-    padding: 0 15px; /* Logolar arasýndaki yatay boþluk */
-    margin: 0;
-    display: flex !important; /* Dikey ortalama için flex'i zorla */
-    align-items: center; /* Öðeyi dikeyde ortala */
-    justify-content: center; /* Öðeyi yatayda ortala */
-    height: 80px; /* === ÞERÝDÝN YÜKSEKLÝÐÝNÝ BURADAN AYARLAYIN === */
-    box-sizing: border-box; /* Padding'in yüksekliði etkilememesi için */
-}
+    .continuous-brand-slider .slick-slide {
+        padding: 0 20px; /* Logolar arasýndaki yatay boþluk (deðeri ayarlayabilirsiniz) */
+        margin: 0;
+        display: flex !important; /* Dikey ortalama için flex'i zorla */
+        align-items: center; /* Öðeyi dikeyde ortala */
+        justify-content: center; /* Öðeyi yatayda ortala */
+        height: 70px; /* === ÞERÝDÝN YÜKSEKLÝÐÝNÝ BURADAN AYARLAYIN (Biraz küçülttük) === */
+        box-sizing: border-box;
+        /* transition: transform 0.3s ease; - Sürekli kaymada gereksiz */
+    }
 
-/* Resmin linkini içeren a etiketi (varsa) */
-.continuous-brand-slider .brand-link {
-    display: flex; /* Ýçindeki resmi ortalamak için */
-    align-items: center;
-    justify-content: center;
-    height: 100%; /* Resmin sýðmasý için tüm yüksekliði kapla */
-    width: 100%; /* Geniþliði kapla */
-    background: none;
-}
+    /* Resmin linkini içeren a etiketi (varsa) */
+    .continuous-brand-slider .brand-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%; /* Tüm slide yüksekliðini kapla */
+        width: 100%; /* Tüm slide geniþliðini kapla */
+        background: none;
+        /* outline: 1px solid red; - Hizalama testi için */
+    }
 
-/* Slider içindeki resimler */
-.continuous-brand-slider img {
-    display: block; /* Altýndaki boþluðu kaldýr */
-    max-height: 100%; /* Þeridin yüksekliðini aþmasýn */
-    max-width: 100%; /* Yatayda taþmasýn */
-    width: auto; /* Oranýný koruyarak geniþliði ayarla */
-    height: auto; /* Oranýný koruyarak yüksekliði ayarla */
-    object-fit: contain; /* === RESMÝN SIÐMASINI SAÐLAYAN ANAHTAR === */
-    /* 'contain' -> Resmi kýrpmadan/bozmadan alana sýðdýrýr */
-    /* 'cover' -> Alaný doldurur ama kýrpabilir */
-    margin: auto; /* Dikey ve yatay ortalama için ek güvence */
-    opacity: 0.7; /* Ýsteðe baðlý: Hafif soluk göster */
-    transition: opacity 0.3s ease;
-}
+    /* Slider içindeki resimler (Logolar) */
+    .continuous-brand-slider img {
+        display: block; /* Alt boþluðu kaldýr */
+        max-height: 90%; /* Þerit yüksekliðinin %90'ýný geçmesin (dikey boþluk býrakýr) */
+        max-width: 100%; /* Slide geniþliðini aþmasýn */
+        width: auto; /* Oranýný koru */
+        height: auto; /* Oranýný koru */
+        object-fit: contain; /* === Resmi KIRPMADAN alana sýðdýr === */
+        margin: auto; /* Hem dikey hem yatay ortala */
+        opacity: 0.65; /* Baþlangýçta biraz soluk göster */
+        filter: grayscale(50%); /* Hafif gri tonlama (isteðe baðlý) */
+        transition: opacity 0.3s ease, filter 0.3s ease;
+    }
 
-    .continuous-brand-slider img:hover {
-        opacity: 1; /* Üzerine gelince netleþsin */
+        /* Linkin veya resmin üzerine gelince */
+        .continuous-brand-slider .brand-link:hover img,
+        .continuous-brand-slider img:hover {
+            opacity: 1; /* Tamamen görünür yap */
+            filter: grayscale(0%); /* Renkleri canlandýr */
+        }
+
+    /* Oklarý ve noktalarý gizle */
+    .continuous-brand-slider .slick-prev,
+    .continuous-brand-slider .slick-next,
+    .continuous-brand-slider .slick-dots {
+        display: none !important;
     }
 
 /* Oklarý ve noktalarý gizle */
@@ -278,8 +288,8 @@ h1, h2, h3, h4, h5, h6 {
 .navbar .dropdown-toggle,
 .navbar .form-select,
 .navbar-nav .nav-item partial[name="_LoginPartial"] + ul .nav-item .nav-link {
-    padding-top: 0.8rem; /* Üst boþluðu artýr */
-    padding-bottom: 0.8rem; /* Alt boþluðu artýr */
+    padding-top: 0.8rem; 
+    padding-bottom: 0.8rem; 
 }
 
 .navbar-nav .nav-item .nav-link {

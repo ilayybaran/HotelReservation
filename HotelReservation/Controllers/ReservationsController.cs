@@ -112,7 +112,7 @@ namespace HotelReservation.Controllers
             return RedirectToAction(nameof(ResList));
         }
 
-        
+
         public async Task<IActionResult> ResList()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -127,5 +127,45 @@ namespace HotelReservation.Controllers
 
             return View(reservations);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Cancel(int reservationId)
+        {
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return Challenge();
+            }
+
+
+            var reservation = await _context.Reservations
+                                        .FirstOrDefaultAsync(r => r.Id == reservationId && r.UserId == currentUser.Id);
+
+            if (reservation == null)
+            {
+                TempData["ErrorMessage"] = "İptal edilecek rezervasyon bulunamadı veya bu rezervasyon size ait değil.";
+                return RedirectToAction("ResList", "Reservations", new { area = "" });
+            }
+
+            try
+            {
+                // 4. Rezervasyonu veritabanından sil
+                _context.Reservations.Remove(reservation);
+                await _context.SaveChangesAsync(); // Değişiklikleri kaydet
+
+                TempData["SuccessMessage"] = "Rezervasyonunuz başarıyla iptal edildi.";
+            }
+            catch (Exception ex)
+            {
+
+                TempData["ErrorMessage"] = "Rezervasyon iptal edilirken bir hata oluştu.";
+            }
+
+            // 5. Kullanıcıyı tekrar rezervasyon listesi sayfasına yönlendir
+            return RedirectToAction("ResList", "Reservations", new { area = "" });
+        }
     }
 }
+

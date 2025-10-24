@@ -37,6 +37,14 @@
                         (@((reservation.CheckOutDate - reservation.CheckInDate).Days) Gece)
                     </p>
                     <small><strong>Toplam Tutar:</strong> @reservation.TotalPrice.ToString("C")</small>
+
+                    <form asp-controller="Reservations"  asp-action="Cancel" method="post" onsubmit="return confirm('Bu rezervasyonu iptal etmek istediğinizden emin misiniz?');" class="d-inline float-end"> 
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="reservationId" value="@reservation.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i> İptal Et
+                        </button>
+                    </form>
                 </div>
             }
         </div>
