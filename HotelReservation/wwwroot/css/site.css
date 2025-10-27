@@ -51,15 +51,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .card-img-top {
     width: 100%;
-    height: 250px; 
-    object-fit: cover; 
-    object-position: center; 
-    border-radius: 0.5rem; 
+    height: 250px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 0.5rem;
 }
 
 .hero-section {
     position: relative;
-    height: 85vh; 
+    height: 85vh;
     min-height: 600px;
     background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop');
     background-size: cover;
@@ -88,7 +88,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .booking-form-container-transparent {
-    background-color: rgba(0,0,0,0.2); 
+    background-color: rgba(0,0,0,0.2);
     padding: 2rem;
     border-radius: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -107,7 +107,7 @@ h1, h2, h3, h4, h5, h6 {
         color: #fff;
     }
 
-        
+
         .booking-form-container-transparent .form-control::-webkit-calendar-picker-indicator {
             filter: invert(1);
         }
@@ -120,7 +120,7 @@ h1, h2, h3, h4, h5, h6 {
     .booking-form-container .form-select,
     .booking-form-container-transparent .form-control,
     .booking-form-container-transparent .form-select {
-     cursor: pointer;
+        cursor: pointer;
     }
 
 
@@ -147,7 +147,6 @@ h1, h2, h3, h4, h5, h6 {
         font-weight: 700;
         /* text-transform: uppercase; */
         letter-spacing: 1px;
-        
     }
 
 .footer-links {
@@ -166,17 +165,17 @@ h1, h2, h3, h4, h5, h6 {
     }
 
         .footer-links a:hover {
-            color: var(--bs-primary); 
+            color: var(--bs-primary);
             text-decoration: underline;
         }
 
     .footer-links li i {
-        color: var(--bs-primary); 
+        color: var(--bs-primary);
     }
 
 
 .social-icons a {
-    display: inline-flex; 
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 40px;
@@ -203,37 +202,33 @@ h1, h2, h3, h4, h5, h6 {
 
 
 .brands-section {
-    background: transparent; 
-    padding: 80px 0; 
-    margin-top: 60px; 
-    border-top: 1px solid #eee; 
+    padding: 80px 0;
+    margin-top: 60px;
+    border-top: 1px solid #eee;
 }
 
 
 .continuous-brand-slider {
     width: 100%;
-    overflow: hidden; /* Taþmalarý kesinlikle gizle */
+    overflow: hidden; /* Taþmalarý gizle */
     background: none;
-    padding: 0; 
+    padding: 0;
     margin: 0;
-   
 }
 
-   
     .continuous-brand-slider .slick-list {
-        margin: 0; 
-        padding: 0.5rem 0; 
+        margin: 0;
+        padding: 0.5rem 0; /* Þeridin üst/alt iç boþluðu */
     }
 
     .continuous-brand-slider .slick-slide {
-        padding: 0 20px; /* Logolar arasýndaki yatay boþluk (deðeri ayarlayabilirsiniz) */
+        padding: 0 20px; /* Logolar arasýndaki yatay boþluk */
         margin: 0;
-        display: flex !important; /* Dikey ortalama için flex'i zorla */
-        align-items: center; /* Öðeyi dikeyde ortala */
-        justify-content: center; /* Öðeyi yatayda ortala */
-        height: 70px; /* === ÞERÝDÝN YÜKSEKLÝÐÝNÝ BURADAN AYARLAYIN (Biraz küçülttük) === */
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        height: 70px; /* === ÞERÝDÝN YÜKSEKLÝÐÝ === */
         box-sizing: border-box;
-        /* transition: transform 0.3s ease; - Sürekli kaymada gereksiz */
     }
 
     /* Resmin linkini içeren a etiketi (varsa) */
@@ -241,80 +236,65 @@ h1, h2, h3, h4, h5, h6 {
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 100%; /* Tüm slide yüksekliðini kapla */
-        width: 100%; /* Tüm slide geniþliðini kapla */
+        height: 100%;
+        width: 100%;
         background: none;
-        /* outline: 1px solid red; - Hizalama testi için */
     }
 
+    /* Temizlenmiþ logo stili */
     .continuous-brand-slider img {
-        display: block; /* Alt boþluðu kaldýr */
-        max-height: 90%; /* Þerit yüksekliðinin %90'ýný geçmesin (dikey boþluk býrakýr) */
-        max-width: 100%; /* Slide geniþliðini aþmasýn */
-        width: auto; /* Oranýný koru */
-        height: auto; /* Oranýný koru */
-        object-fit: contain; /* === Resmi KIRPMADAN alana sýðdýr === */
-        margin: auto; /* Hem dikey hem yatay ortala */
-        opacity: 0.65; /* Baþlangýçta biraz soluk göster */
-        filter: grayscale(50%); /* Hafif gri tonlama (isteðe baðlý) */
-        transition: opacity 0.3s ease, filter 0.3s ease;
+        display: block;
+        max-height: 100%;
+        max-width: 100%; /* Yatay taþmayý engeller */
+        width: auto; /* Oraný korur */
+        height: auto; /* Oraný korur */
+        object-fit: contain; /* Resmi KIRPMADAN alana sýðdýrýr */
+        margin: auto; /* Dikey/Yatay ortalar */
+        opacity: 1;
     }
 
-        /* Linkin veya resmin üzerine gelince */
-        .continuous-brand-slider .brand-link:hover img,
-        .continuous-brand-slider img:hover {
-            opacity: 1; /* Tamamen görünür yap */
-            filter: grayscale(0%); /* Renkleri canlandýr */
-        }
 
-    /* Oklarý ve noktalarý gizle */
+    /* Oklarý ve noktalarý gizle (Ayný kaldý) */
     .continuous-brand-slider .slick-prev,
     .continuous-brand-slider .slick-next,
     .continuous-brand-slider .slick-dots {
         display: none !important;
     }
 
-/* Oklarý ve noktalarý gizle */
-.continuous-brand-slider .slick-prev,
-.continuous-brand-slider .slick-next,
-.continuous-brand-slider .slick-dots {
-    display: none !important;
-}
-
 .navbar .navbar-brand,
 .navbar .nav-link,
 .navbar .dropdown-toggle,
 .navbar .form-select,
 .navbar-nav .nav-item partial[name="_LoginPartial"] + ul .nav-item .nav-link {
-    padding-top: 0.9rem; 
-    padding-bottom: 0.9rem; 
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
 }
 
 .navbar-nav .nav-item .nav-link {
     display: inline-flex;
     align-items: center;
-    padding-top: 0.5rem; 
+    padding-top: 0.5rem;
     padding-bottom: 0.5rem;
 }
 
 .navbar-nav .nav-item a.nav-link[title^="Hesabým"] {
-    text-decoration: none; 
+    text-decoration: none;
 }
 
 
 .navbar-nav .nav-item form button.nav-link {
-    background-color: transparent; 
-    border: none; 
-    cursor: pointer; 
-    padding-left: 0.5rem; 
-    padding-right: 0.5rem; 
-    color: inherit; 
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    color: inherit;
 }
 
 .navbar-nav .nav-item .nav-link i.bi {
     font-size: 3.0rem; /* Ýkon boyutu */
     vertical-align: middle;
-    line-height: 1; 
+    line-height: 1;
 }
 
 
@@ -334,7 +314,7 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 0;
     padding-bottom: 0;
     display: flex;
-    align-items: center; 
+    align-items: center;
 }
 
 .navbar {
@@ -346,19 +326,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar-brand.order-lg-1 {
     position: absolute;
-    left: 50%; 
-    transform: translateX(-50%); 
+    left: 50%;
+    transform: translateX(-50%);
     top: 5px;
-    padding: 0; 
+    padding: 0;
     z-index: 100; /* Diðer elemanlarýn üstünde kalmasý için */
 }
 
-/* 3. Logo Resmi (<img>): Boyutlandýrma ve yuvarlak yapma */
+/* 3. Logo Resmi Boyutlandýrma ve yuvarlak yapma */
 .navbar-logo {
-    height: 60px; 
-    width: 60px; 
+    height: 60px;
+    width: 60px;
     border-radius: 50%;
-    object-fit: cover; 
+    object-fit: cover;
 }
 
 /* Soldaki menü ikonunun dikey hizalamasýný düzelt */
@@ -366,16 +346,14 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 0;
     padding-bottom: 0;
 }
-/* 1. Hero OLMAYAN sayfalarda navbar'ý üste yapýþýk yap */
-
 
 .navbar-hero {
-    position: absolute; /* Sayfanýn üstüne, hero görselinin üzerine yerleþir */
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 100; /* Diðer içeriklerin üstünde kalmasý için */
-    background-color: transparent !important; /* Beyaz arka planý kaldýrýr */
+    background-color: transparent !important;
     border-bottom: none !important; /* Alt çizgiyi kaldýrýr */
     box-shadow: none !important; /* Gölgeyi kaldýrýr */
     margin-bottom: 0 !important; /* 'mb-3' sýnýfýný ezer */
@@ -412,7 +390,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar .container-fluid .dropdown:first-of-type .bi-list {
-    font-size: 2.8rem; 
+    font-size: 2.8rem;
     vertical-align: middle;
 }
 
@@ -426,7 +404,7 @@ h1, h2, h3, h4, h5, h6 {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    top: 8px; 
+    top: 8px;
     padding: 0;
     z-index: 100;
 }
@@ -436,8 +414,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar .container-fluid > .dropdown.order-lg-1 {
-    order: 0 !important; /* Hatalý sýralamayý iptal et */
-    margin-top: 0 !important; /* Mobil görünümdeki bozulmayý düzelt */
+    order: 0 !important;
+    margin-top: 0 !important;
 }
 
 
@@ -447,3 +425,37 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
 }
 
+.amenity-icon {
+    width: 80px;
+    height: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border-radius: 50%;
+    border: 1px solid #eee;
+    transition: all 0.3s ease-in-out;
+}
+
+    .amenity-icon i {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        transition: all 0.3s ease-in-out;
+    }
+
+S
+.row.text-center h5 {
+    font-family: var(--primary-font);
+    font-weight: 500;
+    margin-top: 1.5rem;
+    color: var(--dark-color);
+}
+
+.col-md-3:hover .amenity-icon {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.25);
+}

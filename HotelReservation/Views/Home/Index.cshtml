@@ -15,7 +15,6 @@
             <p class="lead text-white-50">@Localizer["WelcomeSub"]</p>
         </div>
 
-
         <div class="container booking-form-container-transparent mt-5" data-aos="fade-up" data-aos-delay="300">
             @if (TempData["SearchError"] != null)
             {
@@ -125,6 +124,5 @@
             <p class="text-muted">@Localizer["FreeWiFiDesc"]</p>
         </div>
     </div>
-    @await Html.PartialAsync("Brands")
-
 </div>
+ @await Html.PartialAsync("Brands")

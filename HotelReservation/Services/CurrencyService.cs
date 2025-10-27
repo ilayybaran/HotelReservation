@@ -1,5 +1,5 @@
 ﻿// Services/CurrencyService.cs
-using Microsoft.Extensions.Caching.Memory; // Cache için
+using Microsoft.Extensions.Caching.Memory; 
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -51,8 +51,8 @@ namespace HotelReservation.Services
             rates = new Dictionary<string, decimal>
         {
            
-            { "USD", 0.030m },
-            { "EUR", 0.028m }
+            { "USD", 0.024m },
+            { "EUR", 0.020m }
             
         };
 

@@ -103,6 +103,7 @@ namespace HotelReservation.Controllers
             // Her şey yolundaysa kaydet
             reservation.UserId = user.Id;
             reservation.ReservationDate = DateTime.Now;
+            reservation.Status = "PendingPayment";
             reservation.TotalPrice = (reservation.CheckOutDate - reservation.CheckInDate).Days * room.PricePerNight;
 
             _context.Add(reservation);
@@ -112,6 +113,49 @@ namespace HotelReservation.Controllers
             return RedirectToAction(nameof(ResList));
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateAndPay([Bind("RoomId,CheckInDate,CheckOutDate")] Reservation reservation)
+        {
+            var room = await _context.Rooms.FindAsync(reservation.RoomId);
+            if (room == null)
+            {
+                TempData["ErrorMessage"] = "Oda bulunamadı.";
+                return RedirectToAction("Index", "Rooms");
+            }
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "Kullanıcı girişi bulunamadı.";
+                return RedirectToAction("Login", "Account");
+            }
+            if (reservation.CheckOutDate <= reservation.CheckInDate)
+            {
+                TempData["ErrorMessage"] = "Çıkış tarihi, giriş tarihinden sonra olmalıdır.";
+                return RedirectToAction("Index", "Rooms");
+            }
+            bool isRoomAvailable = !await _context.Reservations.AnyAsync(r =>
+                r.RoomId == reservation.RoomId &&
+                r.CheckInDate < reservation.CheckOutDate &&
+                r.CheckOutDate > reservation.CheckInDate);
+            if (!isRoomAvailable)
+            {
+                TempData["ErrorMessage"] = "Üzgünüz, bu oda seçilen tarihlerde dolu.";
+                return RedirectToAction("Index", "Rooms");
+            }
+            
+
+            reservation.UserId = user.Id;
+            reservation.ReservationDate = DateTime.Now;
+            reservation.Status = "PendingPayment";
+            reservation.TotalPrice = (reservation.CheckOutDate - reservation.CheckInDate).Days * room.PricePerNight;
+
+            _context.Add(reservation);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Payment", "Payment", new { reservationId = reservation.Id });
+        }
 
         public async Task<IActionResult> ResList()
         {

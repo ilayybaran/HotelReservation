@@ -98,6 +98,8 @@
                             <button type="submit" class="btn btn-success btn-lg fw-semibold" @(nights <= 0 ? "disabled" : "")>
                                 Rezervasyonu Tamamla
                             </button>
+                            <button type="submit" class="btn btn-success btn-lg fw-semibold" asp-action="CreateAndPay">
+                                Ödeme Yap</button>
                             <a asp-controller="Rooms" asp-action="Details" asp-route-id="@Model.RoomId" class="btn btn-outline-secondary">
                                 Oda Detaylarına Geri Dön
                             </a>

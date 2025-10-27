@@ -37,5 +37,11 @@ namespace HotelReservation.Models
 
         [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }
+
+        [Display(Name = "Ödeme Durumu")]
+        public string Status { get; set; }
+
+        [Display(Name = "Ödeme Tarihi")]
+        public DateTime ? PaymentDate { get; set; }
     }
 }
