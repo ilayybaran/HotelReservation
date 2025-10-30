@@ -1,5 +1,4 @@
-﻿
-@model HotelReservation.Models.PaymentViewModel
+﻿@model HotelReservation.Models.PaymentViewModel
 @inject HotelReservation.Services.ICurrencyService CurrencyService
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
@@ -69,7 +68,7 @@
                                 <label asp-for="CVC" class="form-label"></label>
                                 <input asp-for="CVC" class="form-control" placeholder="123" />
                                 <span asp-validation-for="CVC" class="text-danger"></span>
-                                <small class="form-text text-muted">@Localizer["CVCHint"]</small>
+                               
                             </div>
                         </div>
 

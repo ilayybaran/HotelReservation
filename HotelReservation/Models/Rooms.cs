@@ -11,7 +11,7 @@ namespace HotelReservation.Models
 
         [Required(ErrorMessage = "Oda Tipi gereklidir.")]
         [Display(Name = "Oda Tipi")]
-        public string RoomType { get; set; } 
+        public string RoomType { get; set; }
 
         [Display(Name = "Açıklama")]
         public string Description { get; set; }
@@ -31,8 +31,15 @@ namespace HotelReservation.Models
         [Display(Name = "Oda Fotoğrafı (URL)")]
         public string? ImageUrl { get; set; }
 
+        public virtual ICollection<Amenity> Amenities { get; set; }
         // Navigation property
         public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+
+        public Room()
+        {
+            Reservations = new HashSet<Reservation>();
+            Amenities = new HashSet<Amenity>();
+        }
 
     }
 }

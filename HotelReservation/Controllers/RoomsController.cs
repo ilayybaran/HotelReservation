@@ -61,7 +61,9 @@ namespace HotelReservation.Controllers
                 return NotFound();
             }
 
-            var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == id);
+            var room = await _context.Rooms
+                .Include(r => r.Amenities)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (room == null)
             {

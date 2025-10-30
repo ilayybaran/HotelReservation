@@ -13,9 +13,7 @@ html {
     min-height: 100%;
 }
 
-CSS
-
-:root {
+CSS :root {
     --primary-font: 'Montserrat', sans-serif;
     --heading-font: 'Playfair Display', serif;
     --primary-color: #0d6efd;
@@ -32,13 +30,11 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--dark-color);
 }
 
-
 .booking-form-container {
     margin-top: -80px; /* Formun hero section'ýn üzerine çýkmasý için */
     position: relative;
     z-index: 10;
 }
-
 
 .room-card {
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -57,35 +53,6 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 0.5rem;
 }
 
-.hero-section {
-    position: relative;
-    height: 85vh;
-    min-height: 600px;
-    background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    padding: 2rem;
-}
-
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 100%);
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: 900px;
-}
 
 .booking-form-container-transparent {
     background-color: rgba(0,0,0,0.2);
@@ -100,13 +67,11 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 0.9rem;
     }
 
-    .booking-form-container-transparent .form-control,
-    .booking-form-container-transparent .form-select {
+    .booking-form-container-transparent .form-control, .booking-form-container-transparent .form-select {
         background-color: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.3);
         color: #fff;
     }
-
 
         .booking-form-container-transparent .form-control::-webkit-calendar-picker-indicator {
             filter: invert(1);
@@ -116,13 +81,9 @@ h1, h2, h3, h4, h5, h6 {
             color: #000;
         }
 
-    .booking-form-container .form-control,
-    .booking-form-container .form-select,
-    .booking-form-container-transparent .form-control,
-    .booking-form-container-transparent .form-select {
+    .booking-form-container .form-control, .booking-form-container .form-select, .booking-form-container-transparent .form-control, .booking-form-container-transparent .form-select {
         cursor: pointer;
     }
-
 
 .room-image {
     width: 100%;
@@ -131,7 +92,6 @@ h1, h2, h3, h4, h5, h6 {
     object-position: center;
     border-radius: 0.5rem;
 }
-
 
 .site-footer {
     background-color: #ffffff;
@@ -144,8 +104,7 @@ h1, h2, h3, h4, h5, h6 {
     .site-footer h6 {
         color: #333;
         font-family: 'Montserrat', sans-serif;
-        font-weight: 700;
-        /* text-transform: uppercase; */
+        font-weight: 700; /* text-transform: uppercase; */
         letter-spacing: 1px;
     }
 
@@ -173,7 +132,6 @@ h1, h2, h3, h4, h5, h6 {
         color: var(--bs-primary);
     }
 
-
 .social-icons a {
     display: inline-flex;
     align-items: center;
@@ -200,13 +158,11 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 14px;
 }
 
-
 .brands-section {
     padding: 80px 0;
     margin-top: 60px;
     border-top: 1px solid #eee;
 }
-
 
 .continuous-brand-slider {
     width: 100%;
@@ -214,6 +170,65 @@ h1, h2, h3, h4, h5, h6 {
     background: none;
     padding: 0;
     margin: 0;
+}
+
+.hero-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    animation: slideShow 18s infinite ease-in-out;
+    z-index: 1;
+}
+
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+}
+
+/* Ýçerik */
+.hero-content {
+    position: relative;
+    z-index: 3;
+}
+
+
+@keyframes slideShow {
+    0% {
+        background-image: url('/images/rooms/view.jpg');
+        opacity: 1;
+    }
+
+    33% {
+        background-image: url('/images/rooms/coridor.jpg');
+        opacity: 1;
+    }
+
+    66% {
+        background-image: url('/images/rooms/outdoorPool.jpg');
+        opacity: 1;
+    }
+
+    100% {
+        background-image: url('/images/rooms/indoorPool.jpg');
+        opacity: 1;
+    }
 }
 
     .continuous-brand-slider .slick-list {
@@ -230,8 +245,8 @@ h1, h2, h3, h4, h5, h6 {
         height: 70px; /* === ÞERÝDÝN YÜKSEKLÝÐÝ === */
         box-sizing: border-box;
     }
-
     /* Resmin linkini içeren a etiketi (varsa) */
+
     .continuous-brand-slider .brand-link {
         display: flex;
         align-items: center;
@@ -240,8 +255,8 @@ h1, h2, h3, h4, h5, h6 {
         width: 100%;
         background: none;
     }
-
     /* Temizlenmiþ logo stili */
+
     .continuous-brand-slider img {
         display: block;
         max-height: 100%;
@@ -252,20 +267,13 @@ h1, h2, h3, h4, h5, h6 {
         margin: auto; /* Dikey/Yatay ortalar */
         opacity: 1;
     }
-
-
     /* Oklarý ve noktalarý gizle (Ayný kaldý) */
-    .continuous-brand-slider .slick-prev,
-    .continuous-brand-slider .slick-next,
-    .continuous-brand-slider .slick-dots {
+
+    .continuous-brand-slider .slick-prev, .continuous-brand-slider .slick-next, .continuous-brand-slider .slick-dots {
         display: none !important;
     }
 
-.navbar .navbar-brand,
-.navbar .nav-link,
-.navbar .dropdown-toggle,
-.navbar .form-select,
-.navbar-nav .nav-item partial[name="_LoginPartial"] + ul .nav-item .nav-link {
+.navbar .navbar-brand, .navbar .nav-link, .navbar .dropdown-toggle, .navbar .form-select, .navbar-nav .nav-item partial[name="_LoginPartial"] + ul .nav-item .nav-link {
     padding-top: 0.9rem;
     padding-bottom: 0.9rem;
 }
@@ -280,7 +288,6 @@ h1, h2, h3, h4, h5, h6 {
 .navbar-nav .nav-item a.nav-link[title^="Hesabým"] {
     text-decoration: none;
 }
-
 
 .navbar-nav .nav-item form button.nav-link {
     background-color: transparent;
@@ -297,18 +304,14 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1;
 }
 
-
 .navbar-nav .nav-item .nav-link:hover {
     opacity: 0.75;
 }
-
 
 .navbar-nav .nav-item .nav-link:focus {
     outline: none;
     box-shadow: none;
 }
-
-
 
 .navbar-brand {
     padding-top: 0;
@@ -318,11 +321,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar {
-    position: relative;
+    position: sticky !important;
+    top: 0;
+    z-index: 2000 !important;
     padding-top: 0.8rem;
     padding-bottom: 0.8rem;
 }
-
 
 .navbar-brand.order-lg-1 {
     position: absolute;
@@ -332,61 +336,19 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0;
     z-index: 100; /* Diðer elemanlarýn üstünde kalmasý için */
 }
-
 /* 3. Logo Resmi Boyutlandýrma ve yuvarlak yapma */
+
 .navbar-logo {
     height: 60px;
     width: 60px;
     border-radius: 50%;
     object-fit: cover;
 }
-
 /* Soldaki menü ikonunun dikey hizalamasýný düzelt */
+
 .navbar .dropdown a#navbarDropdownMenuLink.nav-link {
     padding-top: 0;
     padding-bottom: 0;
-}
-
-.navbar-hero {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 100; /* Diðer içeriklerin üstünde kalmasý için */
-    background-color: transparent !important;
-    border-bottom: none !important; /* Alt çizgiyi kaldýrýr */
-    box-shadow: none !important; /* Gölgeyi kaldýrýr */
-    margin-bottom: 0 !important; /* 'mb-3' sýnýfýný ezer */
-    transition: background-color 0.3s ease-in-out;
-}
-
-
-.navbar-scrolled {
-    position: fixed !important;
-    background-color: #fff !important;
-    border-bottom: 1px solid #dee2e6 !important;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-}
-
-
-.navbar-hero .dropdown > .btn,
-.navbar-hero .nav-link,
-.navbar-hero .dropdown-toggle,
-.navbar-hero .bi {
-    color: #fff !important;
-    opacity: 0.9;
-}
-
-    .navbar-hero .nav-link:hover,
-    .navbar-hero .dropdown > .btn:hover,
-    .navbar-hero .dropdown-toggle:hover,
-    .navbar-hero .bi:hover {
-        opacity: 1;
-    }
-
-
-.navbar-hero .dropdown-toggle {
-    border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .navbar .container-fluid .dropdown:first-of-type .bi-list {
@@ -399,9 +361,7 @@ h1, h2, h3, h4, h5, h6 {
     padding-bottom: 0.5rem;
 }
 
-
 .navbar-brand.order-lg-1 {
-    position: absolute;
     left: 50%;
     transform: translateX(-50%);
     top: 8px;
@@ -418,9 +378,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 0 !important;
 }
 
-
-.navbar .container-fluid > .dropdown.me-3,
-.navbar .container-fluid > .dropdown.me-lg-2 {
+.navbar .container-fluid > .dropdown.me-3, .navbar .container-fluid > .dropdown.me-lg-2 {
     display: flex;
     align-items: center;
 }
@@ -445,8 +403,7 @@ h1, h2, h3, h4, h5, h6 {
         transition: all 0.3s ease-in-out;
     }
 
-S
-.row.text-center h5 {
+S .row.text-center h5 {
     font-family: var(--primary-font);
     font-weight: 500;
     margin-top: 1.5rem;

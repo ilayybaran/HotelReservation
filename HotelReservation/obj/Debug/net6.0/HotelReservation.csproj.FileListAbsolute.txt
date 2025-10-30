@@ -303,3 +303,6 @@ C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net
 C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Views.Reservations.ResList.de-DE.resources
 C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Views.Reservations.ResList.en-US.resources
 C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Views.Reservations.ResList.tr-TR.resources
+C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Views.Rooms.Details.de-DE.resources
+C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Views.Rooms.Details.en-US.resources
+C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Views.Rooms.Details.tr-TR.resources

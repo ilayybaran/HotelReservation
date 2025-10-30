@@ -36,8 +36,9 @@ namespace HotelReservation.Areas.Admin.Controllers
             return View(room);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create() 
         {
+            ViewBag.AllAmenities = await _context.Amenities.ToListAsync();
             return View(new Room());
         }
 
@@ -46,7 +47,8 @@ namespace HotelReservation.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
             [Bind("Id,RoomType,Description,Capacity,PricePerNight,IsAvailable")] Room room,
-            IFormFile? ImageFile)
+            IFormFile? ImageFile,
+            List<int> selectedAmenityIds)
         {
 
             if (!ModelState.IsValid)
@@ -70,6 +72,18 @@ namespace HotelReservation.Areas.Admin.Controllers
                 room.ImageUrl = "/images/rooms/" + fileName;
             }
 
+            if (selectedAmenityIds != null)
+            {
+                foreach (var amenityId in selectedAmenityIds)
+                {
+                    var amenity = await _context.Amenities.FindAsync(amenityId);
+                    if (amenity != null)
+                    {
+                        room.Amenities.Add(amenity);
+                    }
+                }
+            }
+
             _context.Add(room);
             await _context.SaveChangesAsync();
 
@@ -82,8 +96,15 @@ namespace HotelReservation.Areas.Admin.Controllers
         {
             if (id == null) return NotFound();
 
-            var room = await _context.Rooms.FindAsync(id);
+            // Odayı, mevcut seçili olanaklarıyla birlikte çek
+            var room = await _context.Rooms
+                                     .Include(r => r.Amenities) // Odaya bağlı olanakları da yükle
+                                     .FirstOrDefaultAsync(r => r.Id == id);
+
             if (room == null) return NotFound();
+
+            // View'a, formda gösterilecek tüm olanakların listesini gönder
+            ViewBag.AllAmenities = await _context.Amenities.ToListAsync();
 
             return View(room);
         }
@@ -94,11 +115,17 @@ namespace HotelReservation.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(
             int id,
             [Bind("Id,RoomType,Description,Capacity,PricePerNight,IsAvailable")] Room room,
-            IFormFile? ImageFile)
+            IFormFile? ImageFile,
+            List<int> selectedAmenityIds)
         {
             ModelState.Remove("Reservations");
 
             if (id != room.Id) return NotFound();
+            var roomToUpdate = await _context.Rooms
+                                     .Include(r => r.Amenities)
+                                     .FirstOrDefaultAsync(r => r.Id == id);
+            if (roomToUpdate == null) return NotFound();
+
             if (!ModelState.IsValid) return View(room);
 
             var roomFromDb = await _context.Rooms.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id);
@@ -130,8 +157,19 @@ namespace HotelReservation.Areas.Admin.Controllers
 
                 room.ImageUrl = "/images/rooms/" + fileName;
             }
-
-            _context.Update(room);
+            roomToUpdate.Amenities.Clear(); // Önce mevcut tüm olanakları temizle
+            if (selectedAmenityIds != null)
+            {
+                foreach (var amenityId in selectedAmenityIds) // Sonra formdan gelen seçili olanları ekle
+                {
+                    var amenity = await _context.Amenities.FindAsync(amenityId);
+                    if (amenity != null)
+                    {
+                        roomToUpdate.Amenities.Add(amenity);
+                    }
+                }
+            }
+         
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Oda başarıyla güncellendi.";
@@ -157,7 +195,6 @@ namespace HotelReservation.Areas.Admin.Controllers
             var room = await _context.Rooms.FindAsync(id);
             if (room == null) return NotFound();
 
-            // Resmi sil
             if (!string.IsNullOrEmpty(room.ImageUrl))
             {
                 var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, room.ImageUrl.TrimStart('/'));

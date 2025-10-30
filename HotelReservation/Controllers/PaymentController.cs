@@ -22,7 +22,6 @@ namespace HotelReservation.Controllers
             _currencyService = currencyService;
         }
 
-        // 1. ÖDEME EKRANINI GÖSTER
         [HttpGet]
         public async Task<IActionResult> Payment(int reservationId)
         {

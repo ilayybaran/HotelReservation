@@ -18,6 +18,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 
 </head>
+
 <body>
     @using Microsoft.AspNetCore.Mvc.Localization
     @inject IViewLocalizer Localizer
@@ -49,8 +50,8 @@
 
 
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
+        <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid ">
 
                 <div class="dropdown">
                     <button class="btn btn-outline-none d-flex align-items-center" type="button" id="menuDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -90,21 +91,19 @@
                         {
                             <li>
                                 <form asp-controller="Home" asp-action="SetLanguage"
-                                  asp-route-returnUrl="@Context.Request.Path" method="post"
+                                  asp-route-returnUrl="@currentPathAndQuery"
+                                  method="post"
                                   class="d-inline">
                                     <input type="hidden" name="culture" value="@culture.Value" />
                                     <button type="submit" class="dropdown-item @(culture.Value == requestCulture.RequestCulture.UICulture.Name ? "active" : "")"
                                         style="font-size: 0.8rem;">
                                         @culture.Value.Split('-')[0].ToUpper()
-
                                     </button>
                                 </form>
                             </li>
                         }
                     </ul>
                 </div>
-
-
                 <div class="dropdown me-lg-2 mt-2 mt-lg-0 order-lg-1">
                     <button class="btn btn-outline-none btn-sm px-2 py-1 dropdown-toggle d-flex align-items-center"
                             type="button" id="currencyDropdown"

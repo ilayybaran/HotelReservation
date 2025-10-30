@@ -117,11 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CancelReservationBody" xml:space="preserve">
+    <value>Bu rezervasyonu iptal etmek istediğinize emin misiniz?</value>
+  </data>
+  <data name="CancelReservationTitle" xml:space="preserve">
+    <value>Rezervasyonu İptal Et</value>
+  </data>
   <data name="CheckIn" xml:space="preserve">
     <value>Giriş Tarihi</value>
   </data>
   <data name="CheckOut" xml:space="preserve">
     <value>Çıkış Tarihi</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Kapat</value>
   </data>
   <data name="Confirmed" xml:space="preserve">
     <value>Ödendi</value>
@@ -149,5 +158,8 @@
   </data>
   <data name="TotalPrice" xml:space="preserve">
     <value>Toplam Tutar</value>
+  </data>
+  <data name="YesCancel" xml:space="preserve">
+    <value>İptal Et</value>
   </data>
 </root>

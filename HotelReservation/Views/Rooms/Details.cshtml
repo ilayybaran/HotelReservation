@@ -1,5 +1,6 @@
 ﻿@model HotelReservation.Models.Room
 @inject HotelReservation.Services.ICurrencyService CurrencyService
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
     ViewData["Title"] = Model.RoomType;
 
@@ -15,8 +16,6 @@
                 <img src="@Model.ImageUrl" class="img-fluid rounded" alt="@Model.RoomType">
             </div>
         </div>
-
-
         <div class="col-lg-5">
             <div class="card shadow-sm">
                 <div class="card-body">
@@ -26,8 +25,8 @@
 
                     <ul class="list-group list-group-flush my-3">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <strong>Kapasite</strong>
-                            <span>@Model.Capacity Kişi</span>
+                            <strong>@Localizer["Capacity"]</strong>
+                            <span>@Model.Capacity</span>
                         </li>
                         @{
                             // 1. O anki para birimini cookie'den oku (varsayılan TRY)
@@ -40,39 +39,30 @@
                             var targetCulture = CurrencyService.GetCultureInfoForCurrency(targetCurrency);
                         }
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <strong>Gecelik Fiyat</strong>
+                            <strong>@Localizer["PricePerNight"]</strong>
                             <span class="fs-5 fw-bold text-success">@convertedPrice.ToString("C", targetCulture)</span>
                         </li>
 
-
-                        <h5 class="mt-4">Öne Çıkan Oda Olanakları</h5>
-                        <div class="row mt-3 mb-4">
-                            <div class="col-md-6">
-                                <ul class="list-unstyled amenity-list">
-                                    <li><i class="bi bi-wifi text-primary me-2"></i>Yüksek Hızlı WiFi</li>
-                                    <li><i class="bi bi-thermometer-half text-primary me-2"></i>Merkezi Klima</li>
-                                    <li><i class="bi bi-tv text-primary me-2"></i>LCD TV</li>
-                                    <li><i class="bi bi-telephone text-primary me-2"></i>Telefon</li>
-                                    <li><i class="bi bi-cup-straw text-primary me-2"></i>Ücretsiz Minibar</li>
-                                    <li><i class="bi bi-safe text-primary me-2"></i>Elektronik Kasa</li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <ul class="list-unstyled amenity-list">
-                                    <li><i class="bi bi-door-open text-primary me-2"></i>Özel Balkon</li>
-                                    <li><i class="bi bi-droplet text-primary me-2"></i>Modern Duşakabin</li>
-                                    <li><i class="bi bi-magic text-primary me-2"></i>Banyo Malzemeleri</li>
-                                    <li><i class="bi bi-person text-primary me-2"></i>Bornoz ve Havlular</li>
-                                    <li><i class="bi bi-wind text-primary me-2"></i>Saç Kurutma Makinesi</li>
-                                    <li><i class="bi bi-display text-primary me-2"></i>İstek Üzerine Ütü/Masa</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <hr>
-
+                         <h5 class="mt-4">@Localizer["FeaturedAmenities"]</h5>
                     </ul>
-
+                   @if (Model.Amenities != null && Model.Amenities.Any())
+                        {
+                            <ul class="list-group list-group-flush mb-3">
+                               @foreach (var amenity in Model.Amenities)
+                                {
+                                    <li class="list-group-item d-flex align-items-center">
+                                        
+                                        <i class="@amenity.IconClass text-success me-2 fs-5"></i>
+                                        
+                                        <span>@amenity.Name</span>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p class="text-muted small">@Localizer["NoAmenitiesSpecified"]</p>
+                        }
 
                     <div class="d-grid gap-2 mt-4">
                         <a asp-controller="Reservations" asp-action="Create"
@@ -80,7 +70,7 @@
                            asp-route-checkInDate="@checkInDateString"
                            asp-route-checkOutDate="@checkOutDateString"
                            class="btn btn-success btn-lg">
-                            <i class="bi bi-calendar-check"></i> Seçili Tarihler İçin Rezerve Et
+                            <i class="bi bi-calendar-check"></i> @Localizer["ReserveForSelectedDates"]
                         </a>
 
                         @* Geri Dönme Linki (Arama sonuçlarına) *@
@@ -89,7 +79,7 @@
                            asp-route-checkOutDate="@checkOutDateString"
                            asp-route-guestCount="@guestCountString"
                            class="btn btn-secondary mt-2">
-                            <i class="bi bi-arrow-left"></i> Arama Sonuçlarına Geri Dön
+                            <i class="bi bi-arrow-left"></i> @Localizer["BackToSearchResults"]
                         </a>
                     </div>
                 </div>

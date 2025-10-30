@@ -1,6 +1,4 @@
-﻿// site.js
-
-$(document).ready(function(){
+﻿$(document).ready(function(){
 
     const $brandSlider = $('.continuous-brand-slider'); // Target the new class
 
@@ -61,3 +59,4 @@ document.addEventListener('DOMContentLoaded', function () {
         enableTime: false,   
     });
 });
+

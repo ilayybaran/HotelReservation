@@ -28,7 +28,8 @@ builder.Services.AddMvc()
     .AddDataAnnotationsLocalization();
 
 
-builder.Services.AddMemoryCache(); 
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>(); 
 var supportedCultures = new[] { "tr-TR", "en-US", "de-DE" };
 

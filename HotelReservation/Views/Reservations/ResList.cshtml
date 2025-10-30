@@ -43,9 +43,9 @@
                         <th>@Localizer["CheckIn"]</th>
                         <th>@Localizer["CheckOut"]</th>
                         <th>@Localizer["TotalPrice"]</th>
-                        
+
                         <th class="text-center">@Localizer["Status"]</th>
-                        
+
                         <th></th>
                     </tr>
                 </thead>
@@ -55,27 +55,30 @@
                         var targetCurrency = Context.Request.Cookies["UserCurrency"] ?? "TRY";
                         var convertedPrice = await CurrencyService.ConvertFromTRYAsync(item.TotalPrice, targetCurrency);
                         var targetCulture = CurrencyService.GetCultureInfoForCurrency(targetCurrency);
-                        
+
                         <tr>
                             <td>
-                                @if(item.Room != null) {
+                                @if (item.Room != null)
+                                {
                                     <img src="@item.Room.ImageUrl" width="100" class="rounded float-start me-3" alt="@item.Room.RoomType">
                                     <strong class="d-block">@item.Room.RoomType</strong>
-                                   
-                                } else {
+
+                                }
+                                else
+                                {
                                     <span class="text-danger">@Localizer["RoomInfoMissing"]</span>
                                 }
                             </td>
-                            
+
                             <td>@item.CheckInDate.ToString("dd MMM yyyy")</td>
                             <td>@item.CheckOutDate.ToString("dd MMM yyyy")</td>
                             <td class="fw-bold">@convertedPrice.ToString("C", targetCulture)</td>
-                            
+
                             <td class="text-center">
                                 @if (item.Status == "Confirmed")
                                 {
                                     <span class="badge bg-success p-2">
-                                         @Localizer["Confirmed"]
+                                        @Localizer["Confirmed"]
                                     </span>
                                 }
                                 else if (item.Status == "PendingPayment")
@@ -89,27 +92,94 @@
                                     <span class="badge bg-secondary p-2">@item.Status</span>
                                 }
                             </td>
-                            
                             <td class="text-end">
                                 @if (item.Status == "PendingPayment")
                                 {
-                                    <a asp-controller="Payment" asp-action="Payment" asp-route-reservationId="@item.Id" 
-                                       class="btn btn-primary btn-sm">
-                                       @Localizer["PayNow"]
+                                    <a asp-controller="Payment" asp-action="Payment" asp-route-reservationId="@item.Id"
+                           class="btn btn-primary btn-sm">
+                                        @Localizer["PayNow"]
                                     </a>
+
+                                    <button type="button" class="btn btn-danger btn-sm ms-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#cancelConfirmModal"
+                                data-reservation-id="@item.Id">
+                                        @Localizer["YesCancel"]
+                                    </button>
                                 }
                                 else
                                 {
-                                     <a asp-controller="Rooms" asp-action="Details" asp-route-id="@item.RoomId" 
-                                       class="btn btn-outline-secondary btn-sm">
-                                       @Localizer["RoomDetails"]
+                                    <a asp-controller="Rooms" asp-action="Details" asp-route-id="@item.RoomId"
+                           class="btn btn-outline-secondary btn-sm">
+                                        @Localizer["RoomDetails"]
                                     </a>
                                 }
                             </td>
                         </tr>
                     }
+
+                    <div class="modal fade" id="cancelConfirmModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="cancelModalLabel">
+                                        <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>
+                                        @Localizer["CancelReservationTitle"]
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <p>@Localizer["CancelReservationBody"]</p>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <form asp-controller="Reservations" asp-action="Cancel" method="post">
+
+                                        <input type="hidden" name="reservationId" id="reservationIdToCancel" value="0" />
+
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            @Localizer["Close"]
+                                        </button>
+                                        <button type="submit" class="btn btn-danger">
+                                            @Localizer["YesCancel"]
+                                        </button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </tbody>
             </table>
         </div>
     }
 </div>
+
+@section Scripts {
+<script>
+    // Sayfa yüklendiğinde çalış
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // 'cancelConfirmModal' ID'li modalı bul
+        var cancelModal = document.getElementById('cancelConfirmModal');
+
+        // Bu modal açılmak üzereyken (show.bs.modal olayı tetiklendiğinde)
+        cancelModal.addEventListener('show.bs.modal', function (event) {
+
+            // Modalı tetikleyen butonu (Adım 1'deki buton) bul
+            var button = event.relatedTarget;
+
+            // Butonun 'data-reservation-id' özelliğinden ID'yi oku
+            var reservationId = button.getAttribute('data-reservation-id');
+
+            // Modalın içindeki 'form'un içindeki '#reservationIdToCancel' ID'li gizli 'input'u bul
+            var input = cancelModal.querySelector('#reservationIdToCancel');
+
+            // Input'un değerini, butondan okuduğumuz ID olarak ayarla
+            input.value = reservationId;
+        });
+    });
+</script>
+}

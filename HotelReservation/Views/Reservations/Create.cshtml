@@ -1,5 +1,6 @@
 ﻿@model HotelReservation.Models.Reservation
 @inject HotelReservation.Services.ICurrencyService CurrencyService
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Rezervasyonu Onayla";
     var nights = (Model.CheckOutDate > Model.CheckInDate)
@@ -12,7 +13,7 @@
         <div class="col-lg-8">
             <div class="card shadow-lg border-0 rounded-4">
                 <div class="card-header bg-success text-white py-3 rounded-top-4">
-                    <h4 class="mb-0 text-center fw-bold">Rezervasyon Detayları</h4>
+                    <h4 class="mb-0 text-center fw-bold">@Localizer["Reservation Details"]</h4>
                 </div>
 
                 <div class="card-body p-4">
@@ -55,7 +56,7 @@
                     }
                     else
                     {
-                        <div class="alert alert-warning text-center">Oda bilgileri yüklenemedi.</div>
+                        <div class="alert alert-warning text-center">@Localizer["FailToLoad"]</div>
                     }
 
                     <hr />
@@ -68,20 +69,20 @@
 
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label asp-for="CheckInDate" class="form-label fw-semibold">Giriş Tarihi</label>
+                                <label asp-for="CheckInDate" class="form-label fw-semibold">@Localizer["CheckInDate"]</label>
                                 <input asp-for="CheckInDate" type="date" class="form-control" readonly />
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="CheckOutDate" class="form-label fw-semibold">Çıkış Tarihi</label>
+                                <label asp-for="CheckOutDate" class="form-label fw-semibold">@Localizer["CheckOutDate"]</label>
                                 <input asp-for="CheckOutDate" type="date" class="form-control" readonly />
                             </div>
                         </div>
 
                         <div class="p-3 rounded-3" style="background-color: #f9f9f9;">
-                            <h6 class="fw-bold mb-2">Özet</h6>
+                            <h6 class="fw-bold mb-2">@Localizer["Summary"]</h6>
                             @if (nights > 0)
                             {
-                                <p class="mb-1"><strong>Konaklama Süresi:</strong> @nights Gece</p>
+                                <p class="mb-1"><strong>@Localizer["Duration"]:</strong> @nights Gece</p>
                                 <p class="mb-0">
                                     <strong>Toplam Tutar:</strong>
                                     <span class="text-success fw-bold fs-5">@convertedTotalPrice.ToString("C", targetCulture)</span>
@@ -90,18 +91,18 @@
                             }
                             else
                             {
-                                <p class="text-danger mb-0">Geçersiz tarih aralığı.</p>
+                                <p class="text-danger mb-0">@Localizer["InvalidRage"]</p>
                             }
                         </div>
 
                         <div class="d-grid gap-2 mt-4">
                             <button type="submit" class="btn btn-success btn-lg fw-semibold" @(nights <= 0 ? "disabled" : "")>
-                                Rezervasyonu Tamamla
+                                @Localizer["CompleteReservation"]
                             </button>
                             <button type="submit" class="btn btn-success btn-lg fw-semibold" asp-action="CreateAndPay">
-                                Ödeme Yap</button>
+                                @Localizer["Pay"]</button>
                             <a asp-controller="Rooms" asp-action="Details" asp-route-id="@Model.RoomId" class="btn btn-outline-secondary">
-                                Oda Detaylarına Geri Dön
+                               @Localizer["BacktoRoomDetails"]
                             </a>
                         </div>
                     </form>
