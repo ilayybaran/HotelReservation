@@ -135,6 +135,9 @@
   <data name="HomePage" xml:space="preserve">
     <value>Ana Sayfa</value>
   </data>
+  <data name="Location" xml:space="preserve">
+    <value>Konumunuz</value>
+  </data>
   <data name="MyReservations" xml:space="preserve">
     <value>Rezervasyonlarım</value>
   </data>

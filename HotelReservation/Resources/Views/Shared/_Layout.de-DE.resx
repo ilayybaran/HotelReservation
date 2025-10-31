@@ -135,6 +135,9 @@
   <data name="HomePage" xml:space="preserve">
     <value>Startseite</value>
   </data>
+  <data name="Location" xml:space="preserve">
+    <value>Ihre Lage</value>
+  </data>
   <data name="MyReservations" xml:space="preserve">
     <value>Meine Reservierungen</value>
   </data>

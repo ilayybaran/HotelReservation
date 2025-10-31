@@ -1,36 +1,155 @@
-﻿
+﻿@model HotelReservation.Areas.Admin.Models.DashboardViewModel
+@using System.Globalization
 @{
     ViewData["Title"] = "Admin Paneli";
+    var trCulture = new CultureInfo("tr-TR");
 }
 
-<h1>Admin Paneline Hoş Geldiniz</h1>
-<p>Buradan site içeriğini ve operasyonlarını yönetebilirsiniz.</p>
-<hr />
+<h2 class="mb-4">Yönetici Paneli</h2>
 
 <div class="row">
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-success text-white shadow h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="fs-2">@Model.MonthlyRevenue.ToString("C", trCulture)</h3>
+                        <p class="mb-0">Bu Ayki Gelir</p>
+                    </div>
+                    <i class="bi bi-cash-stack fs-1 opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-info text-white shadow h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="fs-2">@Model.NewBookingsToday</h3>
+                        <p class="mb-0">Bugün (Yeni)</p>
+                    </div>
+                    <i class="bi bi-calendar-plus fs-1 opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-warning text-dark shadow h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="fs-2">@Model.PendingBookings</h3>
+                        <p class="mb-0">Onay Bekleyenler</p>
+                    </div>
+                    <a asp-area="Admin" asp-controller="ReservationsAdmin" asp-action="Index" class="text-dark stretched-link">
+                        <i class="bi bi-hourglass-split fs-1 opacity-50"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-primary text-white shadow h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="fs-2">@Model.TotalRevenue.ToString("C", trCulture)</h3>
+                        <p class="mb-0">Toplam Gelir</g>
+                    </div>
+                    <i class="bi bi-bank fs-1 opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5><i class="bi bi-bar-chart-line-fill me-2"></i>Son 7 Günlük Rezervasyon Aktivitesi</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="myChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+<h3 class="h4 mb-3">Hızlı Eylemler</h3>
+<div class="row">
     <div class="col-md-6 mb-4">
-        <div class="card h-100">
+        <div class="card h-100 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Oda Yönetimi</h5>
                 <p class="card-text">Yeni odalar ekleyin, mevcut odaları güncelleyin veya sistemden kaldırın.</p>
-                
+
                 <a asp-area="Admin" asp-controller="RoomsAdmin" asp-action="Index" class="btn btn-primary">
-                    Odaları Yönet
+                  Odaları Yönet
                 </a>
             </div>
         </div>
     </div>
     <div class="col-md-6 mb-4">
-        <div class="card h-100">
+        <div class="card h-100 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Rezervasyon Yönetimi</h5>
                 <p class="card-text">Yapılan tüm müşteri rezervasyonlarını görüntüleyin ve takip edin.</p>
-            
+
                 <a asp-area="Admin" asp-controller="ReservationsAdmin" asp-action="Index" class="btn btn-primary">
                     Rezervasyonları Görüntüle
                 </a>
             </div>
         </div>
     </div>
-   
 </div>
+
+
+@section Scripts {
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Controller'dan gelen verileri al
+            var chartLabels = @Html.Raw(Json.Serialize(Model.ChartLabels));
+            var chartData = @Html.Raw(Json.Serialize(Model.ChartData));
+
+            var ctx = document.getElementById('myChart').getContext('2d');
+
+            var myChart = new Chart(ctx, {
+                type: 'bar', // 'bar' (çubuk) veya 'line' (çizgi)
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Yeni Rezervasyon Sayısı',
+                        data: chartData,
+                        backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                        borderColor: 'rgba(0, 123, 255, 1)',
+                        borderWidth: 2,
+                        fill: true
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                // Sadece tam sayılar göster (örn: 1.5 rezervasyon olmaz)
+                                callback: function (value) { if (Number.isInteger(value)) { return value; } }
+                            }
+                        }]
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            });
+        });
+    </script>
+}

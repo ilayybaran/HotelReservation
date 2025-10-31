@@ -145,7 +145,7 @@
     <value>Pay Now</value>
   </data>
   <data name="PendingPayment" xml:space="preserve">
-    <value>Ödeme Bekleniyor</value>
+    <value>Pending Payment</value>
   </data>
   <data name="Room" xml:space="preserve">
     <value>Room</value>

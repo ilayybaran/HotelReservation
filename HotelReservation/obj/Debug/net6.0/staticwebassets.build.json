@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "a7BF4A+BbZBVGFeawFUijtgxNGJk+jBjvvGGDOXwe/U=",
+  "Hash": "VQdhpTJDLFgJapsDcWWblZcUAUvHLMnI5deZPRi9EOg=",
   "Source": "HotelReservation",
   "BasePath": "_content/HotelReservation",
   "Mode": "Default",
@@ -1239,6 +1239,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\rooms\\2c9a447f-7fd3-4144-a9eb-bb340fffcdc1.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\HotelReservation\\HotelReservation\\wwwroot\\images\\rooms\\320651a5-d547-4ae6-b420-72fae144eea5.jpg",
+      "SourceId": "HotelReservation",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\HotelReservation\\HotelReservation\\wwwroot\\",
+      "BasePath": "_content/HotelReservation",
+      "RelativePath": "images/rooms/320651a5-d547-4ae6-b420-72fae144eea5.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\rooms\\320651a5-d547-4ae6-b420-72fae144eea5.jpg"
     },
     {
       "Identity": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\HotelReservation\\HotelReservation\\wwwroot\\images\\rooms\\54706c33-e699-442e-ad3e-df5f97761a4b.jpg",

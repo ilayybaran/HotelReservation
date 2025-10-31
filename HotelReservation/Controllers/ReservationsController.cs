@@ -57,7 +57,9 @@ namespace HotelReservation.Controllers
                 CheckInDate = checkInDate,
                 CheckOutDate = checkOutDate,
                 UserId = _userManager.GetUserId(User),
-                TotalPrice = (checkOutDate - checkInDate).Days * room.PricePerNight
+                TotalPrice = (checkOutDate - checkInDate).Days * room.PricePerNight,
+                Status = "Pending Payment"
+                
             };
 
             return View(reservation);

@@ -28,7 +28,7 @@
 
             <div class="card shadow-sm">
                 <div class="card-header">
-                    <h5 class="mb-0"><i class="bi bi-credit-card-fill"></i> @Localizer["SecurePaymentForm"] (@Localizer["Simulation"])</h5>
+                    <h5 class="mb-0"><i class="bi bi-credit-card-fill"></i> @Localizer["SecurePaymentForm"]</h5>
                 </div>
                 <div class="card-body">
                     <form asp-action="ProcessPayment" method="post">
@@ -43,13 +43,13 @@
 
                         <div class="mb-3">
                             <label asp-for="CardholderName" class="form-label"></label>
-                            <input asp-for="CardholderName" class="form-control" placeholder="Ad Soyad" />
+                            <input asp-for="CardholderName" class="form-control" placeholder="Ad Soyad"/>
                             <span asp-validation-for="CardholderName" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="CardNumber" class="form-label"></label>
-                            <input asp-for="CardNumber" class="form-control" placeholder="0000 0000 0000 0000" />
+                            <input asp-for="CardNumber" class="form-control" placeholder="0000 0000 0000 0000"/>
                             <span asp-validation-for="CardNumber" class="text-danger"></span>
                         </div>
 
