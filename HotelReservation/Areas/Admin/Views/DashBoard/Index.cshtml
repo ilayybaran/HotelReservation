@@ -45,7 +45,9 @@
                         <h3 class="fs-2">@Model.PendingBookings</h3>
                         <p class="mb-0">Onay Bekleyenler</p>
                     </div>
-                    <a asp-area="Admin" asp-controller="ReservationsAdmin" asp-action="Index" class="text-dark stretched-link">
+                    <a asp-area="Admin" asp-controller="ReservationsAdmin" asp-action="Index"
+                     asp-route-statusFilter="PendingPayment" class="text-dark stretched-link"
+                    class="text-dark stretched-link">
                         <i class="bi bi-hourglass-split fs-1 opacity-50"></i>
                     </a>
                 </div>

@@ -9,11 +9,11 @@ namespace HotelReservation.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Oda Tipi gereklidir.")]
-        [Display(Name = "Oda Tipi")]
-        public string RoomType { get; set; }
+        public virtual ICollection<RoomTranslation> Translations { get; set; } = new List<RoomTranslation>();
 
-        [Display(Name = "Açıklama")]
+        [NotMapped]
+        public string RoomType { get; set; }
+        [NotMapped]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Gecelik Fiyat gereklidir.")]

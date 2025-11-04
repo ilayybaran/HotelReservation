@@ -9,7 +9,25 @@
 
 <div class="container">
     <div class="text-center mb-4">
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill"></i> @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i> @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
         <h1>@Localizer["RoomTag"]</h1>
+        
+        <hr />
         <p class="lead">@Localizer["WelcomeSub"]</p>
     </div>
 
@@ -36,19 +54,19 @@
                             <p class="card-text">@room.Description</p>
                             <ul class="list-group list-group-flush mt-auto">
                                 <li class="list-group-item">@Localizer["CapacityFormatString", room.Capacity]</li>
-                                 @{
-                            // 1. O anki para birimini cookie'den oku (varsayılan TRY)
-                            var targetCurrency = Context.Request.Cookies["UserCurrency"] ?? "TRY";
+                                @{
+                                    // 1. O anki para birimini cookie'den oku (varsayılan TRY)
+                                    var targetCurrency = Context.Request.Cookies["UserCurrency"] ?? "TRY";
 
-                            // 2. Fiyatı CurrencyService kullanarak dönüştür
-                            var convertedPrice = await CurrencyService.ConvertFromTRYAsync(room.PricePerNight, targetCurrency);
+                                    // 2. Fiyatı CurrencyService kullanarak dönüştür
+                                    var convertedPrice = await CurrencyService.ConvertFromTRYAsync(room.PricePerNight, targetCurrency);
 
-                            // 3. Fiyatı, hedef para birimine uygun kültürle (formatla)
-                            var targetCulture = CurrencyService.GetCultureInfoForCurrency(targetCurrency);
-                        }
-                                 <li class="list-group list-group-flush mt-auto">
-                               <span class="fs-5 fw-bold text-success">@convertedPrice.ToString("C", targetCulture)</span>
-                            </li>
+                                    // 3. Fiyatı, hedef para birimine uygun kültürle (formatla)
+                                    var targetCulture = CurrencyService.GetCultureInfoForCurrency(targetCurrency);
+                                }
+                                <li class="list-group list-group-flush mt-auto">
+                                    <span class="fs-5 fw-bold text-success">@convertedPrice.ToString("C", targetCulture)</span>
+                                </li>
                             </ul>
                             <div class="mt-3">
                                 <a asp-controller="Rooms" asp-action="Details" asp-route-id="@room.Id" class="btn btn-secondary w-100">@Localizer["DetailButton"]</a>

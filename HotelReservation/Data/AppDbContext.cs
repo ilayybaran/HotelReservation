@@ -18,6 +18,14 @@ namespace HotelReservation.Data
 
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
+        public DbSet<RoomTranslation> RoomTranslations { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<RoomTranslation>()
+                .HasIndex(t => new { t.RoomId, t.LanguageCode })
+                .IsUnique();
+        }
 
     }
 }

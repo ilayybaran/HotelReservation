@@ -12,7 +12,6 @@ namespace HotelReservation.Controllers
     {
         private readonly AppDbContext _context;
 
-        // 1. Adım: Veritabanı bağlantısını Constructor ile alıyoruz.
         public HomeController(AppDbContext context)
         {
             _context = context;
@@ -20,17 +19,39 @@ namespace HotelReservation.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // Veritabanından müsait olan odalardan ilk 3 tanesi
-            var featuredRooms = await _context.Rooms
+            // === BU KISIM DİL ÇEVİRİSİ İÇİN GEREKLİ ===
+            var cultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+            var currentCulture = cultureFeature.RequestCulture.UICulture.Name;
+            var defaultCulture = "tr-TR";
+
+            // Odaları (örn: ilk 3 odayı) çevirileriyle birlikte çek
+            var rooms = await _context.Rooms
+                .Include(r => r.Translations) // Çevirileri dahil et
                 .Where(r => r.IsAvailable)
-                .Take(3)
+                .Take(3) // Anasayfada sadece 3 tane göster (isteğe bağlı)
                 .ToListAsync();
 
-            // 3. Adım: Bulduğumuz oda listesini View'a model olarak gönderiyoruz.
-            return View(featuredRooms);
+            // "Hayalet" alanları (RoomType, Description) dile göre doldur
+            foreach (var room in rooms)
+            {
+                var translation = room.Translations.FirstOrDefault(t => t.LanguageCode == currentCulture)
+                                ?? room.Translations.FirstOrDefault(t => t.LanguageCode == defaultCulture);
+
+                if (translation != null)
+                {
+                    room.RoomType = translation.RoomType;
+                    room.Description = translation.Description;
+                }
+                else
+                {
+                    room.RoomType = "[Çeviri Bulunamadı]";
+                    room.Description = "[Açıklama Yok]";
+                }
+            }
+            return View(rooms);
         }
 
-        public IActionResult Privacy()
+            public IActionResult Privacy()
         {
             return View();
         }
@@ -57,13 +78,12 @@ namespace HotelReservation.Controllers
         [HttpPost]
         public IActionResult SetCurrency(string currencyCode, string returnUrl)
         {
-            // Desteklenen bir para birimi olup olmadığını kontrol edebiliriz (isteğe bağlı)
             var supported = new[] { "TRY", "USD", "EUR" };
             if (supported.Contains(currencyCode))
             {
                 Response.Cookies.Append(
-                    "UserCurrency", // Cookie adı
-                    currencyCode,   // Seçilen para birimi kodu (örn: "USD")
+                    "UserCurrency",
+                    currencyCode,   
                     new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true, SameSite = SameSiteMode.Lax, Path="/" }
                 );
             }

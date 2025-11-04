@@ -18,7 +18,7 @@ namespace HotelReservation.Models
 
         [Required(ErrorMessage = "Kart numarası zorunludur.")]
         [Display(Name = "Kart Numarası")]
-        [CreditCard] // Basit format kontrolü
+        [CreditCard] 
         public string CardNumber { get; set; }
 
         [Required(ErrorMessage = "Ay zorunludur.")]

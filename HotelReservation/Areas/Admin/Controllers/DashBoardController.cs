@@ -30,7 +30,7 @@ namespace HotelReservation.Areas.Admin.Controllers
             var startOfMonth = new DateTime(today.Year, today.Month, 1);
             var endOfToday = today.AddDays(1);
 
-            // 1. İstatistik Kartlarını Hesapla
+           
             viewModel.TotalRevenue = await _context.Reservations
                 .Where(r => r.Status == "Confirmed")
                 .SumAsync(r => r.TotalPrice);
@@ -45,7 +45,7 @@ namespace HotelReservation.Areas.Admin.Controllers
             viewModel.PendingBookings = await _context.Reservations
                 .CountAsync(r => r.Status == "PendingPayment");
 
-            // 2. Grafik Verisini Hesapla (Son 7 Günlük Rezervasyon Sayısı)
+            // Grafik Verisini Hesapla (Son 7 Günlük Rezervasyon Sayısı)
             for (int i = 6; i >= 0; i--)
             {
                 var date = today.AddDays(-i);
@@ -55,7 +55,6 @@ namespace HotelReservation.Areas.Admin.Controllers
                 int count = await _context.Reservations
                     .CountAsync(r => r.ReservationDate >= dayStart && r.ReservationDate < dayEnd);
 
-                // Grafiğe ekle (Örn: "31 Eki")
                 viewModel.ChartLabels.Add(date.ToString("dd MMM", new CultureInfo("tr-TR")));
                 viewModel.ChartData.Add(count);
             }

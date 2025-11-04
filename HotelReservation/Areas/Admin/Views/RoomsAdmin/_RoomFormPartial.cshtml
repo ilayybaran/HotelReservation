@@ -5,18 +5,69 @@
     
     // Edit modunda, odanın mevcut olanaklarının ID'lerini bir sete al (daha hızlı kontrol için)
     var selectedAmenityIds = new HashSet<int>(Model.Amenities?.Select(a => a.Id) ?? Enumerable.Empty<int>());
+
+    var transTR = Model.Translations?.FirstOrDefault(t => t.LanguageCode == "tr-TR");
+    var transEN = Model.Translations?.FirstOrDefault(t => t.LanguageCode == "en-US");
+    var transDE = Model.Translations?.FirstOrDefault(t => t.LanguageCode == "de-DE");
 }
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-<div class="form-group mb-2">
-    <label asp-for="RoomType" class="control-label"></label>
-    <input asp-for="RoomType" class="form-control" />
-    <span asp-validation-for="RoomType" class="text-danger"></span>
-</div>
-<div class="form-group mb-2">
-    <label asp-for="Description" class="control-label"></label>
-    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+<h4 class="text-primary">Dil Çevirileri</h4>
 
-    <span asp-validation-for="Description" class="text-danger"></span>
+<div class="card mb-3">
+    <div class="card-header">
+        <strong>Türkçe (Varsayılan)</strong>
+    </div>
+    <div class="card-body">
+        <input type="hidden" name="Translations[0].RoomId" value="@Model.Id" />
+        <input type="hidden" name="Translations[0].LanguageCode" value="tr-TR" />
+        
+        <div class="form-group mb-2">
+            <label class="control-label">Oda Tipi (TR)</label>
+            <input name="Translations[0].RoomType" class="form-control" value="@transTR?.RoomType" />
+        </div>
+        <div class="form-group mb-2">
+            <label class="control-label">Açıklama (TR)</label>
+            <textarea name="Translations[0].Description" class="form-control" rows="3">@transTR?.Description</textarea>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <strong>İngilizce</strong>
+    </div>
+    <div class="card-body">
+        <input type="hidden" name="Translations[1].RoomId" value="@Model.Id" />
+        <input type="hidden" name="Translations[1].LanguageCode" value="en-US" />
+        
+        <div class="form-group mb-2">
+            <label class="control-label">Room Type (EN)</label>
+            <input name="Translations[1].RoomType" class="form-control" value="@transEN?.RoomType" />
+        </div>
+        <div class="form-group mb-2">
+            <label class="control-label">Description (EN)</label>
+            <textarea name="Translations[1].Description" class="form-control" rows="3">@transEN?.Description</textarea>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <strong>Almanca</strong>
+    </div>
+    <div class="card-body">
+        <input type="hidden" name="Translations[2].RoomId" value="@Model.Id" />
+        <input type="hidden" name="Translations[2].LanguageCode" value="de-DE" />
+        
+        <div class="form-group mb-2">
+            <label class="control-label">Zimmertyp (DE)</label>
+            <input name="Translations[2].RoomType" class="form-control" value="@transDE?.RoomType" />
+        </div>
+        <div class="form-group mb-2">
+            <label class="control-label">Beschreibung (DE)</label>
+            <textarea name="Translations[2].Description" class="form-control" rows="3">@transDE?.Description</textarea>
+        </div>
+    </div>
 </div>
 
 

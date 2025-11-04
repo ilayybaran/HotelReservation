@@ -23,16 +23,23 @@ namespace HotelReservation.Areas.Admin.Controllers
         }
 
         // GET: /Admin/ReservationsAdmin
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string statusFilter) // Bir filtre parametresi ekle
         {
-            // Veritabanındaki tüm rezervasyonları alıyoruz.
-            var allReservations = await _context.Reservations
-                .Include(r => r.Room)
-                .Include(r => r.User)
-                .OrderByDescending(r => r.ReservationDate)
-                .ToListAsync();
+            var query = _context.Reservations
+                            .Include(r => r.Room)
+                            .Include(r => r.User) // Kullanıcıyı da dahil et
+                            .AsQueryable();
 
-            return View(allReservations);
+            // Eğer URL'den bir filtre geldiyse (örn: ?statusFilter=PendingPayment)
+            if (!string.IsNullOrEmpty(statusFilter))
+            {
+                query = query.Where(r => r.Status == statusFilter);
+                ViewData["FilterTitle"] = $"Durumu '{statusFilter}' Olan Rezervasyonlar";
+            }
+
+            var reservations = await query.OrderByDescending(r => r.ReservationDate).ToListAsync();
+
+            return View(reservations);
         }
     }
 }

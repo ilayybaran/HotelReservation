@@ -1,7 +1,6 @@
-﻿// Dosya: Controllers/PaymentController.cs
-using HotelReservation.Data;
+﻿using HotelReservation.Data;
 using HotelReservation.Models;
-using HotelReservation.Services; // ICurrencyService için
+using HotelReservation.Services; 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -46,7 +45,7 @@ namespace HotelReservation.Controllers
                 Currency = targetCurrency
             };
 
-            return View(model); // Views/Payment/Payment.cshtml'i göster
+            return View(model);
         }
 
         [HttpPost]
@@ -68,21 +67,18 @@ namespace HotelReservation.Controllers
                 return View("Payment", model);
             }
 
-            // Başarılı senaryo
+            
             var reservation = await _context.Reservations.FindAsync(model.ReservationId);
             if (reservation == null)
             {
                 return NotFound();
             }
 
-            // REZERVASYON DURUMUNU GÜNCELLE
             reservation.Status = "Confirmed"; 
             reservation.PaymentDate = DateTime.UtcNow; // Ödeme tarihini kaydet
             _context.Update(reservation);
             await _context.SaveChangesAsync();
 
-
-            // Başarı mesajı oluştur ve Rezervasyon Listesine Yönlendir
             TempData["SuccessMessage"] = $"Rezervasyonunuz (ID: {reservation.Id}) başarıyla onaylandı.";
             return RedirectToAction("ResList", "Reservations");
         }
