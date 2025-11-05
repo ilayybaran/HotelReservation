@@ -19,24 +19,43 @@ namespace HotelReservation.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        // Controllers/Admin/RoomsAdminController.cs
+        private async Task LoadAmenitiesToViewBagAsync()
+        {
+            var amenities = await _context.Amenities
+                                .Include(a => a.Translations) 
+                                .ToListAsync();
 
-        // Controllers/Admin/RoomsAdminController.cs
+            
+            var defaultCulture = "tr-TR";
+            foreach (var amenity in amenities)
+            {
+                // Önce TR çevirisini ara
+                var translation = amenity.Translations.FirstOrDefault(t => t.LanguageCode == defaultCulture)
+                               ?? amenity.Translations.FirstOrDefault(); // TR yoksa ilk bulduğunu al
+
+                if (translation != null && !string.IsNullOrEmpty(translation.Name))
+                {
+                    amenity.Name = translation.Name;
+                }
+                else
+                {
+                    amenity.Name = amenity.Name ?? "[ÇEVİRİ EKSİK]";
+                }
+            }
+            ViewBag.AllAmenities = amenities;
+        }
 
         public async Task<IActionResult> Index()
         {
-            var defaultCulture = "tr-TR"; // Admin panelinde varsayılan olarak TR adları görünsün
-
-            // 1. Odaları, çevirileriyle birlikte çek
+            var defaultCulture = "tr-TR";
             var rooms = await _context.Rooms
-                .Include(r => r.Translations) // ÇEVİRİLERİ DAHİL ET
-                .ToListAsync();
+              .Include(r => r.Translations)
+              .ToListAsync();
 
-            // 2. "Hayalet" alanları (RoomType) Türkçe çeviriyle doldur
             foreach (var room in rooms)
             {
                 var translation = room.Translations
-                                      .FirstOrDefault(t => t.LanguageCode == defaultCulture);
+                           .FirstOrDefault(t => t.LanguageCode == defaultCulture);
 
                 if (translation != null)
                 {
@@ -44,60 +63,53 @@ namespace HotelReservation.Areas.Admin.Controllers
                 }
                 else
                 {
-                    // Eğer (bir şekilde) Türkçe çevirisi hiç girilmemişse
                     room.RoomType = "[Çeviri Girilmemiş]";
                 }
             }
-
-            // 3. Artık RoomType alanı dolu olan listeyi View'a gönder
             return View(rooms);
         }
 
-        // GET: /Admin/RoomsAdmin/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: /Admin/RoomsAdmin/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
-
             var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == id);
             if (room == null) return NotFound();
-
             return View(room);
         }
+
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            // Olanakları (CheckBox'lar) doldurmak için ViewBag'e yolla
-            ViewBag.AllAmenities = await _context.Amenities.ToListAsync();
+    
+            await LoadAmenitiesToViewBagAsync();
 
-            // Yeni, boş bir Room modeli gönder (Translations listesi boş olacak)
             var model = new Room();
-
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("Capacity,PricePerNight,IsAvailable")] Room room,
-            List<RoomTranslation> Translations, // Çeviri listesi
-            List<int> selectedAmenityIds, // Olanak listesi
-            IFormFile? ImageFile)
+          [Bind("Capacity,PricePerNight,IsAvailable")] Room room,
+          List<RoomTranslation> Translations,
+          List<int> selectedAmenityIds,
+          IFormFile? ImageFile)
         {
             ModelState.Remove("Reservations");
             ModelState.Remove("Amenities");
-            ModelState.Remove("RoomType"); // [NotMapped] oldukları için validasyondan çıkar
+            ModelState.Remove("RoomType");
             ModelState.Remove("Description");
 
             if (ModelState.IsValid)
             {
-                if (ImageFile != null)
+                if (ImageFile != null)
                 {
                     string wwwRootPath = _webHostEnvironment.WebRootPath;
                     string fileName = Guid.NewGuid() + Path.GetExtension(ImageFile.FileName);
                     string roomPath = Path.Combine(wwwRootPath, "images/rooms");
                     if (!Directory.Exists(roomPath))
                         Directory.CreateDirectory(roomPath);
-
                     string filePath = Path.Combine(roomPath, fileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
@@ -105,7 +117,6 @@ namespace HotelReservation.Areas.Admin.Controllers
                     }
                     room.ImageUrl = "/images/rooms/" + fileName;
                 }
-
                 if (selectedAmenityIds != null)
                 {
                     room.Amenities = new List<Amenity>();
@@ -118,17 +129,14 @@ namespace HotelReservation.Areas.Admin.Controllers
                         }
                     }
                 }
-
                 room.Translations = Translations;
-
                 _context.Add(room);
                 await _context.SaveChangesAsync();
-
                 TempData["SuccessMessage"] = "Oda başarıyla oluşturuldu.";
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.AllAmenities = await _context.Amenities.ToListAsync();
+            await LoadAmenitiesToViewBagAsync();
             return View(room);
         }
 
@@ -138,74 +146,60 @@ namespace HotelReservation.Areas.Admin.Controllers
             if (id == null) return NotFound();
 
             var room = await _context.Rooms
-                .Include(r => r.Amenities)
-                .Include(r => r.Translations)
-                .FirstOrDefaultAsync(r => r.Id == id);
+              .Include(r => r.Amenities)
+              .Include(r => r.Translations)
+              .FirstOrDefaultAsync(r => r.Id == id);
 
             if (room == null) return NotFound();
 
-            ViewBag.AllAmenities = await _context.Amenities.ToListAsync();
+            await LoadAmenitiesToViewBagAsync();
 
-            return View(room); // Dolu modeli View'a gönder
+            return View(room);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
-            int id, // URL'den
-            List<RoomTranslation> Translations,
-            List<int> selectedAmenityIds,
-            IFormFile? ImageFile,
-
-            int Capacity,
-            decimal PricePerNight,
-            bool IsAvailable)
+          int id,
+          List<RoomTranslation> Translations,
+          List<int> selectedAmenityIds,
+          IFormFile? ImageFile,
+          int Capacity,
+          decimal PricePerNight,
+          bool IsAvailable)
         {
-            // Veritabanından mevcut odayı (ilişkileriyle) bul
             var roomToUpdate = await _context.Rooms
-                .Include(r => r.Amenities)
-                .Include(r => r.Translations)
-                .FirstOrDefaultAsync(r => r.Id == id);
+              .Include(r => r.Amenities)
+              .Include(r => r.Translations)
+              .FirstOrDefaultAsync(r => r.Id == id);
 
             if (roomToUpdate == null) return NotFound();
 
-            roomToUpdate.Capacity = Capacity;
+         
+            roomToUpdate.Capacity = Capacity;
             roomToUpdate.PricePerNight = PricePerNight;
             roomToUpdate.IsAvailable = IsAvailable;
-
-            // 3. Resim Güncelle
             if (ImageFile != null)
             {
                 if (!string.IsNullOrEmpty(roomToUpdate.ImageUrl))
                 {
                     var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, roomToUpdate.ImageUrl.TrimStart('/'));
-
                     if (System.IO.File.Exists(oldImagePath))
-
                         System.IO.File.Delete(oldImagePath);
                 }
-
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
-
                 string fileName = Guid.NewGuid() + Path.GetExtension(ImageFile.FileName);
-
                 string roomPath = Path.Combine(wwwRootPath, "images/rooms");
-
                 if (!Directory.Exists(roomPath))
-
                     Directory.CreateDirectory(roomPath);
-
                 string filePath = Path.Combine(roomPath, fileName);
-
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
-
                 {
                     await ImageFile.CopyToAsync(fileStream);
-                }
-                roomToUpdate.ImageUrl = "/images/rooms/" + fileName; // "roomToUpdate" güncellenir
+                    }
+                roomToUpdate.ImageUrl = "/images/rooms/" + fileName;
             }
-
             roomToUpdate.Amenities.Clear();
             if (selectedAmenityIds != null)
             {
@@ -215,18 +209,15 @@ namespace HotelReservation.Areas.Admin.Controllers
                     if (amenity != null) roomToUpdate.Amenities.Add(amenity);
                 }
             }
-
             foreach (var formTranslation in Translations)
-            {
+                 {
                 if (string.IsNullOrWhiteSpace(formTranslation.RoomType) &&
-                    string.IsNullOrWhiteSpace(formTranslation.Description))
+                  string.IsNullOrWhiteSpace(formTranslation.Description))
                 {
-                    continue; // Boşsa bu dili atla
+                    continue;
                 }
-
                 var dbTranslation = roomToUpdate.Translations
-                    .FirstOrDefault(t => t.LanguageCode == formTranslation.LanguageCode);
-
+                  .FirstOrDefault(t => t.LanguageCode == formTranslation.LanguageCode);
                 if (dbTranslation != null)
                 {
                     dbTranslation.RoomType = formTranslation.RoomType;
@@ -237,15 +228,15 @@ namespace HotelReservation.Areas.Admin.Controllers
                     roomToUpdate.Translations.Add(formTranslation);
                 }
             }
+
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-
                 TempData["ErrorMessage"] = "Kaydederken bir hata oluştu: " + ex.Message;
-                ViewBag.AllAmenities = await _context.Amenities.ToListAsync();
+                await LoadAmenitiesToViewBagAsync();
                 return View(roomToUpdate);
             }
 
@@ -253,19 +244,17 @@ namespace HotelReservation.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: /Admin/RoomsAdmin/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: /Admin/RoomsAdmin/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
-
             var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == id);
             if (room == null) return NotFound();
-
             return View(room);
         }
 
-        // POST: /Admin/RoomsAdmin/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: /Admin/RoomsAdmin/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelReservation.Models
 {
@@ -10,6 +11,7 @@ namespace HotelReservation.Models
         [Required]
         [StringLength(100)]
         [Display(Name = "Olanak Adı")]
+        [NotMapped]
         public string Name { get; set; } 
 
         [Display(Name = "Bootstrap İkon Sınıfı")]
@@ -18,6 +20,8 @@ namespace HotelReservation.Models
 
         // Navigation property (Bir olanak birden çok odada olabilir)
         public virtual ICollection<Room> Rooms { get; set; }
+
+        public ICollection<AmenityTranslation> Translations { get; set; } = new List<AmenityTranslation>();
 
         public Amenity()
         {

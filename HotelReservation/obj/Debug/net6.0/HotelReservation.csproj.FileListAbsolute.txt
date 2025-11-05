@@ -259,6 +259,9 @@ C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\bin\Debug\net
 C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.csproj.AssemblyReference.cache
+C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Views.Home.Brands.de-DE.resources
+C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Views.Home.Brands.en-US.resources
+C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Views.Home.Brands.tr-TR.resources
 C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Views.Home.Index.de-DE.resources
 C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Views.Home.Index.en-US.resources
 C:\Users\LENOVO\OneDrive\Desktop\HotelReservation\HotelReservation\obj\Debug\net6.0\HotelReservation.Resources.Views.Home.Index.tr-TR.resources

@@ -2,6 +2,7 @@
 using HotelReservation.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -25,7 +26,11 @@ namespace HotelReservation.Controllers
         // GET: Rezervasyon onay formu
         public async Task<IActionResult> Create(int roomId, DateTime checkInDate, DateTime checkOutDate)
         {
-            var room = await _context.Rooms.FindAsync(roomId);
+            var room = await _context.Rooms
+            .Include(r => r.Translations) // Oda çevirileri
+            .Include(r => r.Amenities)
+            .ThenInclude(a => a.Translations) // Olanakların çevirileri
+            .FirstOrDefaultAsync(r => r.Id == roomId);
             if (room == null)
             {
                 TempData["ErrorMessage"] = "Oda bulunamadı.";
@@ -48,6 +53,31 @@ namespace HotelReservation.Controllers
             {
                 TempData["ErrorMessage"] = "Bu oda seçilen tarihlerde dolu.";
                 return RedirectToAction("Index", "Rooms");
+            }
+
+            var cultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+            var currentCulture = cultureFeature.RequestCulture.UICulture.Name;
+            var defaultCulture = "tr-TR";
+
+            // Oda'yı çevir
+            var translation = room.Translations.FirstOrDefault(t => t.LanguageCode == currentCulture)
+                    ?? room.Translations.FirstOrDefault(t => t.LanguageCode == defaultCulture);
+            if (translation != null)
+            {
+                room.RoomType = translation.RoomType;
+                room.Description = translation.Description;
+            }
+            
+            // Olanakları (Amenities) da çevir
+            foreach (var amenity in room.Amenities)
+            {
+                var amenityTranslation = amenity.Translations.FirstOrDefault(t => t.LanguageCode == currentCulture)
+                                ?? amenity.Translations.FirstOrDefault(t => t.LanguageCode == defaultCulture);
+
+                if (amenityTranslation != null)
+                {
+                    amenity.Name = amenityTranslation.Name; // Amenity'nin adını çevrilmiş metinle değiştir
+                }
             }
 
             var reservation = new Reservation

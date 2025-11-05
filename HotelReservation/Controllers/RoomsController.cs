@@ -19,21 +19,19 @@ namespace HotelReservation.Controllers
         }
         public async Task<IActionResult> Search(DateTime checkInDate, DateTime checkOutDate, int guestCount)
         {
-            // ... (Tarih ve kapasite sorguları aynı) ...
-            var bookedRoomIds = await _context.Reservations
-        .Where(res => res.CheckInDate < checkOutDate && res.CheckOutDate > checkInDate)
-        .Select(res => res.RoomId)
-        .Distinct()
-        .ToListAsync();
+            var bookedRoomIds = await _context.Reservations
+              .Where(res => res.CheckInDate < checkOutDate && res.CheckOutDate > checkInDate)
+              .Select(res => res.RoomId)
+              .Distinct()
+              .ToListAsync();
 
-            var availableRooms = await _context.Rooms // 'query' değişkenini ayırmana gerek yok
-                      .Include(r => r.Translations) // <-- 1. EKSİK: Çevirileri dahil et
+            var availableRooms = await _context.Rooms
+                      .Include(r => r.Translations)
                       .Where(r => r.IsAvailable && r.Capacity >= guestCount)
               .Where(r => !bookedRoomIds.Contains(r.Id))
               .ToListAsync();
 
-            // --- 2. EKSİK: Çeviriyi doldurma mantığı ---
-            var cultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+            var cultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
             var currentCulture = cultureFeature.RequestCulture.UICulture.Name;
             var defaultCulture = "tr-TR";
             foreach (var room in availableRooms)
@@ -46,7 +44,6 @@ namespace HotelReservation.Controllers
                     room.Description = translation.Description;
                 }
             }
-            // --- Bitti ---
 
             ViewBag.CheckInDate = checkInDate;
             ViewBag.CheckOutDate = checkOutDate;
@@ -56,34 +53,23 @@ namespace HotelReservation.Controllers
             return View("SearchResults", availableRooms);
         }
 
-
-
         // GET: /Rooms
         public async Task<IActionResult> Index()
         {
             var cultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
             var currentCulture = cultureFeature.RequestCulture.UICulture.Name;
-
-            // 2. Varsayılan dil (Eğer Almanca çeviri yoksa Türkçe göster)
             var defaultCulture = "tr-TR";
-
-            // 3. Odaları, ilişkili tüm çevirileriyle birlikte veritabanından çek
             var rooms = await _context.Rooms
                 .Include(r => r.Translations) // Çevirileri de sorguya dahil et
                 .Where(r => r.IsAvailable)
                 .ToListAsync();
 
-            // 4. ÇEVİRİLERİ DÜZLEŞTİR (Flattening)
-            // Bu döngü, her odanın [NotMapped] RoomType ve Description alanlarını
-            // o anki dile göre doldurur.
             foreach (var room in rooms)
             {
-                // Önce mevcut dili (örn: Almanca) aramayı dene
+
                 var translation = room.Translations
                                       .FirstOrDefault(t => t.LanguageCode == currentCulture);
 
-                // Eğer mevcut dilde (Almanca) çeviri bulunamazsa,
-                // varsayılan dili (Türkçe) aramayı dene
                 if (translation == null)
                 {
                     translation = room.Translations
@@ -100,7 +86,6 @@ namespace HotelReservation.Controllers
                 }
                 else
                 {
-                    // Acil durum metni (Bu normalde görünmemeli)
                     room.RoomType = "Çeviri Bulunamadı";
                     room.Description = "Açıklama mevcut değil.";
                 }
@@ -115,17 +100,19 @@ namespace HotelReservation.Controllers
             if (id == null) return NotFound();
 
             var room = await _context.Rooms
-              .Include(r => r.Amenities)
-              .Include(r => r.Translations) // <-- 1. EKSİK: Çevirileri dahil et
-                      .FirstOrDefaultAsync(m => m.Id == id);
+            .Include(r => r.Translations)
+            .Include(r => r.Amenities)
+            .ThenInclude(a => a.Translations)
+            .FirstOrDefaultAsync(m => m.Id == id);
 
             if (room == null) return NotFound();
 
-            // --- 2. EKSİK: Çeviriyi doldurma mantığı ---
-            var cultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+
+            var cultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
             var currentCulture = cultureFeature.RequestCulture.UICulture.Name;
             var defaultCulture = "tr-TR";
 
+            // ODA'yı çevir (Bu kod sizde zaten vardı ve doğruydu)
             var translation = room.Translations.FirstOrDefault(t => t.LanguageCode == currentCulture)
                     ?? room.Translations.FirstOrDefault(t => t.LanguageCode == defaultCulture);
             if (translation != null)
@@ -133,9 +120,23 @@ namespace HotelReservation.Controllers
                 room.RoomType = translation.RoomType;
                 room.Description = translation.Description;
             }
-            // --- Bitti ---
 
-            return View(room);
+            foreach (var amenity in room.Amenities)
+            {
+                var amenityTranslation = amenity.Translations.FirstOrDefault(t => t.LanguageCode == currentCulture)
+                                ?? amenity.Translations.FirstOrDefault(t => t.LanguageCode == defaultCulture);
+
+                if (amenityTranslation != null)
+                {
+                    amenity.Name = amenityTranslation.Name; // Amenity'nin adını çevrilmiş metinle değiştir
+                }
+                else
+                {
+                    amenity.Name = "[Çeviri yok]";
+                }
+            }
+
+            return View(room);
         }
     }
 }

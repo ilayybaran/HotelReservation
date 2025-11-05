@@ -19,16 +19,15 @@ namespace HotelReservation.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // === BU KISIM DİL ÇEVİRİSİ İÇİN GEREKLİ ===
             var cultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
             var currentCulture = cultureFeature.RequestCulture.UICulture.Name;
             var defaultCulture = "tr-TR";
 
-            // Odaları (örn: ilk 3 odayı) çevirileriyle birlikte çek
+          
             var rooms = await _context.Rooms
                 .Include(r => r.Translations) // Çevirileri dahil et
                 .Where(r => r.IsAvailable)
-                .Take(3) // Anasayfada sadece 3 tane göster (isteğe bağlı)
+                .Take(3) 
                 .ToListAsync();
 
             // "Hayalet" alanları (RoomType, Description) dile göre doldur

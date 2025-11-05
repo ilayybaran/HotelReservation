@@ -19,6 +19,7 @@ namespace HotelReservation.Data
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
         public DbSet<RoomTranslation> RoomTranslations { get; set; }
+        public DbSet<AmenityTranslation> AmenityTranslations { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

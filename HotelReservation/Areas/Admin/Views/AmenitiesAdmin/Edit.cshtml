@@ -1,0 +1,72 @@
+﻿@model HotelReservation.Models.Amenity
+@{
+    ViewData["Title"] = "Olanağı Düzenle";
+    
+    // Çevirileri kolayca bulmak için değişkenlere ata
+    var transTR = Model.Translations?.FirstOrDefault(t => t.LanguageCode == "tr-TR");
+    var transEN = Model.Translations?.FirstOrDefault(t => t.LanguageCode == "en-US");
+    var transDE = Model.Translations?.FirstOrDefault(t => t.LanguageCode == "de-DE");
+}
+
+<h2 class="mb-4">Olanağı Düzenle: @(transTR?.Name ?? "İsimsiz")</h2>
+
+<form asp-action="Edit" method="post">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label asp-for="IconClass" class="form-label">İkon Sınıfı</label>
+        <input asp-for="IconClass" class="form-control" />
+        <span asp-validation-for="IconClass" class="text-danger"></span>
+    </div>
+
+    <hr />
+    <h4 class="text-primary">Dil Çevirileri</h4>
+
+    <div class="card mb-3">
+        <div class="card-header"><strong>Türkçe (Varsayılan)</strong></div>
+        <div class="card-body">
+            <input type="hidden" name="Translations[0].AmenityId" value="@Model.Id" />
+            <input type="hidden" name="Translations[0].LanguageCode" value="tr-TR" />
+            <div class="form-group mb-2">
+                <label class="control-label">Olanak Adı (TR)</label>
+                <input name="Translations[0].Name" class="form-control" value="@transTR?.Name" />
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header"><strong>İngilizce</strong></div>
+        <div class="card-body">
+            <input type="hidden" name="Translations[1].AmenityId" value="@Model.Id" />
+            <input type="hidden" name="Translations[1].LanguageCode" value="en-US" />
+            <div class="form-group mb-2">
+                <label class="control-label">Amenity Name (EN)</label>
+                <input name="Translations[1].Name" class="form-control" value="@transEN?.Name" />
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mb-3">
+        <div class="card-header"><strong>Almanca</strong></div>
+        <div class="card-body">
+            <input type="hidden" name="Translations[2].AmenityId" value="@Model.Id" />
+            <input type="hidden" name="Translations[2].LanguageCode" value="de-DE" />
+            <div class="form-group mb-2">
+                <label class="control-label">Name (DE)</label>
+                <input name="Translations[2].Name" class="form-control" value="@transDE?.Name" />
+            </div>
+        </div>
+    </div>
+    
+    <hr />
+    
+    <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-save"></i> Değişiklikleri Kaydet
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Listeye Geri Dön
+        </a>
+    </div>
+</form>

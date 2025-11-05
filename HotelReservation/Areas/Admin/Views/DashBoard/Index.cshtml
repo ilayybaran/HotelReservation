@@ -46,8 +46,8 @@
                         <p class="mb-0">Onay Bekleyenler</p>
                     </div>
                     <a asp-area="Admin" asp-controller="ReservationsAdmin" asp-action="Index"
-                     asp-route-statusFilter="PendingPayment" class="text-dark stretched-link"
-                    class="text-dark stretched-link">
+                       asp-route-statusFilter="PendingPayment" class="text-dark stretched-link"
+                       class="text-dark stretched-link">
                         <i class="bi bi-hourglass-split fs-1 opacity-50"></i>
                     </a>
                 </div>
@@ -86,19 +86,31 @@
 <hr />
 <h3 class="h4 mb-3">Hızlı Eylemler</h3>
 <div class="row">
-    <div class="col-md-6 mb-4">
+    <div class="col-md-4 mb-4">
         <div class="card h-100 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Oda Yönetimi</h5>
                 <p class="card-text">Yeni odalar ekleyin, mevcut odaları güncelleyin veya sistemden kaldırın.</p>
 
                 <a asp-area="Admin" asp-controller="RoomsAdmin" asp-action="Index" class="btn btn-primary">
-                  Odaları Yönet
+                    Odaları Yönet
                 </a>
             </div>
         </div>
     </div>
-    <div class="col-md-6 mb-4">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Olanak Yönetimi</h5>
+                <p class="card-text">Yapılan tüm müşteri rezervasyonlarını görüntüleyin ve takip edin.</p>
+
+                <a asp-area="Admin" asp-controller="AmenitiesAdmin" asp-action="Index" class="btn btn-primary">
+                    Olanak Yönetimi
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
         <div class="card h-100 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Rezervasyon Yönetimi</h5>
@@ -114,44 +126,44 @@
 
 
 @section Scripts {
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Controller'dan gelen verileri al
-            var chartLabels = @Html.Raw(Json.Serialize(Model.ChartLabels));
-            var chartData = @Html.Raw(Json.Serialize(Model.ChartData));
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Controller'dan gelen verileri al
+        var chartLabels = @Html.Raw(Json.Serialize(Model.ChartLabels));
+        var chartData = @Html.Raw(Json.Serialize(Model.ChartData));
 
-            var ctx = document.getElementById('myChart').getContext('2d');
+        var ctx = document.getElementById('myChart').getContext('2d');
 
-            var myChart = new Chart(ctx, {
-                type: 'bar', // 'bar' (çubuk) veya 'line' (çizgi)
-                data: {
-                    labels: chartLabels,
-                    datasets: [{
-                        label: 'Yeni Rezervasyon Sayısı',
-                        data: chartData,
-                        backgroundColor: 'rgba(0, 123, 255, 0.2)',
-                        borderColor: 'rgba(0, 123, 255, 1)',
-                        borderWidth: 2,
-                        fill: true
+        var myChart = new Chart(ctx, {
+            type: 'bar', // 'bar' (çubuk) veya 'line' (çizgi)
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Yeni Rezervasyon Sayısı',
+                    data: chartData,
+                    backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            // Sadece tam sayılar göster (örn: 1.5 rezervasyon olmaz)
+                            callback: function (value) { if (Number.isInteger(value)) { return value; } }
+                        }
                     }]
                 },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                // Sadece tam sayılar göster (örn: 1.5 rezervasyon olmaz)
-                                callback: function (value) { if (Number.isInteger(value)) { return value; } }
-                            }
-                        }]
-                    },
-                    legend: {
-                        display: false
-                    }
+                legend: {
+                    display: false
                 }
-            });
+            }
         });
-    </script>
+    });
+</script>
 }
