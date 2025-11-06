@@ -10,6 +10,7 @@ namespace HotelReservation.Models
         public int Id { get; set; }
 
         public virtual ICollection<RoomTranslation> Translations { get; set; } = new List<RoomTranslation>();
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
         [NotMapped]
         public string RoomType { get; set; }

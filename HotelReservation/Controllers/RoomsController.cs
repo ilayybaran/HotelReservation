@@ -1,5 +1,4 @@
-﻿
-using HotelReservation.Data;
+﻿using HotelReservation.Data;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +10,6 @@ namespace HotelReservation.Controllers
     public class RoomsController : Controller
     {
         private readonly AppDbContext _context;
-
 
         public RoomsController(AppDbContext context)
         {
@@ -102,7 +100,9 @@ namespace HotelReservation.Controllers
             var room = await _context.Rooms
             .Include(r => r.Translations)
             .Include(r => r.Amenities)
-            .ThenInclude(a => a.Translations)
+            .ThenInclude(a =>a.Translations)
+            .Include(r => r.Reviews)
+            .ThenInclude(review => review.User)
             .FirstOrDefaultAsync(m => m.Id == id);
 
             if (room == null) return NotFound();
@@ -112,7 +112,7 @@ namespace HotelReservation.Controllers
             var currentCulture = cultureFeature.RequestCulture.UICulture.Name;
             var defaultCulture = "tr-TR";
 
-            // ODA'yı çevir (Bu kod sizde zaten vardı ve doğruydu)
+            
             var translation = room.Translations.FirstOrDefault(t => t.LanguageCode == currentCulture)
                     ?? room.Translations.FirstOrDefault(t => t.LanguageCode == defaultCulture);
             if (translation != null)
@@ -128,12 +128,23 @@ namespace HotelReservation.Controllers
 
                 if (amenityTranslation != null)
                 {
-                    amenity.Name = amenityTranslation.Name; // Amenity'nin adını çevrilmiş metinle değiştir
+                    amenity.Name = amenityTranslation.Name; 
                 }
                 else
                 {
                     amenity.Name = "[Çeviri yok]";
                 }
+            }
+
+            if (room.Reviews != null && room.Reviews.Any())
+            {
+                ViewBag.AverageRating = room.Reviews.Average(r => r.Rating);
+                ViewBag.ReviewCount = room.Reviews.Count;
+            }
+            else
+            {
+                ViewBag.AverageRating = 0;
+                ViewBag.ReviewCount = 0;
             }
 
             return View(room);

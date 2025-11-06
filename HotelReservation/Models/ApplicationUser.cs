@@ -10,5 +10,6 @@ namespace HotelReservation.Models
         [StringLength(100)]
         public string FullName { get; set; }
         public DateTime? DateOfBirth { get; set; }
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
     }
 }

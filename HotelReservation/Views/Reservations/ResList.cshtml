@@ -93,6 +93,7 @@
                                 }
                             </td>
                             <td class="text-end">
+
                                 @if (item.Status == "PendingPayment")
                                 {
                                     <a asp-controller="Payment" asp-action="Payment" asp-route-reservationId="@item.Id"
@@ -104,8 +105,32 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#cancelConfirmModal"
                                 data-reservation-id="@item.Id">
-                                        @Localizer["YesCancel"]
+                                        @Localizer["Cancel"]
                                     </button>
+                                }
+                                else if (item.Status == "Confirmed")
+                                {
+                                    @if (item.CheckOutDate < DateTime.Now)
+                                    {
+                                        <a asp-controller="Reviews" asp-action="Create" asp-route-reservationId="@item.Id"
+                           class="btn btn-warning btn-sm">
+                                            <i class="bi bi-star-fill"></i> Yorum Yap
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Rooms" asp-action="Details" asp-route-id="@item.RoomId"
+                           class="btn btn-outline-secondary btn-sm">
+                                            @Localizer["RoomDetails"]
+                                        </a>
+
+                                        <button type="button" class="btn btn-danger btn-sm ms-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#cancelConfirmModal"
+                                data-reservation-id="@item.Id">
+                                            @Localizer["Cancel"]
+                                        </button>
+                                    }
                                 }
                                 else
                                 {
@@ -117,42 +142,41 @@
                             </td>
                         </tr>
                     }
-
-                    <div class="modal fade" id="cancelConfirmModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="cancelModalLabel">
-                                        <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>
-                                        @Localizer["CancelReservationTitle"]
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-
-                                <div class="modal-body">
-                                    <p>@Localizer["CancelReservationBody"]</p>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <form asp-controller="Reservations" asp-action="Cancel" method="post">
-
-                                        <input type="hidden" name="reservationId" id="reservationIdToCancel" value="0" />
-
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                            @Localizer["Close"]
-                                        </button>
-                                        <button type="submit" class="btn btn-danger">
-                                            @Localizer["YesCancel"]
-                                        </button>
-                                    </form>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
                 </tbody>
             </table>
+            <div class="modal fade" id="cancelConfirmModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="cancelModalLabel">
+                                <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>
+                                @Localizer["CancelReservationTitle"]
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <p>@Localizer["CancelReservationBody"]</p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <form asp-controller="Reservations" asp-action="Cancel" method="post">
+
+                                <input type="hidden" name="reservationId" id="reservationIdToCancel" value="0" />
+
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    @Localizer["Close"]
+                                </button>
+                                <button type="submit" class="btn btn-danger">
+                                    @Localizer["YesCancel"]
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     }
 </div>

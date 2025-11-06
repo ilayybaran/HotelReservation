@@ -1,11 +1,9 @@
 ﻿using HotelReservation.Data;
-using HotelReservation.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore; 
+using System.Linq; 
+using System.Threading.Tasks; 
 
 namespace HotelReservation.Areas.Admin.Controllers
 {
@@ -14,32 +12,42 @@ namespace HotelReservation.Areas.Admin.Controllers
     public class ReservationsAdminController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ReservationsAdminController(AppDbContext context, UserManager<ApplicationUser> userManager)
+        public ReservationsAdminController(AppDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
-
-        // GET: /Admin/ReservationsAdmin
-        public async Task<IActionResult> Index(string statusFilter) // Bir filtre parametresi ekle
+        public async Task<IActionResult> Index()
         {
-            var query = _context.Reservations
-                            .Include(r => r.Room)
-                            .Include(r => r.User) // Kullanıcıyı da dahil et
-                            .AsQueryable();
+            var defaultCulture = "tr-TR"; // Admin paneli için varsayılan dil
 
-            // Eğer URL'den bir filtre geldiyse (örn: ?statusFilter=PendingPayment)
-            if (!string.IsNullOrEmpty(statusFilter))
+            var reservations = await _context.Reservations
+                .Include(r => r.User)
+                .Include(r => r.Room) 
+                    .ThenInclude(room => room.Translations) 
+                .OrderByDescending(r => r.ReservationDate) 
+                .ToListAsync();
+
+            foreach (var res in reservations)
             {
-                query = query.Where(r => r.Status == statusFilter);
-                ViewData["FilterTitle"] = $"Durumu '{statusFilter}' Olan Rezervasyonlar";
+                if (res.Room != null)
+                {
+                    var translation = res.Room.Translations
+                        .FirstOrDefault(t => t.LanguageCode == defaultCulture);
+
+                    if (translation != null)
+                    {
+                        // View'ın kullanabilmesi için C# özelliğini doldur
+                        res.Room.RoomType = translation.RoomType;
+                    }
+                    else
+                    {
+                        res.Room.RoomType = "[Çeviri Yok]";
+                    }
+                }
             }
-
-            var reservations = await query.OrderByDescending(r => r.ReservationDate).ToListAsync();
-
             return View(reservations);
         }
+
     }
 }

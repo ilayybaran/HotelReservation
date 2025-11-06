@@ -43,5 +43,6 @@ namespace HotelReservation.Models
 
         [Display(Name = "Ödeme Tarihi")]
         public DateTime ? PaymentDate { get; set; }
+        public Review Review { get; set; }
     }
 }

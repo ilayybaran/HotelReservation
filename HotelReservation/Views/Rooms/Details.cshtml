@@ -43,26 +43,69 @@
                             <span class="fs-5 fw-bold text-success">@convertedPrice.ToString("C", targetCulture)</span>
                         </li>
 
-                         <h5 class="mt-4">@Localizer["FeaturedAmenities"]</h5>
+                        <h5 class="mt-4">@Localizer["FeaturedAmenities"]</h5>
                     </ul>
-                   @if (Model.Amenities != null && Model.Amenities.Any())
-                        {
-                            <ul class="list-group list-group-flush mb-3">
-                               @foreach (var amenity in Model.Amenities)
+                    @if (Model.Amenities != null && Model.Amenities.Any())
+                    {
+                        <ul class="list-group list-group-flush mb-3">
+                            @foreach (var amenity in Model.Amenities)
+                            {
+                                <li class="list-group-item d-flex align-items-center">
+
+                                    <i class="@amenity.IconClass text-success me-2 fs-5"></i>
+
+                                    <span>@amenity.Name</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted small">@Localizer["NoAmenitiesSpecified"]</p>
+                    }
+
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <h3 class="mb-3">
+                                Misafir Yorumları
+                                @if (ViewBag.ReviewCount > 0)
                                 {
-                                    <li class="list-group-item d-flex align-items-center">
-                                        
-                                        <i class="@amenity.IconClass text-success me-2 fs-5"></i>
-                                        
-                                        <span>@amenity.Name</span>
-                                    </li>
+                                    <span class="badge bg-warning text-dark ms-2" style="font-size: 1rem;">
+                                        ★ @(((double)ViewBag.AverageRating).ToString("0.0"))
+                                        (@ViewBag.ReviewCount Yorum)
+                                    </span>
                                 }
-                            </ul>
-                        }
-                        else
-                        {
-                            <p class="text-muted small">@Localizer["NoAmenitiesSpecified"]</p>
-                        }
+                            </h3>
+                            <hr />
+
+                            @if (Model.Reviews == null || !Model.Reviews.Any())
+                            {
+                                <div class="alert alert-info">Bu oda için henüz yorum yapılmamış.</div>
+                            }
+                            else
+                            {
+                                @foreach (var review in Model.Reviews.OrderByDescending(r => r.DatePosted))
+                                {
+                                    <div class="card mb-3 shadow-sm">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between">
+                                                <strong>@review.User.FullName</strong> <span class="text-muted">@review.DatePosted.ToShortDateString()</span>
+                                            </div>
+
+                                            <div class="text-warning mb-2">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    <i class="bi @(i <= review.Rating ? "bi-star-fill" : "bi-star")"></i>
+                                                }
+                                            </div>
+
+                                            <p class="card-text">@review.Comment</p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
 
                     <div class="d-grid gap-2 mt-4">
                         <a asp-controller="Reservations" asp-action="Create"

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Localization;
 
 namespace HotelReservation.Controllers
 {
@@ -31,17 +32,32 @@ namespace HotelReservation.Controllers
                 return RedirectToAction("ResList", "Reservations");
             }
 
-            var room = await _context.Rooms.FindAsync(reservation.RoomId);
+            var room = await _context.Rooms
+                .Include(r=>r.Translations)
+                .FirstOrDefaultAsync(r=>r.Id == reservation.RoomId);
 
             // Fiyatı kullanıcının seçtiği para birimine dönüştür
             var targetCurrency = Request.Cookies["UserCurrency"] ?? "TRY";
             var convertedPrice = await _currencyService.ConvertFromTRYAsync(reservation.TotalPrice, targetCurrency);
+            var cultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
+            var currentCulture = cultureFeature.RequestCulture.UICulture.Name;
+            var defaultCulture = "tr-TR";
 
+            string displayRoomType = "[Oda Adı Bulunamadı]"; // Varsayılan
+            if (room != null)
+            {
+                var translation = room.Translations.FirstOrDefault(t => t.LanguageCode == currentCulture)
+                               ?? room.Translations.FirstOrDefault(t => t.LanguageCode == defaultCulture);
+                if (translation != null)
+                {
+                    displayRoomType = translation.RoomType;
+                }
+            }
             var model = new PaymentViewModel
             {
                 ReservationId = reservationId,
                 Amount = convertedPrice,
-                RoomType = room?.RoomType,
+                RoomType = displayRoomType,
                 Currency = targetCurrency
             };
 
