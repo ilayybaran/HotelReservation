@@ -168,7 +168,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .continuous-brand-slider {
     width: 100%;
-    overflow: hidden; 
+    overflow: hidden;
     background: none;
     padding: 0;
     margin: 0;
@@ -233,45 +233,45 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-    .continuous-brand-slider .slick-list {
-        margin: 0;
-        padding: 0.5rem 0; 
-    }
+.continuous-brand-slider .slick-list {
+    margin: 0;
+    padding: 0.5rem 0;
+}
 
-    .continuous-brand-slider .slick-slide {
-        padding: 0 20px; 
-        margin: 0;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        height: 70px; 
-        box-sizing: border-box;
-    }
+.continuous-brand-slider .slick-slide {
+    padding: 0 20px;
+    margin: 0;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    box-sizing: border-box;
+}
 
-    .continuous-brand-slider .brand-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        width: 100%;
-        background: none;
-    }
-   
+.continuous-brand-slider .brand-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background: none;
+}
 
-    .continuous-brand-slider img {
-        display: block;
-        max-height: 100%;
-        max-width: 100%; 
-        width: auto; 
-        height: auto; 
-        object-fit: contain; 
-        margin: auto; 
-        opacity: 1;
-    }
 
-    .continuous-brand-slider .slick-prev, .continuous-brand-slider .slick-next, .continuous-brand-slider .slick-dots {
-        display: none !important;
-    }
+.continuous-brand-slider img {
+    display: block;
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin: auto;
+    opacity: 1;
+}
+
+.continuous-brand-slider .slick-prev, .continuous-brand-slider .slick-next, .continuous-brand-slider .slick-dots {
+    display: none !important;
+}
 
 .navbar .navbar-brand, .navbar .nav-link, .navbar .dropdown-toggle, .navbar .form-select, .navbar-nav .nav-item partial[name="_LoginPartial"] + ul .nav-item .nav-link {
     padding-top: 0.9rem;
@@ -372,7 +372,7 @@ h1, h2, h3, h4, h5, h6 {
     position: fixed !important;
     top: 0;
     width: 100%;
-    height:85px;
+    height: 85px;
     z-index: 2000;
     background-color: #fff !important;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -468,4 +468,78 @@ S .row.text-center h5 {
     border-color: var(--primary-color);
     transform: translateY(-5px);
     box-shadow: 0 6px 20px rgba(13, 110, 253, 0.25);
+}
+
+.review-card {
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease-in-out; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+    .review-card:hover {
+        transform: scale(1.03); 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+        z-index: 10; 
+    }
+
+    /* Yorum yapan adýnýn olduðu baþlýk kýsmý */
+    .review-card .card-header {
+        padding: 1rem 1.25rem 0.5rem 1.25rem;
+        background-color: transparent !important;
+        border-bottom: none !important;
+        z-index: 2; /* Ýkonun üstünde kalmasý için */
+    }
+
+        .review-card .card-header h6 {
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .review-card .card-header strong {
+            color: #333;
+        }
+
+        .review-card .card-header small {
+            font-size: 0.85rem;
+        }
+
+    /* Kartýn gövdesi (Yýldýzlar ve Yorum Metni) */
+    .review-card .card-body {
+        position: relative;
+        padding: 0.5rem 1.25rem 1.25rem 1.25rem;
+        flex-grow: 1; 
+    }
+
+.review-quote-icon {
+    font-size: 4rem;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    color: #f0f0f0;
+    z-index: 1; /* Metnin arkasýnda */
+    line-height: 1;
+}
+
+/* Yýldýz Puaný */
+.review-card .text-warning {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    padding-left: 50px; 
+    position: relative; 
+    z-index: 2;
+}
+
+/* Yorum Metni */
+.review-card .card-text {
+    position: relative;
+    z-index: 2; 
+    font-size: 0.95rem;
+    color: #444;
+    padding-left: 50px; 
+    margin-top: 10px;
 }

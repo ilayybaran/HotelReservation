@@ -73,8 +73,27 @@ namespace HotelReservation.Areas.Admin.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
-            var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == id);
+            var room = await _context.Rooms
+                .Include(r =>r.Translations)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (room == null) return NotFound();
+
+            var defaultCulture = "tr-TR";
+            var translation = room.Translations
+                .FirstOrDefault(t => t.LanguageCode == defaultCulture);
+
+            if(translation != null)
+            {
+                room.RoomType = translation.RoomType;
+                room.Description = translation.Description;
+            }
+            else
+            {
+                room.RoomType = "[Çeviri Yok]";
+                room.Description = "[Çeviri Yok]";
+            }
+
             return View(room);
         }
 
@@ -248,8 +267,25 @@ namespace HotelReservation.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
-            var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == id);
+
+            var room = await _context.Rooms
+                .Include(r=>r.Translations)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (room == null) return NotFound();
+            var defaultCulture = "tr-TR";
+            var translation = room.Translations
+                 .FirstOrDefault(t => t.LanguageCode == defaultCulture);
+
+            if(translation != null)
+            {
+                room.RoomType= translation.RoomType;
+            }
+
+            else
+            {
+                room.RoomType = "[Çeviri Yok]";
+            }
             return View(room);
         }
 

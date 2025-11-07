@@ -183,4 +183,7 @@
   <data name="WelcomeTitle" xml:space="preserve">
     <value>An Unforgettable Vacation Experience</value>
   </data>
+  <data name="WhatOurGuestsSay" xml:space="preserve">
+    <value>What Our Guests Say</value>
+  </data>
 </root>

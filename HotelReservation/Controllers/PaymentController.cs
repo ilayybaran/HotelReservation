@@ -70,7 +70,6 @@ namespace HotelReservation.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // Formda hata varsa (Required, Range vb.) formu tekrar göster
                 return View("Payment", model);
             }
 

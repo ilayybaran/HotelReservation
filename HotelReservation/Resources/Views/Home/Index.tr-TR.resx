@@ -183,4 +183,7 @@
   <data name="WelcomeTitle" xml:space="preserve">
     <value>Unutulmaz Bir Tatil Deneyimi</value>
   </data>
+  <data name="WhatOurGuestsSay" xml:space="preserve">
+    <value>Misafirlerimiz Ne Söylüyor</value>
+  </data>
 </root>

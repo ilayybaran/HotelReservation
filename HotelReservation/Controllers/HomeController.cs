@@ -1,10 +1,11 @@
-﻿using HotelReservation.Data; 
+﻿using HotelReservation.Data;
 using HotelReservation.Models;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
+using HotelReservation.Models;
 
 namespace HotelReservation.Controllers
 {
@@ -23,11 +24,11 @@ namespace HotelReservation.Controllers
             var currentCulture = cultureFeature.RequestCulture.UICulture.Name;
             var defaultCulture = "tr-TR";
 
-          
+
             var rooms = await _context.Rooms
                 .Include(r => r.Translations) // Çevirileri dahil et
                 .Where(r => r.IsAvailable)
-                .Take(3) 
+                .Take(3)
                 .ToListAsync();
 
             // "Hayalet" alanları (RoomType, Description) dile göre doldur
@@ -47,10 +48,40 @@ namespace HotelReservation.Controllers
                     room.Description = "[Açıklama Yok]";
                 }
             }
-            return View(rooms);
+
+            var reviews = await _context.Reviews
+                .Where(r => r.Rating >= 4)
+                .Include(r => r.User)
+                .Include(r => r.Room)
+                .ThenInclude(room => room.Translations)
+                .OrderByDescending(r => r.DatePosted)
+                .Take(3)
+                .ToListAsync();
+
+
+            foreach (var review in reviews)
+            {
+                if (review.Room != null)
+                {
+                    var roomTranslation = review.Room.Translations.FirstOrDefault(t => t.LanguageCode == currentCulture)
+                                       ?? review.Room.Translations.FirstOrDefault(t => t.LanguageCode == defaultCulture);
+                    if (roomTranslation != null)
+                    {
+                        review.Room.RoomType = roomTranslation.RoomType;
+                    }
+                }
+            }
+
+            var viewModel = new HomeViewModel
+            {
+                FeaturedRooms = rooms,
+                FeaturedReviews = reviews
+            };
+
+            return View(viewModel);
         }
 
-            public IActionResult Privacy()
+        public IActionResult Privacy()
         {
             return View();
         }
@@ -82,8 +113,8 @@ namespace HotelReservation.Controllers
             {
                 Response.Cookies.Append(
                     "UserCurrency",
-                    currencyCode,   
-                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true, SameSite = SameSiteMode.Lax, Path="/" }
+                    currencyCode,
+                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true, SameSite = SameSiteMode.Lax, Path = "/" }
                 );
             }
 

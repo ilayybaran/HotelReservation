@@ -102,10 +102,22 @@
         <div class="card h-100 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Olanak Yönetimi</h5>
-                <p class="card-text">Yapılan tüm müşteri rezervasyonlarını görüntüleyin ve takip edin.</p>
+                <p class="card-text">Odalar için yeni olanaklar ekleyin veya düzenleyin.</p>
 
                 <a asp-area="Admin" asp-controller="AmenitiesAdmin" asp-action="Index" class="btn btn-primary">
                     Olanak Yönetimi
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Yorum Yönetimi</h5>
+                <p class="card-text">Kullanıcıların yaptığı yorumları görüntüleyin veya silin.</p>
+
+                <a asp-area="Admin" asp-controller="ReviewsAdmin" asp-action="Index" class="btn btn-primary">
+                    Yorum Yönetimi
                 </a>
             </div>
         </div>
