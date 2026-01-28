@@ -26,12 +26,12 @@ namespace HotelReservation.Controllers
 
 
             var rooms = await _context.Rooms
-                .Include(r => r.Translations) // Çevirileri dahil et
+                .Include(r => r.Translations) 
                 .Where(r => r.IsAvailable)
                 .Take(3)
                 .ToListAsync();
 
-            // "Hayalet" alanları (RoomType, Description) dile göre doldur
+           
             foreach (var room in rooms)
             {
                 var translation = room.Translations.FirstOrDefault(t => t.LanguageCode == currentCulture)
@@ -98,11 +98,10 @@ namespace HotelReservation.Controllers
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                // Dil seçimini 1 yıl boyunca 
+              
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
             );
 
-            // Kullanıcıyı aynı sayfaya geri yönlendir
             return LocalRedirect(returnUrl);
         }
         [HttpPost]

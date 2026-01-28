@@ -58,7 +58,7 @@ namespace HotelReservation.Controllers
             var currentCulture = cultureFeature.RequestCulture.UICulture.Name;
             var defaultCulture = "tr-TR";
             var rooms = await _context.Rooms
-                .Include(r => r.Translations) // Çevirileri de sorguya dahil et
+                .Include(r => r.Translations) 
                 .Where(r => r.IsAvailable)
                 .ToListAsync();
 
@@ -74,12 +74,10 @@ namespace HotelReservation.Controllers
                                       .FirstOrDefault(t => t.LanguageCode == defaultCulture);
                 }
 
-                // Eğer (bir şekilde) hiç çeviri yoksa, boş geçmesin
                 if (translation != null)
                 {
-                    // View'daki @Model.RoomType alanına bu veriyi ata
                     room.RoomType = translation.RoomType;
-                    // View'daki @Model.Description alanına bu veriyi ata
+                   
                     room.Description = translation.Description;
                 }
                 else

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Localization;
 
 namespace HotelReservation.Controllers
 {
-    [Authorize] // Sadece giriş yapanlar ödeme yapabilir
+    [Authorize] 
     public class PaymentController : Controller
     {
         private readonly AppDbContext _context;
@@ -36,14 +36,14 @@ namespace HotelReservation.Controllers
                 .Include(r=>r.Translations)
                 .FirstOrDefaultAsync(r=>r.Id == reservation.RoomId);
 
-            // Fiyatı kullanıcının seçtiği para birimine dönüştür
+            
             var targetCurrency = Request.Cookies["UserCurrency"] ?? "TRY";
             var convertedPrice = await _currencyService.ConvertFromTRYAsync(reservation.TotalPrice, targetCurrency);
             var cultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
             var currentCulture = cultureFeature.RequestCulture.UICulture.Name;
             var defaultCulture = "tr-TR";
 
-            string displayRoomType = "[Oda Adı Bulunamadı]"; // Varsayılan
+            string displayRoomType = "[Oda Adı Bulunamadı]"; 
             if (room != null)
             {
                 var translation = room.Translations.FirstOrDefault(t => t.LanguageCode == currentCulture)
@@ -75,7 +75,7 @@ namespace HotelReservation.Controllers
 
             await Task.Delay(2000);
 
-            // Başarısızlık senaryosu 
+           
             if (model.CVC == null)
             {
                 ModelState.AddModelError("", "Banka tarafından ödeme reddedildi.");
@@ -90,7 +90,7 @@ namespace HotelReservation.Controllers
             }
 
             reservation.Status = "Confirmed"; 
-            reservation.PaymentDate = DateTime.UtcNow; // Ödeme tarihini kaydet
+            reservation.PaymentDate = DateTime.UtcNow; 
             _context.Update(reservation);
             await _context.SaveChangesAsync();
 

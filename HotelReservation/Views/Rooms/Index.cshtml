@@ -1,4 +1,4 @@
-﻿@* Bu satır, View'a bir "Room" listesi geleceğini belirtir *@
+﻿
 @model IEnumerable<HotelReservation.Models.Room>
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject HotelReservation.Services.ICurrencyService CurrencyService
@@ -32,7 +32,6 @@
     </div>
 
     <div class="row">
-        @* Eğer veritabanından hiç oda gelmezse, bir uyarı mesajı göster *@
         @if (!Model.Any())
         {
             <div class="col">
@@ -43,7 +42,6 @@
         }
         else
         {
-            @* Model'deki her bir 'room' için bir kart oluştur *@
             @foreach (var room in Model)
             {
                 <div class="col-md-6 col-lg-4 mb-4">
@@ -55,13 +53,10 @@
                             <ul class="list-group list-group-flush mt-auto">
                                 <li class="list-group-item">@Localizer["CapacityFormatString", room.Capacity]</li>
                                 @{
-                                    // 1. O anki para birimini cookie'den oku (varsayılan TRY)
                                     var targetCurrency = Context.Request.Cookies["UserCurrency"] ?? "TRY";
 
-                                    // 2. Fiyatı CurrencyService kullanarak dönüştür
                                     var convertedPrice = await CurrencyService.ConvertFromTRYAsync(room.PricePerNight, targetCurrency);
 
-                                    // 3. Fiyatı, hedef para birimine uygun kültürle (formatla)
                                     var targetCulture = CurrencyService.GetCultureInfoForCurrency(targetCurrency);
                                 }
                                 <li class="list-group list-group-flush mt-auto">

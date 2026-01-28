@@ -45,7 +45,7 @@ namespace HotelReservation.Areas.Admin.Controllers
             viewModel.PendingBookings = await _context.Reservations
                 .CountAsync(r => r.Status == "PendingPayment");
 
-            // Grafik Verisini Hesapla (Son 7 Günlük Rezervasyon Sayısı)
+          
             for (int i = 6; i >= 0; i--)
             {
                 var date = today.AddDays(-i);
