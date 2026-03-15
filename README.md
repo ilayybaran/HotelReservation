@@ -44,7 +44,6 @@ git clone https://github.com/ilayybaran/HotelReservation.git
 
 ![Image](https://github.com/user-attachments/assets/1c9e1d33-836d-42a4-8345-1b5c9f24a6ef)
 
-![Image](https://github.com/user-attachments/assets/bacd1ac5-7cd2-433c-b1dd-5b6b2cb5dfe8)
 
 ---
 
