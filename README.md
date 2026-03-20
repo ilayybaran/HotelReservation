@@ -47,4 +47,4 @@ git clone https://github.com/ilayybaran/HotelReservation.git
 
 ---
 
-**İlayy Baran** · [GitHub](https://github.com/ilayybaran)
+**İlayda Baran** · [GitHub](https://github.com/ilayybaran)
